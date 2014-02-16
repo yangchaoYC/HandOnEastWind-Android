@@ -1,9 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id ="@+id/view1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="@drawable/ic_launcher">
+    >
     
+       <LinearLayout
+                android:orientation="horizontal"
+		        android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:weightSum="8"
+		       >
+  
+        <HorizontalScrollView 
+            android:id="@+id/scoll_bar"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_weight="7">
+            
+            <LinearLayout 
+                android:orientation="horizontal"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content">
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="头条"
+                />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="要闻" />
+
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="生产经营"
+                />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="东风党建"
+                />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="和谐东风"
+                />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="东风人"
+                />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="东风文艺"
+                />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="专题报道"
+                />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25sp"
+                android:layout_margin="3dp"
+                android:text="四城视点"
+                />
+            </LinearLayout>
+        </HorizontalScrollView>
+        
+        <LinearLayout
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"
+		        android:layout_weight="1"
+		        >
+           <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"          
+                android:textSize="25sp"
+                android:text="设置"
+                />
+         </LinearLayout>
+    </LinearLayout>
+    
+       <ListView 
+          android:id="@+id/integral_rank_list"
+          android:layout_width="fill_parent"
+          android:layout_height="0dp"
+          android:paddingTop="23dp"
+          android:layout_weight="2"
+          android:background="@null"
+          android:cacheColorHint="#00000000"
+          android:listSelector="@android:color/transparent"
+          android:dividerHeight="5dp"
+          android:divider="@null" >
+          </ListView>
 </LinearLayout>
