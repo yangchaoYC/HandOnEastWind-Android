@@ -1,0 +1,54 @@
+<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools" 
+    android:id="@+id/tabhost" 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+      <LinearLayout 
+            android:layout_width="fill_parent" 
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >  
+  
+            <!-- FrameLayout的id属性必须为 @android:id/tabcontent-->  
+            <FrameLayout 
+                android:id="@android:id/tabcontent"  
+                 android:layout_weight="1"
+                android:layout_width="fill_parent" 
+                android:layout_height="0dp">  
+                <TextView 
+                    android:id="@+id/view1" 
+                    android:layout_width="wrap_content"  
+                    android:layout_height="wrap_content"   
+                    />  
+                <TextView 
+                    android:id="@+id/view2" 
+                    android:layout_width="wrap_content"  
+                    android:layout_height="wrap_content" />  
+                <TextView 
+                    android:id="@+id/view3" 
+                    android:layout_width="wrap_content"  
+                    android:layout_height="wrap_content" />  
+                <TextView 
+                    android:id="@+id/view4" 
+                    android:layout_width="wrap_content"  
+                    android:layout_height="wrap_content" />  
+                <TextView 
+                    android:id="@+id/view5" 
+                    android:layout_width="wrap_content"  
+                    android:layout_height="wrap_content" />  
+            </FrameLayout>  
+           
+                <!-- TabWidget的id属性必须为 @android:id/tabs-->  
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:orientation="horizontal"
+                    android:paddingBottom="0dp" >
+  
+                </TabWidget>  
+          
+        </LinearLayout>  
+
+</TabHost>
