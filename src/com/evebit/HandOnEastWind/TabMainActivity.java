@@ -1,5 +1,8 @@
 package com.evebit.HandOnEastWind;
 
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
+
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.content.Intent;
@@ -8,13 +11,13 @@ import android.view.Menu;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 /**
- * °üº¬5¸öÑ¡Ïî¿¨µÄÖ÷Ò³
+ * ï¿½ï¿½5ï¿½ï¿½Ñ¡ï¿½î¿¨ï¿½ï¿½ï¿½ï¿½Ò³
  * 
- * EastWindNewsActivity ¶«·çÆû³µ±¨
- * EastWindActivity     ¶«·ç
- * CarTravelActivity    Æû³µÖ®ÂÃ
- * CarTechActivity      Æû³µ¿Æ¼¼
- * EquipFixActivity     ×°±¸Î¬ÐÞ¼¼Êõ
+ * EastWindNewsActivity ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * EastWindActivity     ï¿½ï¿½ï¿½ï¿½
+ * CarTravelActivity    ï¿½ï¿½Ö®ï¿½ï¿½
+ * CarTechActivity      ï¿½ï¿½Æ¼ï¿½
+ * EquipFixActivity     ×°ï¿½ï¿½Î¬ï¿½Þ¼ï¿½ï¿½ï¿½
  * @author guan
  *
  */
@@ -26,44 +29,58 @@ public class TabMainActivity extends ActivityGroup {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tab_main);
 		
-		 // »ñÈ¡TabHost¶ÔÏó  
+		UmengUpdateAgent.setUpdateOnlyWifi(false);
+		UmengUpdateAgent.update(this);
+		
+		 // ï¿½ï¿½È¡TabHostï¿½ï¿½ï¿½ï¿½  
         TabHost tabHost = (TabHost) findViewById(R.id.tabhost);  
         tabHost.setup(); 
         tabHost.setup(this.getLocalActivityManager());        
         
         
-        //·Ö±ðÎªµ×²¿µÄ5¸öÑ¡Ïî¿¨
-        TabSpec firstSpec=tabHost.newTabSpec("¶«·çÆû³µ±¨");
-        firstSpec.setIndicator("¶«·çÆû³µ±¨", null);
+        //ï¿½Ö±ï¿½Îªï¿½×²ï¿½ï¿½ï¿½5ï¿½ï¿½Ñ¡ï¿½î¿¨
+        TabSpec firstSpec=tabHost.newTabSpec("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+        firstSpec.setIndicator("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", null);
         Intent firstIntent= new Intent(this, EastWindNewsActivity.class);
         firstSpec.setContent(firstIntent);
         tabHost.addTab(firstSpec);
 
-        TabSpec secondSpec=tabHost.newTabSpec("¶«·ç");
-        secondSpec.setIndicator("¶«·ç", null);
+        TabSpec secondSpec=tabHost.newTabSpec("ï¿½ï¿½ï¿½ï¿½");
+        secondSpec.setIndicator("ï¿½ï¿½ï¿½ï¿½", null);
         Intent secondIntent= new Intent(this, EastWindActivity.class);
         secondSpec.setContent(secondIntent);
         tabHost.addTab(secondSpec);
 
-        TabSpec thirdSpec=tabHost.newTabSpec("Æû³µÖ®ÂÃ");
-        thirdSpec.setIndicator("Æû³µÖ®ÂÃ", null);
+        TabSpec thirdSpec=tabHost.newTabSpec("ï¿½ï¿½Ö®ï¿½ï¿½");
+        thirdSpec.setIndicator("ï¿½ï¿½Ö®ï¿½ï¿½", null);
         Intent thirdIntent= new Intent(this, CarTravelActivity.class);
         thirdSpec.setContent(thirdIntent);
         tabHost.addTab(thirdSpec);
         
-        TabSpec forthSpec=tabHost.newTabSpec("Æû³µ¿Æ¼¼");
-        forthSpec.setIndicator("Æû³µ¿Æ¼¼", null);
+        TabSpec forthSpec=tabHost.newTabSpec("ï¿½ï¿½Æ¼ï¿½");
+        forthSpec.setIndicator("ï¿½ï¿½Æ¼ï¿½", null);
         Intent forthIntent= new Intent(this,CarTechActivity.class);
         forthSpec.setContent(forthIntent);
         tabHost.addTab(forthSpec);
         
-        TabSpec fifthSpec=tabHost.newTabSpec("×°±¸Î¬ÐÞ¼¼Êõ");
-        fifthSpec.setIndicator("×°±¸Î¬ÐÞ¼¼Êõ", null);
+        TabSpec fifthSpec=tabHost.newTabSpec("×°ï¿½ï¿½Î¬ï¿½Þ¼ï¿½ï¿½ï¿½");
+        fifthSpec.setIndicator("×°ï¿½ï¿½Î¬ï¿½Þ¼ï¿½ï¿½ï¿½", null);
         Intent fifthIntent= new Intent(this, EquipFixActivity.class);
         fifthSpec.setContent(fifthIntent);
         tabHost.addTab(fifthSpec);
         
 		
 	}
+	
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+		public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
+	
+	
 
 }

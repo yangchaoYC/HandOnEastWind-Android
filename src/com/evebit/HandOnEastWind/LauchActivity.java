@@ -1,5 +1,7 @@
 package com.evebit.HandOnEastWind;
 
+import com.umeng.analytics.MobclickAgent;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -8,7 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 /**
- * ³õÊ¼»¯Ò³Ãæ
+ * ï¿½ï¿½Ê¼ï¿½ï¿½Ò³ï¿½ï¿½
  * @author guan
  *
  */
@@ -31,8 +33,22 @@ public class LauchActivity extends Activity {
 				startActivity(intent);	
 			}
 		});
+		
+		
+		MobclickAgent.updateOnlineConfig(LauchActivity.this);
+		
 	}
 
+	
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
+	}
+		public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
