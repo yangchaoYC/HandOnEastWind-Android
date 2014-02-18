@@ -52,7 +52,11 @@
             				android:label="@string/app_name"
             				android:screenOrientation="portrait"
             				></activity>
-        
+          <activity android:name="com.evebit.HandOnEastWind.NavigationActivity"
+            				android:label="@string/app_name"
+            				android:screenOrientation="portrait"
+            				></activity>
+         
          <activity android:name="com.evebit.HandOnEastWind.CarTechActivity"
             				android:label="@string/app_name"
             				android:screenOrientation="portrait"

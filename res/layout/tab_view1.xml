@@ -11,117 +11,121 @@
 		        android:layout_width="fill_parent"
 		        android:layout_height="wrap_content"
 		        android:weightSum="8"
+		        android:background="#95000D"
 		       >
   
         <HorizontalScrollView 
-            android:id="@+id/scoll_bar"
+            android:id="@+id/horizontalScrollView"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
-            android:scrollbars="none"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:scrollbars="none"          
             android:layout_weight="7">
             
             <LinearLayout 
+                android:id="@+id/ll_main"
                 android:orientation="horizontal"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content">
-            <TextView 
+         <!-- 
+                <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"         
                 android:text="头条"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"
                 android:text="要闻" />
 
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"
                 android:text="生产经营"
                 />
             
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"
                 android:text="东风党建"
                 />
             
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"
                 android:text="和谐东风"
                 />
             
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"
                 android:text="东风人"
                 />
             
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"
                 android:text="东风文艺"
                 />
             
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"
                 android:text="专题报道"
                 />
             
             <TextView 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="25sp"
-                android:layout_margin="3dp"
+                android:textSize="20sp"
+                android:textColor="#FFB4BB"
+                android:layout_margin="5dp"
                 android:text="四城视点"
-                />
+                /> -->
             </LinearLayout>
         </HorizontalScrollView>
         
         <LinearLayout
 		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
+		        android:layout_height="fill_parent"
 		        android:gravity="center"
 		        android:layout_weight="1"
 		        >
-           <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"          
-                android:textSize="25sp"
-                android:text="设置"
-                />
+          
          </LinearLayout>
     </LinearLayout>
+   
+       
+    <android.support.v4.view.ViewPager
+        android:id="@+id/tabView1_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"      
+        />
     
-       <ListView 
-          android:id="@+id/integral_rank_list"
-          android:layout_width="fill_parent"
-          android:layout_height="0dp"
-          android:paddingTop="23dp"
-          android:layout_weight="2"
-          android:background="@null"
-          android:cacheColorHint="#00000000"
-          android:listSelector="@android:color/transparent"
-          android:dividerHeight="5dp"
-          android:divider="@null" >
-          </ListView>
 </LinearLayout>

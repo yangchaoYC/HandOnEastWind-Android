@@ -9,7 +9,7 @@ public class EquipFixActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.tab_view5);
+		//setContentView(R.layout.tab_view5);
 	}
 
 }
