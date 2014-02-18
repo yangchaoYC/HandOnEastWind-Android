@@ -9,6 +9,10 @@ import com.evebit.adapter.ViewPageAdapter;
 
 import android.R.integer;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -27,6 +31,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -60,10 +66,11 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 		private int H_width;
         private LinearLayout linearLayout;
 	
+        private String tab ;
 	/***
 	 * init view
 	 */
-	void InItView() {
+	void InItView(int i) {
 		    pageViews = new ArrayList<View>(); 
 		    LayoutInflater inflater = getLayoutInflater(); 
 	        //头条，要闻    对应的界面
@@ -73,10 +80,17 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 	        view1_politic = inflater.inflate(R.layout.view1_list_politic, null);
 	        
 
+	        
 	        pageViews.add(view1_title);
 	        pageViews.add(view1_important);
-	        pageViews.add(view1_produce);
-	        pageViews.add(view1_politic);
+	        pageViews.add(view1_produce); 
+	        if (i== 4) {
+	        	 pageViews.add(view1_politic);
+			}
+	       
+	        
+	        mm();
+		
 		
 	}
 	
@@ -137,7 +151,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 
 	
 	/***
-	 * ѡ��Ч��
+	 * 
 	 */
 	public void setSelector(int id) {
 		for (int i = 0; i < title.length; i++) {
@@ -164,14 +178,27 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);  
 		
-		    InItView();
-		    
-		    LayoutInflater inflater = getLayoutInflater(); 
+		  IntentFilter intentFilter = new IntentFilter();  
+	      intentFilter.addAction("test");  
+	      registerReceiver(receiver, intentFilter);
+	       
+		
+
+			InItView(4);
+
+	}
+
+    public void mm(){
+    	 LayoutInflater inflater = getLayoutInflater(); 
 		    eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.tab_view1, null); 
 		    viewPager = (ViewPager)eastWindNewsGroup.findViewById(R.id.tabView1_container);
 		  
-			viewPager.setAdapter(new myPagerView());
+		   viewPager.setAdapter(new myPagerView());
 	       setContentView(eastWindNewsGroup);
+	       
+	   
+	       
+	       
 	       horizontalScrollView = (HorizontalScrollView) findViewById(R.id.horizontalScrollView);
 	       linearLayout = (LinearLayout) findViewById(R.id.ll_main);
 	       InItTitle1();
@@ -184,6 +211,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 	       ListView listView1_important = (ListView)view1_important.findViewById(R.id.list_view1_important); 
 	       ListView listView1_produce = (ListView)view1_produce.findViewById(R.id.list_view1_produce);
 	       ListView listView1_politic = (ListView)view1_politic.findViewById(R.id.list_view1_politic);
+	       
+	       listView1_title.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> arg0, View arg1,
+						int arg2, long arg3) {
+					// TODO Auto-generated method stub
+					 pageViews.clear();
+					
+				}
+				
+			});
 	       
 	       //头条，要闻   对应的 list中加载的数据 此为静态数据
 	        ArrayList<HashMap<String, String>> listData_title = new ArrayList<HashMap<String, String>>();
@@ -204,7 +243,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
 				listData_important.add(itemMap);
 			}
-            
+         
 	        for (int i =1; i < 10; i++) {
 				HashMap<String, String> itemMap = new HashMap<String, String>();
 				itemMap.put("title","小龙");		
@@ -242,97 +281,14 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 
 				@Override
 				public void onPageScrolled(int arg0, float arg1, int arg2) {
-
 				}
 
 				@Override
 				public void onPageScrollStateChanged(int arg0) {
-
 				}
-			});
-			
-			
-		  /*  LayoutInflater inflater = getLayoutInflater(); 
-	        pageViews = new ArrayList<View>(); 
-	               
-	        //头条，要闻    对应的界面
-	        view1_title = inflater.inflate(R.layout.view1_list_tile, null);
-	        view1_important = inflater.inflate(R.layout.view1_list_important, null);
-	        view1_produce = inflater.inflate(R.layout.view1_list_produce, null);
-	        view1_politic = inflater.inflate(R.layout.view1_list_politic, null);
-	        
-
-	        pageViews.add(view1_title);
-	        pageViews.add(view1_important);
-	        pageViews.add(view1_produce);
-	        pageViews.add(view1_politic);
-	       
-	        //tab_view1 对应的是东风汽车报的主选项卡页面
-	        eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.tab_view1, null); 
-	        viewPager = (ViewPager)eastWindNewsGroup.findViewById(R.id.tabView1_container); 
-	       
-	        ViewPageAdapter adapter = new ViewPageAdapter(pageViews);
-	       
-	        viewPager.setAdapter(adapter); 
-	        viewPager.setOnPageChangeListener(new ViewPagerChangeListener());
-	        
-	    	setContentView(eastWindNewsGroup);
-	        
-	    	//头条，要闻   对应的list列表的id
-	       ListView listView1_title = (ListView)view1_title.findViewById(R.id.list_view1_title);
-	       ListView listView1_important = (ListView)view1_important.findViewById(R.id.list_view1_important); 
-	       ListView listView1_produce = (ListView)view1_produce.findViewById(R.id.list_view1_produce);
-	       ListView listView1_politic = (ListView)view1_politic.findViewById(R.id.list_view1_politic);
-	       
-	       //头条，要闻   对应的 list中加载的数据 此为静态数据
-	        ArrayList<HashMap<String, String>> listData_title = new ArrayList<HashMap<String, String>>();
-	        ArrayList<HashMap<String, String>> listData_important = new ArrayList<HashMap<String, String>>();
-	        ArrayList<HashMap<String, String>> listData_produce = new ArrayList<HashMap<String, String>>();
-	        ArrayList<HashMap<String, String>> listData_politic = new ArrayList<HashMap<String, String>>();
-
-	        for (int i =1; i < 10; i++) {
-				HashMap<String, String> itemMap = new HashMap<String, String>();
-				itemMap.put("title","张家朝");	
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData_title.add(itemMap);
-			}
-	        
-	        for (int i =1; i < 10; i++) {
-				HashMap<String, String> itemMap = new HashMap<String, String>();
-				itemMap.put("title","熊波");	
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData_important.add(itemMap);
-			}
-            
-	        for (int i =1; i < 10; i++) {
-				HashMap<String, String> itemMap = new HashMap<String, String>();
-				itemMap.put("title","小龙");		
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData_produce.add(itemMap);
-			}
-	        
-	        for (int i =1; i < 10; i++) {
-				HashMap<String, String> itemMap = new HashMap<String, String>();
-				itemMap.put("title","余多");
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData_politic.add(itemMap);
-			}
-	        
-	        //头条和要闻对应的adapter
-	        ListAdapter title_View1_Adapter = new ListAdapter(this, listData_title);
-	        ListAdapter important_View1_Adapter = new ListAdapter(this,listData_important);	
-	        ListAdapter produce_View1_Adapter = new ListAdapter(this, listData_produce);
-	        ListAdapter politic_View1_Adapter = new ListAdapter(this,listData_politic);	
-	        
-	        listView1_title.setAdapter(title_View1_Adapter);	
-	        listView1_important.setAdapter(important_View1_Adapter);	
-	        listView1_produce.setAdapter(produce_View1_Adapter);	
-	        listView1_politic.setAdapter(politic_View1_Adapter);	
-	        */
-	    	
-	       
+			});	
 	}
-
+	
 	
 	@Override
 	public void onClick(View v) {
@@ -375,6 +331,25 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 	}
 	
 
+	  private BroadcastReceiver receiver = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				// TODO Auto-generated method stub
+				String action = intent.getAction();  
+				
+				if (action.equals("test")) {
+					String  taba = intent.getStringExtra("tab");
+					//Log.v("eastwindnews --- ---  ", taba);
+				
+					if (taba.equals("second")) {
+						pageViews.clear();
+						InItView(3);
+					}
+				}
+				
+			}
+		};
 
 
 }

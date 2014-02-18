@@ -56,7 +56,8 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	          
 	     imgThread();     
 		
-		
+	     	
+			
 		MobclickAgent.updateOnlineConfig(LauchActivity.this);
 		
 	}

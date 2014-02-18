@@ -53,7 +53,7 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 			setContentView(R.layout.activity_tab_main);
 			
 			IntentFilter intentFilter = new IntentFilter();  
-		    intentFilter.addAction("tanHost");  
+		    intentFilter.addAction("tabHost");  
 		    registerReceiver(receiver, intentFilter);
 
 			
@@ -114,7 +114,7 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 	                    .setIndicator(getResources().getString(R.string.main_fix), getResources().getDrawable(R.drawable.icon_5_n))
 	                    .setContent(fix));*/
         
-     
+
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -157,11 +157,9 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
 			String action = intent.getAction();  
-			String nameString = intent.getStringExtra("name");
-			if (action.equals("tanHost")) {
-				 tabhost.setCurrentTabByTag("news");
-
-				Log.v("-------", "ceshi---------");
+			
+			if (action.equals("tabHost")) {		
+				tabhost.setCurrentTabByTag("news");
 			}
 			
 		}

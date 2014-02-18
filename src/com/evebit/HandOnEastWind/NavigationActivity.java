@@ -26,6 +26,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 private static final int FLING_MIN_VELOCITY = 0; 
 	
 	private Button button;
+	private LinearLayout secondLinearLayout;
 	
 	//Broade broad =  new Broade();
 	
@@ -43,6 +44,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 		
 		
 		button = (Button) findViewById(R.id.button);
+		secondLinearLayout = (LinearLayout)findViewById(R.id.secondLinearLayout);
 		
 		button.setOnClickListener(new OnClickListener() {
 			
@@ -52,9 +54,14 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			//	Intent intent =new Intent(NavigationActivity.this, EastWindNewsActivity.class);
 			//	startActivity(intent);
 				
+				Intent intent2 =  new Intent();
+				intent2.setAction("test");
+				intent2.putExtra("tab", "dongfeng");
+				sendBroadcast(intent2);
+				
+				
 				Intent intent =  new Intent();
-				intent.setAction("tabHost");
-				//intent.putExtra("name", "静态");
+				intent.setAction("tabHost");			
 				sendBroadcast(intent);
 
 					
@@ -62,6 +69,22 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			}
 		});
 		
+		
+		secondLinearLayout.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent =  new Intent();
+				intent.setAction("tabHost");
+				sendBroadcast(intent);
+				
+				Intent intent2 =  new Intent();
+				intent2.setAction("test");
+				intent2.putExtra("tab", "second");
+				sendBroadcast(intent2);	
+			}
+		});
 	}
 	@Override
 	public boolean onDown(MotionEvent arg0) {
