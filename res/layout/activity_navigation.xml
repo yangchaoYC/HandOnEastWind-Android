@@ -20,24 +20,17 @@
 
 
   <LinearLayout
-    android:id="@+id/main_news"
+    android:id="@+id/navigation_news"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/icon_1_n"
     android:layout_weight="1"
     >
-      <Button 
-           android:id="@+id/button"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="点击"
-          />
-      
   </LinearLayout>
   
    <LinearLayout 
-    android:id="@+id/secondLinearLayout"
+    android:id="@+id/navigation_dongfeng"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -46,20 +39,26 @@
     ></LinearLayout>
   
     <LinearLayout 
+    android:id="@+id/navigation_travel"
+    android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/icon_1_n"
     android:layout_weight="1"
     ></LinearLayout>
    
-     <LinearLayout 
+     <LinearLayout
+    android:id="@+id/navigation_tech"
+    android:orientation="vertical" 
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/icon_1_n"
     android:layout_weight="1"
     ></LinearLayout>
     
-      <LinearLayout 
+      <LinearLayout
+    android:id="@+id/navigation_fix"
+    android:orientation="vertical" 
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/icon_1_n"

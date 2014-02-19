@@ -57,30 +57,12 @@
             				android:screenOrientation="portrait"
             				></activity>
          
-         <activity android:name="com.evebit.HandOnEastWind.CarTechActivity"
-            				android:label="@string/app_name"
-            				android:screenOrientation="portrait"
-            				></activity>
-         
-         <activity android:name="com.evebit.HandOnEastWind.CarTravelActivity"
-            				android:label="@string/app_name"
-            				android:screenOrientation="portrait"
-            				></activity>
-         
-         <activity android:name="com.evebit.HandOnEastWind.EastWindActivity"
-            				android:label="@string/app_name"
-            				android:screenOrientation="portrait"
-            				></activity>
          
          <activity android:name="com.evebit.HandOnEastWind.EastWindNewsActivity"
             				android:label="@string/app_name"
             				android:screenOrientation="portrait"
             				></activity>
-         
-         <activity android:name="com.evebit.HandOnEastWind.EquipFixActivity"
-            				android:label="@string/app_name"
-            				android:screenOrientation="portrait"
-            				></activity>
+        
         
         
           <!-- ###################注册SDK使用的Activity###################### -->

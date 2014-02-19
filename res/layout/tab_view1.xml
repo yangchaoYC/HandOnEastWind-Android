@@ -28,97 +28,9 @@
                 android:orientation="horizontal"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content">
-         <!-- 
-                <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"         
-                android:text="头条"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"
-                android:text="要闻" />
-
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"
-                android:text="生产经营"
-                />
-            
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"
-                android:text="东风党建"
-                />
-            
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"
-                android:text="和谐东风"
-                />
-            
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"
-                android:text="东风人"
-                />
-            
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"
-                android:text="东风文艺"
-                />
-            
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"
-                android:text="专题报道"
-                />
-            
-            <TextView 
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textColor="#FFB4BB"
-                android:layout_margin="5dp"
-                android:text="四城视点"
-                /> -->
+    
             </LinearLayout>
-        </HorizontalScrollView>
-        
-        <LinearLayout
-		        android:layout_width="wrap_content"
-		        android:layout_height="fill_parent"
-		        android:gravity="center"
-		        android:layout_weight="1"
-		        >
-          
-         </LinearLayout>
+        </HorizontalScrollView>  
     </LinearLayout>
    
        

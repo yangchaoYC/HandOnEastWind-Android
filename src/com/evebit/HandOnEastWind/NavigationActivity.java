@@ -1,7 +1,5 @@
 package com.evebit.HandOnEastWind;
 
-
-
 import com.facebook.Session.NewPermissionsRequest;
 
 import android.app.Activity;
@@ -18,18 +16,33 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+/**
+ * 导航页面 activity_navigation
+ * 此页面包含5个频道
+ * 东风汽车报 (9个栏目)：头条、要闻、生产经营、东风党建、和谐东风、东风人、东风文艺、专题报道、四城视点
+ * 东风(4个栏目)：专题、企业、观点、对话
+ * 汽车之旅(8个栏目)：旅游资讯、“驾”临天下、名车靓影、城市约会、乐途影像、名家专栏、微博·贴士邦
+ * 汽车科技(12个栏目)：播报、国际前研、新车测评、政能量、创新观察、人物专访、特别关注、特稿、设计•研究、试验•测试、工艺•材料、公告牌
+ * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
+ * 
+ * 设计逻辑
+ * 此页面为主选项卡默认显示的导航页，可支持手势滑动至初始页面
+ * 点击不同的栏目，发送广播至主选项卡页面TabMainActivity，切换到新闻频道
+ * 并且发送广播至新闻页面EastWindNewsActivity，告知需要几个栏目
+ * @author guan
+ *
+ */
+
 public class NavigationActivity extends Activity  implements OnTouchListener,  OnGestureListener {
 
 	//滑动功能
 	 GestureDetector mGestureDetector;  
 	 private static final int FLING_MIN_DISTANCE = 50;  
 	 private static final int FLING_MIN_VELOCITY = 0; 
-	
-	private Button button;
-	private LinearLayout secondLinearLayout;
-	
-	//Broade broad =  new Broade();
-	
+	 
+	 //导航页面 5个频道对应的LinearLayout区域：东风汽车报 东风 汽车之旅 汽车科技 维修装备技术
+	 private LinearLayout newsLinearLayout,dongfengLinearLayout,travelLinearLayout,techLinearLayout,fixLinearLayout;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -41,56 +54,92 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	     LinearLayout navigationView=(LinearLayout)findViewById(R.id.navigation);  
 	     navigationView.setOnTouchListener(this);  
 	     navigationView.setLongClickable(true);  
+	    
+	     //导航页面 5个频道：东风汽车报 东风 汽车之旅 汽车科技 维修装备技术
+	     newsLinearLayout = (LinearLayout)findViewById(R.id.navigation_news);
+	     dongfengLinearLayout = (LinearLayout)findViewById(R.id.navigation_dongfeng);
+	     travelLinearLayout = (LinearLayout)findViewById(R.id.navigation_travel);
+	     techLinearLayout = (LinearLayout)findViewById(R.id.navigation_tech);
+	     fixLinearLayout = (LinearLayout)findViewById(R.id.navigation_fix);
 		
-		
-		button = (Button) findViewById(R.id.button);
-		secondLinearLayout = (LinearLayout)findViewById(R.id.secondLinearLayout);
-		
-		button.setOnClickListener(new OnClickListener() {
-			
+	     newsLinearLayout.setOnClickListener(new OnClickListener() {		
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub	
+				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+					brodeNewsColumn(9);
+					brodeTabhost();				
+				}
+			});
+	     
+	     dongfengLinearLayout.setOnClickListener(new OnClickListener() {		
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-			//	Intent intent =new Intent(NavigationActivity.this, EastWindNewsActivity.class);
-			//	startActivity(intent);
-				
-				Intent intent2 =  new Intent();
-				intent2.setAction("test");
-				intent2.putExtra("tab", "dongfeng");
-				sendBroadcast(intent2);
-				
-				
-				Intent intent =  new Intent();
-				intent.setAction("tabHost");			
-				sendBroadcast(intent);
-
-					
-				
+				// TODO Auto-generated method stub	
+				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+					brodeNewsColumn(4); 
+					brodeTabhost();		
 			}
 		});
 		
 		
-		secondLinearLayout.setOnClickListener(new OnClickListener() {
-			
+	     travelLinearLayout.setOnClickListener(new OnClickListener() {			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent intent =  new Intent();
-				intent.setAction("tabHost");
-				sendBroadcast(intent);
-				
-				Intent intent2 =  new Intent();
-				intent2.setAction("test");
-				intent2.putExtra("tab", "second");
-				sendBroadcast(intent2);	
+			    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+				brodeNewsColumn(8);
+				brodeTabhost();
 			}
 		});
+	     
+	     techLinearLayout.setOnClickListener(new OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+					brodeNewsColumn(12);
+					brodeTabhost();
+				}
+			});
+	     
+	     fixLinearLayout.setOnClickListener(new OnClickListener() {				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					//广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+					brodeNewsColumn(6);
+					brodeTabhost();
+				}
+			});
 	}
+	
+	/**
+	 * 广播告知导航频道切换到新闻频道
+	 */
+	public void brodeTabhost(){
+		Intent intent =  new Intent();
+		intent.setAction("tabHost");
+		sendBroadcast(intent);
+	}
+	
+	/**
+	 * 广播告知新闻频道需要几个栏目，以动态改变
+	 * @param column 所需栏目数
+	 */
+	public void brodeNewsColumn(int column){
+		Intent intent_column =  new Intent();
+		intent_column.setAction("news");
+		intent_column.putExtra("column", column);
+		sendBroadcast(intent_column);
+	}
+	
 	@Override
 	public boolean onDown(MotionEvent arg0) {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,  
             float velocityY) {

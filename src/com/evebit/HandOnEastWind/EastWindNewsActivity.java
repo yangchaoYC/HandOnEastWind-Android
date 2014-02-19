@@ -2,12 +2,9 @@ package com.evebit.HandOnEastWind;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import com.evebit.adapter.ListAdapter;
-import com.evebit.adapter.ViewPageAdapter;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,42 +19,37 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
-import android.view.GestureDetector;
-import android.view.GestureDetector.OnGestureListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.RadioGroup.OnCheckedChangeListener;
+
+
+/**
+ * 新闻页面 EastWindNewsActivity
+ * 
+ * 
+ * @author guan
+ *
+ */
 
 public class EastWindNewsActivity extends Activity  implements OnClickListener{
 
-	/*
-	
-	  //选项卡
-	 private ViewPager viewPager;
-	 private ArrayList<View> pageViews; //选项卡列表
-	 private ViewGroup eastWindNewsGroup; //东风汽车报的选项卡集合
-*/	 //东风汽车报下的栏目 头条，要闻，生产经营，东风党建等
-	   private View view1_title,view1_important,view1_produce,view1_politic;
+	    //12个pageView的容器
+	    private View page_view_1,page_view_2,page_view_3,page_view_4,page_view_5,page_view_6,page_view_7,page_view_8,page_view_9,page_view_10,page_view_11,page_view_12;
 	
 	    private ViewGroup eastWindNewsGroup; //东风汽车报的选项卡集合
 	  
 	    private RadioGroup radioGroup;
-		private String title[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" };
+		private String title[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
+		
 		private final int height = 70;
 		private ArrayList<TextView> textViews;
 		private ViewPager viewPager;
@@ -65,53 +57,100 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 		private HorizontalScrollView horizontalScrollView;
 		private int H_width;
         private LinearLayout linearLayout;
-	
-        private String tab ;
-	/***
-	 * init view
-	 */
-	void InItView(int i) {
-		    pageViews = new ArrayList<View>(); 
-		    LayoutInflater inflater = getLayoutInflater(); 
-	        //头条，要闻    对应的界面
-	        view1_title = inflater.inflate(R.layout.view1_list_tile, null);
-	        view1_important = inflater.inflate(R.layout.view1_list_important, null);
-	        view1_produce = inflater.inflate(R.layout.view1_list_produce, null);
-	        view1_politic = inflater.inflate(R.layout.view1_list_politic, null);
-	        
+        private ListView list_page_view1,list_page_view2,list_page_view3,list_page_view4,list_page_view5,list_page_view6,list_page_view7,list_page_view8,list_page_view9,list_page_view10,list_page_view11,list_page_view12;
+	    
+        private Boolean addListView = false;
+	    private Boolean moveItem = false;
+        
+        /**
+         * 存放数据数组
+         */
+        private ArrayList<HashMap<String, String>> listData1 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData2 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData3 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData5 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData6 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData7 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData8 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData9 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData10 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData11 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData12 = new ArrayList<HashMap<String, String>>();	    
 
+        /**
+         * 初始化pageView容器
+         * @param i 需要几个pageview
+         * 
+         * * 东风汽车报 (9个栏目)：头条、要闻、生产经营、东风党建、和谐东风、东风人、东风文艺、专题报道、四城视点
+         * 东风(4个栏目)：专题、企业、观点、对话
+         * 汽车之旅(8个栏目)：旅游资讯、“驾”临天下、名车靓影、城市约会、乐途影像、名家专栏、微博·贴士邦
+         * 汽车科技(12个栏目)：播报、国际前研、新车测评、政能量、创新观察、人物专访、特别关注、特稿、设计•研究、试验•测试、工艺•材料、公告牌
+         * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
+         * 
+         * 
+         */
+	    void InItView(int i) {
+	    	
+	    	    pageViews = new ArrayList<View>(); 
+			    LayoutInflater inflater = getLayoutInflater(); 
+		        //12个pageView的容器对应的xml
+			    page_view_1 = inflater.inflate(R.layout.page_view1, null);
+			    page_view_2 = inflater.inflate(R.layout.page_view2, null);
+			    page_view_3 = inflater.inflate(R.layout.page_view3, null);
+			    page_view_4 = inflater.inflate(R.layout.page_view4, null);
+				page_view_5 = inflater.inflate(R.layout.page_view5, null);
+				page_view_6 = inflater.inflate(R.layout.page_view6, null);
+				page_view_7 = inflater.inflate(R.layout.page_view7, null);
+			    page_view_8 = inflater.inflate(R.layout.page_view8, null);
+			    page_view_9 = inflater.inflate(R.layout.page_view9, null);
+				page_view_10 = inflater.inflate(R.layout.page_view10, null);
+				page_view_11 = inflater.inflate(R.layout.page_view11, null);
+				page_view_12 = inflater.inflate(R.layout.page_view12, null);
+		      
+	    	
+	    	pageViews.add(page_view_1);
+	        pageViews.add(page_view_2);
+	        pageViews.add(page_view_3); 
+	        pageViews.add(page_view_4);
 	        
-	        pageViews.add(view1_title);
-	        pageViews.add(view1_important);
-	        pageViews.add(view1_produce); 
-	        if (i== 4) {
-	        	 pageViews.add(view1_politic);
+	        switch (i) {
+			case 6:
+				 pageViews.add(page_view_5);
+			       pageViews.add(page_view_6); 
+				break;
+			case 8:
+				 pageViews.add(page_view_5);
+			        pageViews.add(page_view_6); 
+			        pageViews.add(page_view_7);
+			        pageViews.add(page_view_8);		
+							break;
+			case 9:
+				 pageViews.add(page_view_5);
+			        pageViews.add(page_view_6); 
+			        pageViews.add(page_view_7);
+			        pageViews.add(page_view_8);
+			        pageViews.add(page_view_9);
+				break;
+			case 12:
+				 pageViews.add(page_view_5);
+			        pageViews.add(page_view_6); 
+			        pageViews.add(page_view_7);
+			        pageViews.add(page_view_8);
+			        pageViews.add(page_view_9); 
+			        pageViews.add(page_view_10);
+			        pageViews.add(page_view_11);
+			        pageViews.add(page_view_12);
+				break;
+			
+			default:
+				break;
 			}
-	       
-	        
-	        mm();
-		
-		
-	}
-	
-	
-	
-	/***
-	 * init title
-	 */
-	void InItTitle() {
-		int width = getWindowManager().getDefaultDisplay().getWidth() / 4;
-		for (int i = 0; i < title.length; i++) {
-			RadioButton radioButton = new RadioButton(this, null, R.style.radioButton);
-			radioButton.setText(title[i]);
-			radioButton.setTextSize(17);
-			radioButton.setTextColor(Color.BLACK);
-			radioButton.setWidth(width);
-			radioButton.setHeight(height);
-			radioButton.setGravity(Gravity.CENTER);
-			radioGroup.addView(radioButton);
-		}
-	}
+   
+		    setView();
+
+	}    
+
 
 	/***
 	 * init title
@@ -132,7 +171,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 			textView.setId(i);
 			textView.setOnClickListener(this);
 			textViews.add(textView);
-			// �ָ���
+			
 			View view = new View(this);
 			LinearLayout.LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			layoutParams.width = 1;
@@ -149,10 +188,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 		}
 	}
 
-	
-	/***
-	 * 
-	 */
+
 	public void setSelector(int id) {
 		for (int i = 0; i < title.length; i++) {
 			if (id == i) {
@@ -178,99 +214,32 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);  
 		
+		  //实例化广播接收器
 		  IntentFilter intentFilter = new IntentFilter();  
-	      intentFilter.addAction("test");  
+	      intentFilter.addAction("news");  
 	      registerReceiver(receiver, intentFilter);
-	       
-		
-
-			InItView(4);
+         
+	      //默认为东风汽车报频道，此频道有9个栏目
+		  InItView(9);
 
 	}
 
-    public void mm(){
-    	 LayoutInflater inflater = getLayoutInflater(); 
-		    eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.tab_view1, null); 
-		    viewPager = (ViewPager)eastWindNewsGroup.findViewById(R.id.tabView1_container);
-		  
+    public void setView(){
+    	
+    	   LayoutInflater inflater = getLayoutInflater(); 
+		   eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.tab_view1, null); 
+		   viewPager = (ViewPager)eastWindNewsGroup.findViewById(R.id.tabView1_container);	  
 		   viewPager.setAdapter(new myPagerView());
+		   
 	       setContentView(eastWindNewsGroup);
-	       
-	   
-	       
-	       
 	       horizontalScrollView = (HorizontalScrollView) findViewById(R.id.horizontalScrollView);
 	       linearLayout = (LinearLayout) findViewById(R.id.ll_main);
-	       InItTitle1();
+	       InItTitle1();	   
+	   
+		   setListView();	   
 		   setSelector(0);
-		
-			
-			
-	    	//头条，要闻   对应的list列表的id
-	       ListView listView1_title = (ListView)view1_title.findViewById(R.id.list_view1_title);
-	       ListView listView1_important = (ListView)view1_important.findViewById(R.id.list_view1_important); 
-	       ListView listView1_produce = (ListView)view1_produce.findViewById(R.id.list_view1_produce);
-	       ListView listView1_politic = (ListView)view1_politic.findViewById(R.id.list_view1_politic);
-	       
-	       listView1_title.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					// TODO Auto-generated method stub
-					 pageViews.clear();
-					
-				}
-				
-			});
-	       
-	       //头条，要闻   对应的 list中加载的数据 此为静态数据
-	        ArrayList<HashMap<String, String>> listData_title = new ArrayList<HashMap<String, String>>();
-	        ArrayList<HashMap<String, String>> listData_important = new ArrayList<HashMap<String, String>>();
-	        ArrayList<HashMap<String, String>> listData_produce = new ArrayList<HashMap<String, String>>();
-	        ArrayList<HashMap<String, String>> listData_politic = new ArrayList<HashMap<String, String>>();
-
-	        for (int i =1; i < 10; i++) {
-				HashMap<String, String> itemMap = new HashMap<String, String>();
-				itemMap.put("title","张家朝");	
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData_title.add(itemMap);
-			}
-	        
-	        for (int i =1; i < 10; i++) {
-				HashMap<String, String> itemMap = new HashMap<String, String>();
-				itemMap.put("title","熊波");	
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData_important.add(itemMap);
-			}
-         
-	        for (int i =1; i < 10; i++) {
-				HashMap<String, String> itemMap = new HashMap<String, String>();
-				itemMap.put("title","小龙");		
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData_produce.add(itemMap);
-			}
-	        
-	        for (int i =1; i < 10; i++) {
-				HashMap<String, String> itemMap = new HashMap<String, String>();
-				itemMap.put("title","余多");
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData_politic.add(itemMap);
-			}
-	        
-	        //头条和要闻对应的adapter
-	        ListAdapter title_View1_Adapter = new ListAdapter(this, listData_title);
-	        ListAdapter important_View1_Adapter = new ListAdapter(this,listData_important);	
-	        ListAdapter produce_View1_Adapter = new ListAdapter(this, listData_produce);
-	        ListAdapter politic_View1_Adapter = new ListAdapter(this,listData_politic);	
-	        
-	        listView1_title.setAdapter(title_View1_Adapter);	
-	        listView1_important.setAdapter(important_View1_Adapter);	
-	        listView1_produce.setAdapter(produce_View1_Adapter);	
-	        listView1_politic.setAdapter(politic_View1_Adapter);	
-			
-			
-			
+	
+			viewPager.setAdapter(new myPagerView());
 			viewPager.clearAnimation();
 			viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -281,71 +250,220 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 
 				@Override
 				public void onPageScrolled(int arg0, float arg1, int arg2) {
+
 				}
 
 				@Override
 				public void onPageScrollStateChanged(int arg0) {
+
 				}
-			});	
-	}
-	
-	
-	@Override
-	public void onClick(View v) {
-		setSelector(v.getId());
-	}
+			});
+		}
 
-	class myPagerView extends PagerAdapter {
+		@Override
+		public void onClick(View v) {
+			setSelector(v.getId());
+		}
+
+		class myPagerView extends PagerAdapter {
+			
+			@Override
+			public int getCount() {
+				return pageViews.size();
+			}
+
+			@Override
+			public boolean isViewFromObject(View arg0, Object arg1) {
+				return arg0 == arg1;
+			}
+
+			@Override
+			public int getItemPosition(Object object) {
+				// TODO Auto-generated method stub
+				
+				return super.getItemPosition(object);
+			}
+
+			@Override
+			public void destroyItem(View arg0, int arg1, Object arg2) {
+				// TODO Auto-generated method stub
+				
+				((ViewPager) arg0).removeView(pageViews.get(arg1));
+			}
+
 		
-		@Override
-		public int getCount() {
-			return pageViews.size();
-		}
+			@Override
+			public Object instantiateItem(View arg0, int arg1) {
+			
+				((ViewPager) arg0).addView(pageViews.get(arg1));
+		    	return pageViews.get(arg1);
+			}
 
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == arg1;
 		}
-
-		@Override
-		public int getItemPosition(Object object) {
-			// TODO Auto-generated method stub
-			return super.getItemPosition(object);
-		}
-
-		@Override
-		public void destroyItem(View arg0, int arg1, Object arg2) {
-			// TODO Auto-generated method stub
-			((ViewPager) arg0).removeView(pageViews.get(arg1));
-		}
-
-		/***
-		 * ��ȡÿһ��item�� ����listview�е�getview
-		 */
-		@Override
-		public Object instantiateItem(View arg0, int arg1) {
-			((ViewPager) arg0).addView(pageViews.get(arg1));
-			return pageViews.get(arg1);
-		}
-
-	}
+    
 	
+	
+	
+	private void setListView() {
+		// TODO Auto-generated method stub
+		//头条，要闻   对应的list列表的id
+		//if (addListView == false) {
+			    list_page_view1 = (ListView)page_view_1.findViewById(R.id.page_view_1);
+		        list_page_view2 = (ListView)page_view_2.findViewById(R.id.page_view_2); 
+		        list_page_view3 = (ListView)page_view_3.findViewById(R.id.page_view_3);
+		        list_page_view4 = (ListView)page_view_4.findViewById(R.id.page_view_4);
+		        list_page_view5 = (ListView)page_view_5.findViewById(R.id.page_view_5);
+		        list_page_view6 = (ListView)page_view_6.findViewById(R.id.page_view_6);
+		        list_page_view7 = (ListView)page_view_7.findViewById(R.id.page_view_7);
+		        list_page_view8 = (ListView)page_view_8.findViewById(R.id.page_view_8); 
+		        list_page_view9 = (ListView)page_view_9.findViewById(R.id.page_view_9);
+		        list_page_view10 = (ListView)page_view_10.findViewById(R.id.page_view_10);
+		        list_page_view11 = (ListView)page_view_11.findViewById(R.id.page_view_11);
+		        list_page_view12 = (ListView)page_view_12.findViewById(R.id.page_view_12);
+	//	}
+	      
+	//	addListView =true;
+		       
+	       //头条，要闻   对应的 list中加载的数据 此为静态数据
+	     	        
+	        HashMap<String, String> itemMap = new HashMap<String, String>();   
+	        HashMap<String, String> itemMap2 = new HashMap<String, String>();
+	        HashMap<String, String> itemMap3 = new HashMap<String, String>();
+	        HashMap<String, String> itemMap4 = new HashMap<String, String>();      
+	        HashMap<String, String> itemMap5 = new HashMap<String, String>();
+	        HashMap<String, String> itemMap6 = new HashMap<String, String>();
+	        HashMap<String, String> itemMap7 = new HashMap<String, String>();   
+	        HashMap<String, String> itemMap8 = new HashMap<String, String>();
+	        HashMap<String, String> itemMap9 = new HashMap<String, String>();
+	        HashMap<String, String> itemMap10 = new HashMap<String, String>();
+	        HashMap<String, String> itemMap11 = new HashMap<String, String>();
+	        HashMap<String, String> itemMap12 = new HashMap<String, String>();
+	        
+	        for (int i =1; i < 10; i++) {			
+				itemMap.put("title","张家朝");	
+				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData1.add(itemMap);	
+				
+				itemMap2.put("title","张丰盛的");	
+				itemMap2.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData2.add(itemMap2);	
+				
+				itemMap3.put("title","张飞V大飞");	
+				itemMap3.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData3.add(itemMap3);	
+				
+				itemMap4.put("title","张规划图");	
+				itemMap4.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData4.add(itemMap4);	
+				
+				itemMap5.put("title","张大多数");	
+				itemMap5.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData5.add(itemMap5);	
+				
+				itemMap6.put("title","张北京");	
+				itemMap6.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData6.add(itemMap6);	
+				
+				itemMap7.put("title","张山水");	
+				itemMap7.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData7.add(itemMap7);	
+				
+				itemMap8.put("title","张哇哇哇");	
+				itemMap8.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData8.add(itemMap8);	
+				
+				itemMap9.put("title","张wdw");	
+				itemMap9.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData9.add(itemMap9);	
+				
+				itemMap10.put("title","张lko");	
+				itemMap10.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData10.add(itemMap10);	
+				
+				itemMap11.put("title","张王串场");	
+				itemMap11.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData11.add(itemMap11);	
+				
+				itemMap12.put("title","张咯品牌");	
+				itemMap12.put("bigImageView",getString(R.drawable.ic_launcher));
+				listData12.add(itemMap12);	
+			}
+	      
+	    	ListAdapter adapter = new ListAdapter(this, listData1);
+			list_page_view1.setAdapter(adapter);
+			
+			ListAdapter adapter2 = new ListAdapter(this, listData2);
+			list_page_view2.setAdapter(adapter2);
+			
+			ListAdapter adapter3 = new ListAdapter(this, listData3);
+			list_page_view3.setAdapter(adapter3);
+			
+			ListAdapter adapter4 = new ListAdapter(this, listData4);
+			list_page_view4.setAdapter(adapter4);
+			
+			ListAdapter adapter5 = new ListAdapter(this, listData5);
+			list_page_view5.setAdapter(adapter5);
+			
+			ListAdapter adapter6 = new ListAdapter(this, listData6);
+			list_page_view6.setAdapter(adapter6);
+			
+			ListAdapter adapter7 = new ListAdapter(this, listData7);
+			list_page_view7.setAdapter(adapter7);
+			
+			ListAdapter adapter8 = new ListAdapter(this, listData8);
+			list_page_view8.setAdapter(adapter8);
+			
+			ListAdapter adapter9 = new ListAdapter(this, listData9);
+			list_page_view9.setAdapter(adapter9);
+			
+			ListAdapter adapter10 = new ListAdapter(this, listData10);
+			list_page_view10.setAdapter(adapter10);
+			
+			ListAdapter adapter11 = new ListAdapter(this, listData11);
+			list_page_view11.setAdapter(adapter11);
+			
+			ListAdapter adapter12 = new ListAdapter(this, listData12);
+			list_page_view12.setAdapter(adapter12);
+			
+	}
 
+
+
+
+	
+     /**
+      * 广播接收器
+      * 接受需要的栏目数，并由此可判断为哪个栏目
+      */
 	  private BroadcastReceiver receiver = new BroadcastReceiver() {
 			
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				// TODO Auto-generated method stub
-				String action = intent.getAction();  
-				
-				if (action.equals("test")) {
-					String  taba = intent.getStringExtra("tab");
-					//Log.v("eastwindnews --- ---  ", taba);
-				
-					if (taba.equals("second")) {
-						pageViews.clear();
-						InItView(3);
-					}
+				String action = intent.getAction();  			
+				if (action.equals("news")) {
+					int column = intent.getIntExtra("column",0);
+					Log.v("----541----", column+"");
+					pageViews.clear();
+					switch (column) {
+					case 9:				
+						InItView(9);
+						break;
+					case 4:				
+						InItView(4);
+						break;
+					case 8:
+						InItView(8);
+						break;
+					case 12:	
+						InItView(12);
+						break;
+					case 6:	
+						InItView(6);
+						break;
+					default:
+						break;
+					}				
 				}
 				
 			}
