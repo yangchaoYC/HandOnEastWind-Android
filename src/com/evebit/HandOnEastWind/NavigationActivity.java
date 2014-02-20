@@ -52,8 +52,8 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 		 //滑动选项卡
 		 mGestureDetector = new GestureDetector(this);	 
 	     LinearLayout navigationView=(LinearLayout)findViewById(R.id.navigation);  
-	     navigationView.setOnTouchListener(this);  
-	     navigationView.setLongClickable(true);  
+	     //navigationView.setOnTouchListener(this);  
+	    // navigationView.setLongClickable(true);  
 	    
 	     //导航页面 5个频道：东风汽车报 东风 汽车之旅 汽车科技 维修装备技术
 	     newsLinearLayout = (LinearLayout)findViewById(R.id.navigation_news);
@@ -62,6 +62,10 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	     techLinearLayout = (LinearLayout)findViewById(R.id.navigation_tech);
 	     fixLinearLayout = (LinearLayout)findViewById(R.id.navigation_fix);
 		
+	     travelLinearLayout.setOnTouchListener(this);  
+	     travelLinearLayout.setLongClickable(true);  
+	     
+	     
 	     newsLinearLayout.setOnClickListener(new OnClickListener() {		
 				@Override
 				public void onClick(View v) {
@@ -151,7 +155,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
            } else if (e2.getX()-e1.getX() > FLING_MIN_DISTANCE   
                    && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   
                // Fling right  
-        	   //onBackPressed();
+        	   onBackPressed();
                Toast.makeText(this, "向右手势", Toast.LENGTH_SHORT).show();   
            }   
            return false;   
