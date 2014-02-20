@@ -58,11 +58,11 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         * 汽车科技(12个栏目)：播报、国际前研、新车测评、政能量、创新观察、人物专访、特别关注、特稿、设计•研究、试验•测试、工艺•材料、公告牌
         * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
         */
-		private String title1[] = {  "头条", "要闻", "生产经营", "东风党建", "和谐东风", "东风人", "东风人", "东风文艺", "专题报道", "四城视点" };
-		private String title2[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
-		private String title3[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
-		private String title4[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
-		private String title5[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
+		private String title1[] = {  "头条", "要闻", "生产经营", "东风党建", "和谐东风",  "东风人", "东风文艺", "专题报道", "四城视点" };
+		private String title2[] = {  "专题", "企业", "观点", "对话"};
+		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博·贴士邦"};
+		private String title4[] = {  "播报", "国际前研", "新车测评", "政能量", "创新观察", "人物专访", "特别关注", "特稿", "设计•研究", "试验•测试" , "工艺•材料", "公告牌"};
+		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
 		
 		private ArrayList<TextView> textViews;
 		private ViewPager viewPager;
@@ -124,38 +124,42 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				page_view_12 = inflater.inflate(R.layout.page_view12, null);
 		      
 	    	
-	    	pageViews.add(page_view_1);
-	        pageViews.add(page_view_2);
-	        pageViews.add(page_view_3); 
-	        pageViews.add(page_view_4);
-	        
+		    	pageViews.add(page_view_1);
+		        pageViews.add(page_view_2);
+		        pageViews.add(page_view_3); 
+		        pageViews.add(page_view_4);
+	       
 	        switch (i) {
 			case 6:
 				 pageViews.add(page_view_5);
-			       pageViews.add(page_view_6); 
+			     pageViews.add(page_view_6); 		     
+			     
 				break;
 			case 8:
 				 pageViews.add(page_view_5);
-			        pageViews.add(page_view_6); 
-			        pageViews.add(page_view_7);
-			        pageViews.add(page_view_8);		
-							break;
+			     pageViews.add(page_view_6); 
+			     pageViews.add(page_view_7);
+			     pageViews.add(page_view_8);
+			    
+			     break;
 			case 9:
 				 pageViews.add(page_view_5);
-			        pageViews.add(page_view_6); 
-			        pageViews.add(page_view_7);
-			        pageViews.add(page_view_8);
-			        pageViews.add(page_view_9);
+			     pageViews.add(page_view_6); 
+			     pageViews.add(page_view_7);
+			     pageViews.add(page_view_8);
+			     pageViews.add(page_view_9);
+			    
 				break;
 			case 12:
 				 pageViews.add(page_view_5);
-			        pageViews.add(page_view_6); 
-			        pageViews.add(page_view_7);
-			        pageViews.add(page_view_8);
-			        pageViews.add(page_view_9); 
-			        pageViews.add(page_view_10);
-			        pageViews.add(page_view_11);
-			        pageViews.add(page_view_12);
+			     pageViews.add(page_view_6); 
+			     pageViews.add(page_view_7);
+			     pageViews.add(page_view_8);
+			     pageViews.add(page_view_9); 
+			     pageViews.add(page_view_10);
+			     pageViews.add(page_view_11);
+			     pageViews.add(page_view_12);
+			    
 				break;
 			
 			default:
@@ -167,16 +171,19 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	}    
 
 
-	/***
-	 * init title
+	/**
+	 * 
+	 * @param newNumber 传递栏目数
 	 */
-	void InItTitle1() {
+	void InItTitle1(String title[]) {
 		textViews = new ArrayList<TextView>();
 		H_width = getWindowManager().getDefaultDisplay().getWidth() / 4;
 		int height = 70;
-		for (int i = 0; i < title1.length; i++) {
+		
+		
+		for (int i = 0; i < title.length; i++) {
 			TextView textView = new TextView(this);
-			textView.setText(title1[i]);
+			textView.setText(title[i]);
 			textView.setTextSize(17);
 			textView.setTextColor(Color.BLACK);
 			textView.setWidth(H_width);
@@ -195,7 +202,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			view.setLayoutParams(layoutParams);
 			view.setBackgroundColor(Color.GRAY);
 			linearLayout.addView(textView);
-			if (i != title1.length - 1) {
+			if (i != title.length - 1) {
 				linearLayout.addView(view);
 			}
 			Log.e("aa", "linearLayout_width=" + linearLayout.getWidth());
@@ -249,9 +256,11 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	       setContentView(eastWindNewsGroup);
 	       horizontalScrollView = (HorizontalScrollView) findViewById(R.id.horizontalScrollView);
 	       linearLayout = (LinearLayout) findViewById(R.id.ll_main);
-	       InItTitle1();	   
-	   
+	      
 	       
+	      	   
+	   
+	       InItTitle1(title1);
 	       
 	       
 	       
@@ -472,7 +481,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
       * 广播接收器
       * 接受需要的栏目数，并由此可判断为哪个栏目
       */
-	  private BroadcastReceiver receiver = new BroadcastReceiver() {
+	 private BroadcastReceiver receiver = new BroadcastReceiver() {
 			
 			@Override
 			public void onReceive(Context context, Intent intent) {

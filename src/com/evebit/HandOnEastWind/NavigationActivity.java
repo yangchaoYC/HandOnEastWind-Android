@@ -151,7 +151,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
            } else if (e2.getX()-e1.getX() > FLING_MIN_DISTANCE   
                    && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   
                // Fling right  
-        	   onBackPressed();
+        	   //onBackPressed();
                Toast.makeText(this, "向右手势", Toast.LENGTH_SHORT).show();   
            }   
            return false;   
