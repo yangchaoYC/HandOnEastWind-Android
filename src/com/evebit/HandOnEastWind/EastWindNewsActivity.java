@@ -1,10 +1,15 @@
 package com.evebit.HandOnEastWind;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.evebit.ListView.XListView;
+import com.evebit.ListView.XListView.IXListViewListener;
 import com.evebit.adapter.ListAdapter;
+import com.facebook.Session.NewPermissionsRequest;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -40,28 +45,38 @@ import android.widget.LinearLayout.LayoutParams;
  *
  */
 
-public class EastWindNewsActivity extends Activity  implements OnClickListener{
+public class EastWindNewsActivity extends Activity  implements OnClickListener,IXListViewListener{
 
 	    //12个pageView的容器
 	    private View page_view_1,page_view_2,page_view_3,page_view_4,page_view_5,page_view_6,page_view_7,page_view_8,page_view_9,page_view_10,page_view_11,page_view_12;
 	
 	    private ViewGroup eastWindNewsGroup; //东风汽车报的选项卡集合
-	  
-	    private RadioGroup radioGroup;
-		private String title[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
+	    /*
+	    * * 东风汽车报 (9个栏目)：头条、要闻、生产经营、东风党建、和谐东风、东风人、东风文艺、专题报道、四城视点
+        * 东风(4个栏目)：专题、企业、观点、对话
+        * 汽车之旅(8个栏目)：旅游资讯、“驾”临天下、名车靓影、城市约会、乐途影像、名家专栏、微博·贴士邦
+        * 汽车科技(12个栏目)：播报、国际前研、新车测评、政能量、创新观察、人物专访、特别关注、特稿、设计•研究、试验•测试、工艺•材料、公告牌
+        * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
+        */
+		private String title1[] = {  "头条", "要闻", "生产经营", "东风党建", "和谐东风", "东风人", "东风人", "东风文艺", "专题报道", "四城视点" };
+		private String title2[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
+		private String title3[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
+		private String title4[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
+		private String title5[] = {  "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "tem" , "eleve", "twelve"};
 		
-		private final int height = 70;
 		private ArrayList<TextView> textViews;
 		private ViewPager viewPager;
 		private ArrayList<View> pageViews;
 		private HorizontalScrollView horizontalScrollView;
 		private int H_width;
         private LinearLayout linearLayout;
-        private ListView list_page_view1,list_page_view2,list_page_view3,list_page_view4,list_page_view5,list_page_view6,list_page_view7,list_page_view8,list_page_view9,list_page_view10,list_page_view11,list_page_view12;
+        private XListView list_page_view1,list_page_view2,list_page_view3,list_page_view4,list_page_view5,list_page_view6,list_page_view7,list_page_view8,list_page_view9,list_page_view10,list_page_view11,list_page_view12;
 	    
         private Boolean addListView = false;
 	    private Boolean moveItem = false;
         
+	    private ArrayList<XListView> listArray = new ArrayList<XListView>();
+	    
         /**
          * 存放数据数组
          */
@@ -147,7 +162,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 				break;
 			}
    
-		    setView();
+		    setView(i);
 
 	}    
 
@@ -159,9 +174,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 		textViews = new ArrayList<TextView>();
 		H_width = getWindowManager().getDefaultDisplay().getWidth() / 4;
 		int height = 70;
-		for (int i = 0; i < title.length; i++) {
+		for (int i = 0; i < title1.length; i++) {
 			TextView textView = new TextView(this);
-			textView.setText(title[i]);
+			textView.setText(title1[i]);
 			textView.setTextSize(17);
 			textView.setTextColor(Color.BLACK);
 			textView.setWidth(H_width);
@@ -180,7 +195,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 			view.setLayoutParams(layoutParams);
 			view.setBackgroundColor(Color.GRAY);
 			linearLayout.addView(textView);
-			if (i != title.length - 1) {
+			if (i != title1.length - 1) {
 				linearLayout.addView(view);
 			}
 			Log.e("aa", "linearLayout_width=" + linearLayout.getWidth());
@@ -190,7 +205,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 
 
 	public void setSelector(int id) {
-		for (int i = 0; i < title.length; i++) {
+		for (int i = 0; i < title1.length; i++) {
 			if (id == i) {
 				Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.grouplist_item_bg_normal);
 				textViews.get(id).setBackgroundDrawable(new BitmapDrawable(bitmap));
@@ -224,7 +239,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 
 	}
 
-    public void setView(){
+    public void setView(int i){
     	
     	   LayoutInflater inflater = getLayoutInflater(); 
 		   eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.tab_view1, null); 
@@ -236,7 +251,11 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 	       linearLayout = (LinearLayout) findViewById(R.id.ll_main);
 	       InItTitle1();	   
 	   
-		   setListView();	   
+	       
+	       
+	       
+	       
+		   setListView(i);	   
 		   setSelector(0);
 	
 			viewPager.setAdapter(new myPagerView());
@@ -304,26 +323,44 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 	
 	
 	
-	private void setListView() {
+	private void setListView(int j) {
 		// TODO Auto-generated method stub
 		//头条，要闻   对应的list列表的id
 		//if (addListView == false) {
-			    list_page_view1 = (ListView)page_view_1.findViewById(R.id.page_view_1);
-		        list_page_view2 = (ListView)page_view_2.findViewById(R.id.page_view_2); 
-		        list_page_view3 = (ListView)page_view_3.findViewById(R.id.page_view_3);
-		        list_page_view4 = (ListView)page_view_4.findViewById(R.id.page_view_4);
-		        list_page_view5 = (ListView)page_view_5.findViewById(R.id.page_view_5);
-		        list_page_view6 = (ListView)page_view_6.findViewById(R.id.page_view_6);
-		        list_page_view7 = (ListView)page_view_7.findViewById(R.id.page_view_7);
-		        list_page_view8 = (ListView)page_view_8.findViewById(R.id.page_view_8); 
-		        list_page_view9 = (ListView)page_view_9.findViewById(R.id.page_view_9);
-		        list_page_view10 = (ListView)page_view_10.findViewById(R.id.page_view_10);
-		        list_page_view11 = (ListView)page_view_11.findViewById(R.id.page_view_11);
-		        list_page_view12 = (ListView)page_view_12.findViewById(R.id.page_view_12);
-	//	}
+			    list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+		        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+		        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+		        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+		        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+		        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+		        list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
+		        list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
+		        list_page_view9 = (XListView)page_view_9.findViewById(R.id.page_view_9);
+		        list_page_view10 = (XListView)page_view_10.findViewById(R.id.page_view_10);
+		        list_page_view11 = (XListView)page_view_11.findViewById(R.id.page_view_11);
+		        list_page_view12 = (XListView)page_view_12.findViewById(R.id.page_view_12);
+		//}
 	      
-	//	addListView =true;
+		//addListView =true;
+		       listArray.add(list_page_view1);
+		       listArray.add(list_page_view2);
+		       listArray.add(list_page_view3);
+		       listArray.add(list_page_view4);
+		       listArray.add(list_page_view5);
+		       listArray.add(list_page_view6);
+		       listArray.add(list_page_view7);
+		       listArray.add(list_page_view8);
+		       listArray.add(list_page_view9);
+		       listArray.add(list_page_view10);
+		       listArray.add(list_page_view11);
+		       listArray.add(list_page_view12);
 		       
+		       for (int i = 0; i < listArray.size(); i++) {
+		    	   listArray.get(i).setPullLoadEnable(true);
+		    	   listArray.get(i).setXListViewListener(this);
+			}
+		     
+
 	       //头条，要闻   对应的 list中加载的数据 此为静态数据
 	     	        
 	        HashMap<String, String> itemMap = new HashMap<String, String>();   
@@ -443,7 +480,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 				String action = intent.getAction();  			
 				if (action.equals("news")) {
 					int column = intent.getIntExtra("column",0);
-					Log.v("----541----", column+"");
 					pageViews.clear();
 					switch (column) {
 					case 9:				
@@ -469,5 +505,32 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener{
 			}
 		};
 
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		onLoad();
+	}
 
+
+	@Override
+	public void onLoadMore() {
+		// TODO Auto-generated method stub
+		onLoad();
+	}
+
+	/**
+	 * 下拉或加载更多关闭
+	 */
+	private void onLoad() {
+		for (int i = 0; i < listArray.size(); i++) {
+			
+			listArray.get(i).stopRefresh();
+
+			listArray.get(i).stopLoadMore();
+			
+			//sumListView.setRefreshTime(timeString);
+		}
+		
+		
+	}
 }
