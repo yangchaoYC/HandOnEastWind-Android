@@ -97,12 +97,12 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 	        share = new Intent(this, CarTravelActivity.class);
 	        tabhost.addTab(tabhost.newTabSpec("share")
 	                .setIndicator(getResources().getString(R.string.main_share), getResources().getDrawable(R.drawable.icon_3_n))
-	                .setContent(share));
+	                .setContent(share));*/
 	        
-	        setting = new Intent(this,CarTechActivity.class);
+	        setting = new Intent(this,SettingActivity.class);
 	        tabhost.addTab(tabhost.newTabSpec("setting")
 	                .setIndicator(getResources().getString(R.string.main_setting), getResources().getDrawable(R.drawable.icon_4_n))
-	                .setContent(setting));*/
+	                .setContent(setting));
 	   
 
 	}

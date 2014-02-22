@@ -37,7 +37,7 @@ public class WebActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
-		 setContentView(R.layout.activity_lauch);
+		 setContentView(R.layout.activity_web);
 			webView = (WebView)findViewById(R.id.webView_WebView);
 		 
 			initWeb("我是标题","我是内容","我是时间");

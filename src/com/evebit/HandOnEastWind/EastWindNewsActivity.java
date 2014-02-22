@@ -1,14 +1,11 @@
 package com.evebit.HandOnEastWind;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.evebit.ListView.XListView;
 import com.evebit.ListView.XListView.IXListViewListener;
 import com.evebit.adapter.ListAdapter;
-import com.facebook.Session.NewPermissionsRequest;
-
 import android.R.integer;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -20,6 +17,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -31,8 +30,6 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -75,24 +72,113 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         private Boolean addListView = false;
 	    private Boolean moveItem = false;
         
+	    private int LoadPage = 0; //当前为哪个频道，0,1 为第一个频道，2,3,4,5
+	    private int LookPage = 0; //当前的栏目id,
+	    
 	    private ArrayList<XListView> listArray = new ArrayList<XListView>();
 	    
         /**
          * 存放数据数组
+         *//*
+        private ArrayList<HashMap<String, String>> listData1_1 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData1_2 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData1_3 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData1_4 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData1_5 = new ArrayList<HashMap<String, String>>();	       
+        private ArrayList<HashMap<String, String>> listData1_6 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData1_7 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData1_8 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData1_9 = new ArrayList<HashMap<String, String>>();	    
+        
+        private ArrayList<HashMap<String, String>> listData2_1 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData2_2 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData2_3 = new ArrayList<HashMap<String, String>>();	
+        private ArrayList<HashMap<String, String>> listData2_4 = new ArrayList<HashMap<String, String>>();	
+        
+        private ArrayList<HashMap<String, String>> listData3_1 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData3_2 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData3_3 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData3_4 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData3_5 = new ArrayList<HashMap<String, String>>();	       
+        private ArrayList<HashMap<String, String>> listData3_6 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData3_7 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData3_8 = new ArrayList<HashMap<String, String>>();	    
+       
+        private ArrayList<HashMap<String, String>> listData4_1 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_2 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_3 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_4 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_5 = new ArrayList<HashMap<String, String>>();	       
+        private ArrayList<HashMap<String, String>> listData4_6 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_7 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_8 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_9 = new ArrayList<HashMap<String, String>>();	
+        private ArrayList<HashMap<String, String>> listData4_10 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_11 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData4_12 = new ArrayList<HashMap<String, String>>();	   
+        
+        private ArrayList<HashMap<String, String>> listData5_1 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData5_2 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData5_3 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData5_4 = new ArrayList<HashMap<String, String>>();	    
+        private ArrayList<HashMap<String, String>> listData5_5 = new ArrayList<HashMap<String, String>>();	       
+        private ArrayList<HashMap<String, String>> listData5_6 = new ArrayList<HashMap<String, String>>();	    
+        */
+        
+	    private ArrayList<HashMap<String, String>> listData = new ArrayList<HashMap<String, String>>();	  
+        private HashMap<String, String> map=new HashMap<String, String>();
+        
+        /**
+         * 存放数据hashmaps
          */
-        private ArrayList<HashMap<String, String>> listData1 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData2 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData3 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData4 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData5 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData6 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData7 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData8 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData9 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData10 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData11 = new ArrayList<HashMap<String, String>>();	    
-        private ArrayList<HashMap<String, String>> listData12 = new ArrayList<HashMap<String, String>>();	    
+        
+      /*  private HashMap<String, String> itemMap1_1 = new HashMap<String, String>();   
+        private HashMap<String, String> itemMap1_2 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap1_3 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap1_4 = new HashMap<String, String>();      
+        private HashMap<String, String> itemMap1_5 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap1_6 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap1_7 = new HashMap<String, String>();   
+        private HashMap<String, String> itemMap1_8 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap1_9 = new HashMap<String, String>();
+        
+        
+        private HashMap<String, String> itemMap2_1 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap2_2 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap2_3 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap2_4 = new HashMap<String, String>();
+        
+        private HashMap<String, String> itemMap3_1 = new HashMap<String, String>();   
+        private HashMap<String, String> itemMap3_2 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap3_3 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap3_4 = new HashMap<String, String>();      
+        private HashMap<String, String> itemMap3_5 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap3_6 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap3_7 = new HashMap<String, String>();   
+        private HashMap<String, String> itemMap3_8 = new HashMap<String, String>();
+      
+        private HashMap<String, String> itemMap4_1 = new HashMap<String, String>();   
+        private HashMap<String, String> itemMap4_2 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap4_3 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap4_4 = new HashMap<String, String>();      
+        private HashMap<String, String> itemMap4_5 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap4_6 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap4_7 = new HashMap<String, String>();   
+        private HashMap<String, String> itemMap4_8 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap4_9 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap4_10 = new HashMap<String, String>();   
+        private HashMap<String, String> itemMap4_11 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap4_12 = new HashMap<String, String>();
+        
+        private HashMap<String, String> itemMap5_1 = new HashMap<String, String>();   
+        private HashMap<String, String> itemMap5_2 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap5_3 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap5_4 = new HashMap<String, String>();      
+        private HashMap<String, String> itemMap5_5 = new HashMap<String, String>();
+        private HashMap<String, String> itemMap5_6 = new HashMap<String, String>();
 
+        */
+        
         /**
          * 初始化pageView容器
          * @param i 需要几个pageview
@@ -170,11 +256,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 
 	}    
 
-
-	/**
-	 * 
-	 * @param newNumber 传递栏目数
-	 */
+/**
+ * 顶部对应的滑动条
+ * @param title 传递对应的栏目列表
+ */
 	void InItTitle1(String title[]) {
 		textViews = new ArrayList<TextView>();
 		H_width = getWindowManager().getDefaultDisplay().getWidth() / 4;
@@ -187,7 +272,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			textView.setTextSize(17);
 			textView.setTextColor(Color.BLACK);
 			textView.setWidth(H_width);
-			Log.e("aa", "text_width=" + textView.getWidth());
+			//Log.e("aa", "text_width=" + textView.getWidth());
 			textView.setHeight(height - 30);
 			textView.setGravity(Gravity.CENTER);
 			textView.setId(i);
@@ -205,14 +290,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			if (i != title.length - 1) {
 				linearLayout.addView(view);
 			}
-			Log.e("aa", "linearLayout_width=" + linearLayout.getWidth());
+			//Log.e("aa", "linearLayout_width=" + linearLayout.getWidth());
 
 		}
 	}
 
-
-	public void setSelector(int id) {
-		for (int i = 0; i < title1.length; i++) {
+/**
+ * 此处对应 点击上部的滑动条中的某一项，跳转到相应的viewpager
+ * @param id 对应的滚动条中的那一栏目
+ * @param title 滑动条中栏目数组
+ */
+	public void setSelector(int id,String title[]) {
+		for (int i = 0; i < title.length; i++) {
 			if (id == i) {
 				Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.grouplist_item_bg_normal);
 				textViews.get(id).setBackgroundDrawable(new BitmapDrawable(bitmap));
@@ -241,12 +330,24 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      intentFilter.addAction("news");  
 	      registerReceiver(receiver, intentFilter);
          
-	      //默认为东风汽车报频道，此频道有9个栏目
-		  InItView(9);
+	      //默认为东风汽车报频道，此频道有9个栏目  
+	       InItView(9);
+		
+		 
 
 	}
 
-    public void setView(int i){
+	/**
+	 * 设置新闻列表的数据
+	 * @param i 对应的频道
+	 * 9   第1个频道 共9个栏目
+	 * 4   第2个频道 共4个栏目
+	 * 8   第3个频道 共8个栏目
+	 * 12 第4个频道 共12个栏目
+	 * 6   第5个频道 共6个栏目
+	 * 
+	 */
+    public void setView(final int i){
     	
     	   LayoutInflater inflater = getLayoutInflater(); 
 		   eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.tab_view1, null); 
@@ -256,26 +357,71 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	       setContentView(eastWindNewsGroup);
 	       horizontalScrollView = (HorizontalScrollView) findViewById(R.id.horizontalScrollView);
 	       linearLayout = (LinearLayout) findViewById(R.id.ll_main);
-	      
-	       
-	      	   
-	   
-	       InItTitle1(title1);
-	       
-	       
-	       
-		   setListView(i);	   
-		   setSelector(0);
+	     
+	       switch (i) {
+		case 9:
+			 setListView1();
+			 InItTitle1(title1);
+			 setSelector(0,title1);		 
+			break;
+        case 4:
+        	 setListView2();
+        	 InItTitle1(title2);
+        	 setSelector(0,title2);
+			break;
+        case 8:
+        	 setListView3();
+        	 InItTitle1(title3);
+        	 setSelector(0,title3);
+			break;
+        case 12:
+        	 setListView4();
+        	 InItTitle1(title4);
+        	 setSelector(0,title4);
+			break;
+        case 6:
+        	 setListView5();
+        	 InItTitle1(title5);
+        	 setSelector(0,title5);
+			break;
+		default:
+			break;
+		}
+		   //setListView(i);	   
+		  
 	
 			viewPager.setAdapter(new myPagerView());
 			viewPager.clearAnimation();
 			viewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
+			
+			
 				@Override
-				public void onPageSelected(int arg0) {
-					setSelector(arg0);
+				public void onPageSelected(int arg0) {	
+					LookPage = arg0;
+					handler.sendEmptyMessage(1);	
+					
+					switch (i) {
+					case 9:
+						setSelector(arg0,title1);
+					
+						break;
+					case 4:
+						setSelector(arg0,title2);					
+						break;
+					case 8:
+						setSelector(arg0,title3);
+						break;
+					case 12:
+						setSelector(arg0,title4);
+						break;
+					case 6:
+						setSelector(arg0,title5);
+						break;
+					default:
+						break;
+					}
+					
 				}
-
 				@Override
 				public void onPageScrolled(int arg0, float arg1, int arg2) {
 
@@ -288,11 +434,43 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			});
 		}
 
+    /**
+     * 点击事件，loadpage对应的其相对应的栏目
+     * 0,1 对应第1个栏目
+     * 2   对应第2个栏目 
+     * 3   对应第3个栏目
+     * 4   对应第4个栏目
+     * 5   对应第5个栏目
+     */
 		@Override
 		public void onClick(View v) {
-			setSelector(v.getId());
+			LookPage = v.getId();
+			switch (LoadPage) {
+			case 0:
+				setSelector(v.getId(),title1);
+				break;
+			case 1:
+				setSelector(v.getId(),title1);
+				break;
+			case 2:
+				setSelector(v.getId(),title2);					
+				break;
+			case 3:
+				setSelector(v.getId(),title3);
+				break;
+			case 4:
+				setSelector(v.getId(),title4);
+				break;
+			case 5:
+				setSelector(v.getId(),title5);
+				break;
+			default:
+				break;
+			}	
 		}
 
+		
+		
 		class myPagerView extends PagerAdapter {
 			
 			@Override
@@ -330,151 +508,322 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		}
     
 	
-	
-	
-	private void setListView(int j) {
-		// TODO Auto-generated method stub
-		//头条，要闻   对应的list列表的id
-		//if (addListView == false) {
-			    list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
-		        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
-		        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
-		        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
-		        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
-		        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
-		        list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
-		        list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
-		        list_page_view9 = (XListView)page_view_9.findViewById(R.id.page_view_9);
-		        list_page_view10 = (XListView)page_view_10.findViewById(R.id.page_view_10);
-		        list_page_view11 = (XListView)page_view_11.findViewById(R.id.page_view_11);
-		        list_page_view12 = (XListView)page_view_12.findViewById(R.id.page_view_12);
-		//}
-	      
-		//addListView =true;
-		       listArray.add(list_page_view1);
-		       listArray.add(list_page_view2);
-		       listArray.add(list_page_view3);
-		       listArray.add(list_page_view4);
-		       listArray.add(list_page_view5);
-		       listArray.add(list_page_view6);
-		       listArray.add(list_page_view7);
-		       listArray.add(list_page_view8);
-		       listArray.add(list_page_view9);
-		       listArray.add(list_page_view10);
-		       listArray.add(list_page_view11);
-		       listArray.add(list_page_view12);
-		       
-		       for (int i = 0; i < listArray.size(); i++) {
-		    	   listArray.get(i).setPullLoadEnable(true);
-		    	   listArray.get(i).setXListViewListener(this);
-			}
-		     
 
-	       //头条，要闻   对应的 list中加载的数据 此为静态数据
-	     	        
-	        HashMap<String, String> itemMap = new HashMap<String, String>();   
-	        HashMap<String, String> itemMap2 = new HashMap<String, String>();
-	        HashMap<String, String> itemMap3 = new HashMap<String, String>();
-	        HashMap<String, String> itemMap4 = new HashMap<String, String>();      
-	        HashMap<String, String> itemMap5 = new HashMap<String, String>();
-	        HashMap<String, String> itemMap6 = new HashMap<String, String>();
-	        HashMap<String, String> itemMap7 = new HashMap<String, String>();   
-	        HashMap<String, String> itemMap8 = new HashMap<String, String>();
-	        HashMap<String, String> itemMap9 = new HashMap<String, String>();
-	        HashMap<String, String> itemMap10 = new HashMap<String, String>();
-	        HashMap<String, String> itemMap11 = new HashMap<String, String>();
-	        HashMap<String, String> itemMap12 = new HashMap<String, String>();
-	        
-	        for (int i =1; i < 10; i++) {			
-				itemMap.put("title","张家朝");	
-				itemMap.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData1.add(itemMap);	
-				
-				itemMap2.put("title","张丰盛的");	
-				itemMap2.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData2.add(itemMap2);	
-				
-				itemMap3.put("title","张飞V大飞");	
-				itemMap3.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData3.add(itemMap3);	
-				
-				itemMap4.put("title","张规划图");	
-				itemMap4.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData4.add(itemMap4);	
-				
-				itemMap5.put("title","张大多数");	
-				itemMap5.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData5.add(itemMap5);	
-				
-				itemMap6.put("title","张北京");	
-				itemMap6.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData6.add(itemMap6);	
-				
-				itemMap7.put("title","张山水");	
-				itemMap7.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData7.add(itemMap7);	
-				
-				itemMap8.put("title","张哇哇哇");	
-				itemMap8.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData8.add(itemMap8);	
-				
-				itemMap9.put("title","张wdw");	
-				itemMap9.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData9.add(itemMap9);	
-				
-				itemMap10.put("title","张lko");	
-				itemMap10.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData10.add(itemMap10);	
-				
-				itemMap11.put("title","张王串场");	
-				itemMap11.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData11.add(itemMap11);	
-				
-				itemMap12.put("title","张咯品牌");	
-				itemMap12.put("bigImageView",getString(R.drawable.ic_launcher));
-				listData12.add(itemMap12);	
-			}
+	/**
+	 * 9   第1个频道 共9个栏目
+	 */
+       private void setListView1(){
+		
+		    list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+	        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+	        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+	        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+	        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+	        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+	        list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
+	        list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
+	        list_page_view9 = (XListView)page_view_9.findViewById(R.id.page_view_9);
+       
+
+	        listArray.add(list_page_view1);
+	        listArray.add(list_page_view2);
+	        listArray.add(list_page_view3);
+	        listArray.add(list_page_view4);
+	        listArray.add(list_page_view5);
+	        listArray.add(list_page_view6);
+	        listArray.add(list_page_view7);
+	        listArray.add(list_page_view8);
+	        listArray.add(list_page_view9);
 	      
-	    	ListAdapter adapter = new ListAdapter(this, listData1);
-			list_page_view1.setAdapter(adapter);
-			
-			ListAdapter adapter2 = new ListAdapter(this, listData2);
-			list_page_view2.setAdapter(adapter2);
-			
-			ListAdapter adapter3 = new ListAdapter(this, listData3);
-			list_page_view3.setAdapter(adapter3);
-			
-			ListAdapter adapter4 = new ListAdapter(this, listData4);
-			list_page_view4.setAdapter(adapter4);
-			
-			ListAdapter adapter5 = new ListAdapter(this, listData5);
-			list_page_view5.setAdapter(adapter5);
-			
-			ListAdapter adapter6 = new ListAdapter(this, listData6);
-			list_page_view6.setAdapter(adapter6);
-			
-			ListAdapter adapter7 = new ListAdapter(this, listData7);
-			list_page_view7.setAdapter(adapter7);
-			
-			ListAdapter adapter8 = new ListAdapter(this, listData8);
-			list_page_view8.setAdapter(adapter8);
-			
-			ListAdapter adapter9 = new ListAdapter(this, listData9);
-			list_page_view9.setAdapter(adapter9);
-			
-			ListAdapter adapter10 = new ListAdapter(this, listData10);
-			list_page_view10.setAdapter(adapter10);
-			
-			ListAdapter adapter11 = new ListAdapter(this, listData11);
-			list_page_view11.setAdapter(adapter11);
-			
-			ListAdapter adapter12 = new ListAdapter(this, listData12);
-			list_page_view12.setAdapter(adapter12);
-			
+	       
+	       for (int i = 0; i < listArray.size(); i++) {
+	    	   listArray.get(i).setPullLoadEnable(true);
+	    	   listArray.get(i).setXListViewListener(this);
+		   }
+	     
+	
+	     
+	       map.clear();
+           listData.clear();
+           
+       
+		  dataThread();
+     
+		
+	  /*  ListAdapter adapter = new ListAdapter(this, listData1);
+	    list_page_view1.setAdapter(adapter);
+	
+		ListAdapter adapter2 = new ListAdapter(this, listData2);
+		list_page_view2.setAdapter(adapter2);
+		
+		ListAdapter adapter3 = new ListAdapter(this, listData3);
+		list_page_view3.setAdapter(adapter3);
+		
+		ListAdapter adapter4 = new ListAdapter(this, listData4);
+		list_page_view4.setAdapter(adapter4);
+		
+		ListAdapter adapter5 = new ListAdapter(this, listData5);
+		list_page_view5.setAdapter(adapter5);
+		
+		ListAdapter adapter6 = new ListAdapter(this, listData6);
+		list_page_view6.setAdapter(adapter6);
+		
+		ListAdapter adapter7 = new ListAdapter(this, listData7);
+		list_page_view7.setAdapter(adapter7);
+		
+		ListAdapter adapter8 = new ListAdapter(this, listData8);
+		list_page_view8.setAdapter(adapter8);
+		
+		ListAdapter adapter9 = new ListAdapter(this, listData9);
+		list_page_view9.setAdapter(adapter9);*/
+		
+	
 	}
+	
+	/**
+	 *  4   第2个频道 共4个栏目
+	 */
+	private void setListView2(){
+		
+	   list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+	   list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+	   list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+	   list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+	
+	   listArray.add(list_page_view1);
+	   listArray.add(list_page_view2);
+	   listArray.add(list_page_view3);
+	   listArray.add(list_page_view4);
+	       
+	   for (int i = 0; i < listArray.size(); i++) {
+	       listArray.get(i).setPullLoadEnable(true);
+	       listArray.get(i).setXListViewListener(this);
+		}
+	     
+	   map.clear();
+       listData.clear();
+       
+	   dataThread();
+  
+	/*	ListAdapter adapter = new ListAdapter(this, listData1);
+		list_page_view1.setAdapter(adapter);
+		
+		ListAdapter adapter2 = new ListAdapter(this, listData2);
+		list_page_view2.setAdapter(adapter2);
+		
+		ListAdapter adapter3 = new ListAdapter(this, listData3);
+		list_page_view3.setAdapter(adapter3);
+		
+		ListAdapter adapter4 = new ListAdapter(this, listData4);
+		list_page_view4.setAdapter(adapter4);
+		*/
+		
+	}
+	
+	/**
+	 * 8   第3个频道 共8个栏目
+	 */
+	private void setListView3(){
+	    list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+        list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
+        list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
+     
+       
 
+       listArray.add(list_page_view1);
+       listArray.add(list_page_view2);
+       listArray.add(list_page_view3);
+       listArray.add(list_page_view4);
+       listArray.add(list_page_view5);
+       listArray.add(list_page_view6);
+       listArray.add(list_page_view7);
+       listArray.add(list_page_view8);
+  
+      
+       
+       for (int i = 0; i < listArray.size(); i++) {
+    	   listArray.get(i).setPullLoadEnable(true);
+    	   listArray.get(i).setXListViewListener(this);
+	}
+     
+       map.clear();
+       listData.clear();
+	        
+       dataThread();
 
+  
+/*
+	    ListAdapter adapter = new ListAdapter(this, listData1);
+	list_page_view1.setAdapter(adapter);
+	
+	ListAdapter adapter2 = new ListAdapter(this, listData2);
+	list_page_view2.setAdapter(adapter2);
+	
+	ListAdapter adapter3 = new ListAdapter(this, listData3);
+	list_page_view3.setAdapter(adapter3);
+	
+	ListAdapter adapter4 = new ListAdapter(this, listData4);
+	list_page_view4.setAdapter(adapter4);
+	
+	ListAdapter adapter5 = new ListAdapter(this, listData5);
+	list_page_view5.setAdapter(adapter5);
+	
+	ListAdapter adapter6 = new ListAdapter(this, listData6);
+	list_page_view6.setAdapter(adapter6);
+	
+	ListAdapter adapter7 = new ListAdapter(this, listData7);
+	list_page_view7.setAdapter(adapter7);
+	
+	ListAdapter adapter8 = new ListAdapter(this, listData8);
+	list_page_view8.setAdapter(adapter8);
+	*/
+		
+	}
+	
+	
+	/**
+	 * 12 第4个频道 共12个栏目
+	 */
+	private void setListView4(){
+		
+		    list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+	        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+	        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+	        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+	        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+	        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+	        list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
+	        list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
+	        list_page_view9 = (XListView)page_view_9.findViewById(R.id.page_view_9);
+	        list_page_view10 = (XListView)page_view_10.findViewById(R.id.page_view_10);
+	        list_page_view11 = (XListView)page_view_11.findViewById(R.id.page_view_11);
+	        list_page_view12 = (XListView)page_view_12.findViewById(R.id.page_view_12);
 
+	       listArray.add(list_page_view1);
+	       listArray.add(list_page_view2);
+	       listArray.add(list_page_view3);
+	       listArray.add(list_page_view4);
+	       listArray.add(list_page_view5);
+	       listArray.add(list_page_view6);
+	       listArray.add(list_page_view7);
+	       listArray.add(list_page_view8);
+	       listArray.add(list_page_view9);
+	       listArray.add(list_page_view10);
+	       listArray.add(list_page_view11);
+	       listArray.add(list_page_view12);
+	       
+	       for (int i = 0; i < listArray.size(); i++) {
+	    	   listArray.get(i).setPullLoadEnable(true);
+	    	   listArray.get(i).setXListViewListener(this);
+		}
+	     
+	       map.clear();
+           listData.clear();
+   	        
+	       dataThread();
+      
+      
+    /*
+  	    ListAdapter adapter = new ListAdapter(this, listData1);
+		list_page_view1.setAdapter(adapter);
+		
+		ListAdapter adapter2 = new ListAdapter(this, listData2);
+		list_page_view2.setAdapter(adapter2);
+		
+		ListAdapter adapter3 = new ListAdapter(this, listData3);
+		list_page_view3.setAdapter(adapter3);
+		
+		ListAdapter adapter4 = new ListAdapter(this, listData4);
+		list_page_view4.setAdapter(adapter4);
+		
+		ListAdapter adapter5 = new ListAdapter(this, listData5);
+		list_page_view5.setAdapter(adapter5);
+		
+		ListAdapter adapter6 = new ListAdapter(this, listData6);
+		list_page_view6.setAdapter(adapter6);
+		
+		ListAdapter adapter7 = new ListAdapter(this, listData7);
+		list_page_view7.setAdapter(adapter7);
+		
+		ListAdapter adapter8 = new ListAdapter(this, listData8);
+		list_page_view8.setAdapter(adapter8);
+		
+		ListAdapter adapter9 = new ListAdapter(this, listData9);
+		list_page_view9.setAdapter(adapter9);
+		
+		ListAdapter adapter10 = new ListAdapter(this, listData10);
+		list_page_view10.setAdapter(adapter10);
+		
+		ListAdapter adapter11 = new ListAdapter(this, listData11);
+		list_page_view11.setAdapter(adapter11);
+		
+		ListAdapter adapter12 = new ListAdapter(this, listData12);
+		list_page_view12.setAdapter(adapter12);*/
+	}
+	
+	
+	/**
+	 * 6  第5个频道 共6个栏目
+	 */
+	private void setListView5(){
+		
+		    list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+	        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+	        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+	        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+	        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+	        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+	        
+	       
+
+	       listArray.add(list_page_view1);
+	       listArray.add(list_page_view2);
+	       listArray.add(list_page_view3);
+	       listArray.add(list_page_view4);
+	       listArray.add(list_page_view5);
+	       listArray.add(list_page_view6);
+	     
+	      
+	       
+	       for (int i = 0; i < listArray.size(); i++) {
+	    	   listArray.get(i).setPullLoadEnable(true);
+	    	   listArray.get(i).setXListViewListener(this);
+		}
+	     
+	       map.clear();
+           listData.clear();
+	       
+	       dataThread();
+
+	 
+/*
+		    ListAdapter adapter = new ListAdapter(this, listData1);
+		list_page_view1.setAdapter(adapter);
+		
+		ListAdapter adapter2 = new ListAdapter(this, listData2);
+		list_page_view2.setAdapter(adapter2);
+		
+		ListAdapter adapter3 = new ListAdapter(this, listData3);
+		list_page_view3.setAdapter(adapter3);
+		
+		ListAdapter adapter4 = new ListAdapter(this, listData4);
+		list_page_view4.setAdapter(adapter4);
+		
+		ListAdapter adapter5 = new ListAdapter(this, listData5);
+		list_page_view5.setAdapter(adapter5);
+		
+		ListAdapter adapter6 = new ListAdapter(this, listData6);
+		list_page_view6.setAdapter(adapter6);
+		*/
+	
+	}
+	
+	
 
 	
      /**
@@ -486,26 +835,53 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				// TODO Auto-generated method stub
-				String action = intent.getAction();  			
+				String action = intent.getAction();  
+				
+				
 				if (action.equals("news")) {
 					int column = intent.getIntExtra("column",0);
 					pageViews.clear();
 					switch (column) {
-					case 9:				
-						InItView(9);
-						break;
-					case 4:				
+					case 1:	
+						if (!(1 == LoadPage)) {
+							InItView(9);
+							LoadPage = 1;
+							LookPage = 0;
+							break;
+						}				
+						
+					case 2:	
+						if (!(2 == LoadPage)) {
 						InItView(4);
+						LoadPage = 2;
+						LookPage = 0;
 						break;
-					case 8:
+						}	
+						
+					case 3:
+						if (!(3 == LoadPage)) {
 						InItView(8);
+						LoadPage = 3;
+						LookPage = 0;
 						break;
-					case 12:	
+						}	
+						
+					case 4:	
+						if (!(4 == LoadPage)) {
 						InItView(12);
+						LoadPage = 4;
+						LookPage = 0;
 						break;
-					case 6:	
+						}	
+						
+					case 5:	
+						if (!(5 == LoadPage)) {
 						InItView(6);
+						LoadPage = 5;
+						LookPage = 0;
 						break;
+						}
+						
 					default:
 						break;
 					}				
@@ -534,12 +910,420 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		for (int i = 0; i < listArray.size(); i++) {
 			
 			listArray.get(i).stopRefresh();
-
 			listArray.get(i).stopLoadMore();
 			
 			//sumListView.setRefreshTime(timeString);
 		}
-		
-		
+	
 	}
+	
+	/**
+	 * 添加jason中读取第1个频道的数据,传入url
+	 */
+	private void dataThread() {
+		// TODO Auto-generated method stub
+		new Thread(){
+			public void run() {
+				//Test_Bean data;
+				try {	
+					//data = DataManeger.getTestData(urlStoreList);
+					//ArrayList<Test_Model> datalist = data.getData();
+					  
+					for (int i =1; i < 10; i++) {	
+						    
+						        map.put("title","ddddddg");	
+						        map.put("bigImageView",getString(R.drawable.ic_launcher));
+								listData.add(map);	
+								
+							}
+				
+					handler.sendEmptyMessage(1);					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}			
+		}.start();
+	}
+
+	/**
+	 * 添加jason中读取第2个频道的数据
+	 */
+/*	private void dataThread2() {
+		// TODO Auto-generated method stub
+		new Thread(){
+			public void run() {
+				
+				try {			
+					  for (int i =1; i < 10; i++) {			
+							itemMap1.put("title","张家朝");	
+							itemMap1.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData1.add(itemMap1);	
+							
+							itemMap2.put("title","张丰盛的");	
+							itemMap2.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData2.add(itemMap2);	
+							
+							itemMap3.put("title","张飞V大飞");	
+							itemMap3.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData3.add(itemMap3);	
+							
+							itemMap4.put("title","张规划图");	
+							itemMap4.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData4.add(itemMap4);							
+						}
+						
+					handler.sendEmptyMessage(2);					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}			
+		}.start();
+	}
+
+	*//**
+	 * 添加jason中读取第3个频道的数据
+	 *//*
+	private void dataThread3() {
+		// TODO Auto-generated method stub
+		new Thread(){
+			public void run() {
+				
+				try {			
+					for (int i =1; i < 10; i++) {			
+						itemMap1.put("title","ccccccccg");	
+						itemMap1.put("bigImageView",getString(R.drawable.ic_launcher));
+						listData1.add(itemMap1);	
+						
+						itemMap2.put("title","ccccccca");	
+						itemMap2.put("bigImageView",getString(R.drawable.ic_launcher));
+						listData2.add(itemMap2);	
+						
+						itemMap3.put("title","ccccccd");	
+						itemMap3.put("bigImageView",getString(R.drawable.ic_launcher));
+						listData3.add(itemMap3);	
+						
+						itemMap4.put("title","cccccccb");	
+						itemMap4.put("bigImageView",getString(R.drawable.ic_launcher));
+						listData4.add(itemMap4);	
+						
+						itemMap5.put("title","cccccccn");	
+						itemMap5.put("bigImageView",getString(R.drawable.ic_launcher));
+						listData5.add(itemMap5);	
+						
+						itemMap6.put("title","张北京");	
+						itemMap6.put("bigImageView",getString(R.drawable.ic_launcher));
+						listData6.add(itemMap6);	
+						
+						itemMap7.put("title","张山水");	
+						itemMap7.put("bigImageView",getString(R.drawable.ic_launcher));
+						listData7.add(itemMap7);	
+						
+						itemMap8.put("title","张哇哇哇");	
+						itemMap8.put("bigImageView",getString(R.drawable.ic_launcher));
+						listData8.add(itemMap8);	
+						
+					}
+						
+					handler.sendEmptyMessage(3);					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}			
+		}.start();
+	}
+
+	*//**
+	 * 添加jason中读取第4个频道的数据
+	 *//*
+	private void dataThread4() {
+		// TODO Auto-generated method stub
+		new Thread(){
+			public void run() {
+				
+				try {			
+					  for (int i =1; i < 10; i++) {			
+							itemMap1.put("title","aaaaaaaaa");	
+							itemMap1.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData1.add(itemMap1);	
+							
+							itemMap2.put("title","aaaaaab");	
+							itemMap2.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData2.add(itemMap2);	
+							
+							itemMap3.put("title","aaaaaac");	
+							itemMap3.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData3.add(itemMap3);	
+							
+							itemMap4.put("title","aaaaaf");	
+							itemMap4.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData4.add(itemMap4);	
+							
+							itemMap5.put("title","张大多数");	
+							itemMap5.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData5.add(itemMap5);	
+							
+							itemMap6.put("title","张北京");	
+							itemMap6.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData6.add(itemMap6);	
+							
+							itemMap7.put("title","张山水");	
+							itemMap7.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData7.add(itemMap7);	
+							
+							itemMap8.put("title","张哇哇哇");	
+							itemMap8.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData8.add(itemMap8);	
+							
+							itemMap9.put("title","张wdw");	
+							itemMap9.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData9.add(itemMap9);	
+							
+							itemMap10.put("title","张lko");	
+							itemMap10.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData10.add(itemMap10);	
+							
+							itemMap11.put("title","张王串场");	
+							itemMap11.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData11.add(itemMap11);	
+							
+							itemMap12.put("title","张咯品牌");	
+							itemMap12.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData12.add(itemMap12);	
+						}
+				    
+						
+					handler.sendEmptyMessage(4);					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}			
+		}.start();
+	}
+
+	*//**
+	 * 添加jason中读取第5个频道的数据
+	 *//*
+	private void dataThread5() {
+		// TODO Auto-generated method stub
+		new Thread(){
+			public void run() {
+				
+				try {			
+					 for (int i =1; i < 10; i++) {	
+						    map.clear();
+						 
+							map.put("title","bbbbbbbt");	
+							map.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData.add(map);	
+							
+							itemMap2.put("title","bbbbbbbg");	
+							itemMap2.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData2.add(itemMap2);	
+							
+							itemMap3.put("title","bbbbbbby");	
+							itemMap3.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData3.add(itemMap3);	
+							
+							itemMap4.put("title","bbbbbf");	
+							itemMap4.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData4.add(itemMap4);	
+							
+							itemMap5.put("title","张大多数");	
+							itemMap5.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData5.add(itemMap5);	
+							
+							itemMap6.put("title","张北京");	
+							itemMap6.put("bigImageView",getString(R.drawable.ic_launcher));
+							listData6.add(itemMap6);	
+							
+						}
+						
+					handler.sendEmptyMessage(5);					
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}			
+		}.start();
+	}
+*/
+	
+	
+	/**
+	 * 把从json中获取的数据存入listview中
+	 * 此为一个列表的数据
+	 */
+	private void setOneListView(XListView list_page_view, ArrayList<HashMap<String, String>> listData) {
+		// TODO Auto-generated method stub    
+	    Log.v("-------1159-------", listData.size()+"");
+		ListAdapter adapter = new ListAdapter(this, listData);
+		list_page_view.setAdapter(adapter);
+	//	ListViewAdapter listViewAdapter = new ListViewAdapter(this, list, selfScore,user_name_string);    	    
+	//	listView.setAdapter(listViewAdapter);		
+	}
+	
+	/**
+	 * 通过handler
+	 */
+	private Handler handler = new Handler()
+	{
+
+		@Override
+		public void handleMessage(Message msg) {
+			Log.v("------1156----", msg.what+"----load"+LoadPage+"----look"+LookPage);
+			if (LoadPage == 0 || LoadPage ==1) {
+				switch (LookPage) {
+				case 0:
+					setOneListView(list_page_view1,listData);		
+					break;
+				case 1:
+					setOneListView(list_page_view2,listData);					
+					break;
+				case 2:
+					setOneListView(list_page_view3,listData);	
+					break;
+				case 3:
+					setOneListView(list_page_view4,listData);	
+					break;
+				case 4:
+					setOneListView(list_page_view5,listData);	
+					break;
+				case 5:
+					setOneListView(list_page_view6,listData);	
+					break;
+				case 6:
+					setOneListView(list_page_view7,listData);	
+					break;
+				case 7:
+					setOneListView(list_page_view8,listData);	
+					break;
+				case 8:
+					setOneListView(list_page_view9,listData);	
+					break;
+				default:
+					break;
+				}
+			}else if(LoadPage == 2){
+				switch (LookPage) {
+				case 0:
+					setOneListView(list_page_view1,listData);		
+					break;
+				case 1:
+					setOneListView(list_page_view2,listData);						
+					break;
+				case 2:
+					setOneListView(list_page_view3,listData);		
+					break;
+				case 3:
+					setOneListView(list_page_view4,listData);		
+					break;
+				default:
+					break;
+				}
+			}else if(LoadPage == 3){
+				switch (LookPage) {
+				case 0:
+					setOneListView(list_page_view1,listData);		
+					break;
+				case 1:
+					setOneListView(list_page_view2,listData);				
+					break;
+				case 2:
+					setOneListView(list_page_view3,listData);
+					break;
+				case 3:
+					setOneListView(list_page_view4,listData);
+					break;
+				case 4:
+					setOneListView(list_page_view5,listData);
+					break;
+				case 5:
+					setOneListView(list_page_view6,listData);
+					break;
+				case 6:
+					setOneListView(list_page_view7,listData);
+					break;
+				case 7:
+					setOneListView(list_page_view8,listData);
+				default:
+					break;
+				}	
+			}else if(LoadPage == 4){
+				switch (LookPage) {
+				case 0:
+					setOneListView(list_page_view1,listData);		
+					break;
+				case 1:
+					setOneListView(list_page_view2,listData);				
+					break;
+				case 2:
+					setOneListView(list_page_view3,listData);
+					break;
+				case 3:
+					setOneListView(list_page_view4,listData);
+					break;
+				case 4:
+					setOneListView(list_page_view5,listData);
+					break;
+				case 5:
+					setOneListView(list_page_view6,listData);
+					break;
+				case 6:
+					setOneListView(list_page_view7,listData);
+					break;
+				case 7:
+					setOneListView(list_page_view8,listData);
+					break;
+				case 8:
+					setOneListView(list_page_view9,listData);
+					break;
+                case 9:
+                	setOneListView(list_page_view10,listData);
+					break;
+				case 10:
+					setOneListView(list_page_view11,listData);
+					break;
+				case 11:
+					setOneListView(list_page_view12,listData);
+					break;
+				default:
+					break;
+				}
+			}else if (LoadPage == 5) {
+				switch (LookPage) {
+				case 0:
+					setOneListView(list_page_view1,listData);		
+					break;
+				case 1:
+					setOneListView(list_page_view2,listData);				
+					break;
+				case 2:
+					setOneListView(list_page_view3,listData);
+					break;
+				case 3:
+					setOneListView(list_page_view4,listData);
+					break;
+				case 4:
+					setOneListView(list_page_view5,listData);
+					break;
+				case 5:
+					setOneListView(list_page_view6,listData);
+					break;
+				default:
+					break;
+				}		
+			}
+			
+			
+			// TODO Auto-generated method stub
+		//	switch (msg.what) {
+		
+		}
+	
+	};
+	
 }

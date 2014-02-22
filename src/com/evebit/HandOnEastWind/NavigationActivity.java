@@ -71,7 +71,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				public void onClick(View v) {
 					// TODO Auto-generated method stub	
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
-					brodeNewsColumn(9);
+					brodeNewsColumn(1);
 					brodeTabhost();				
 				}
 			});
@@ -81,7 +81,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			public void onClick(View v) {
 				// TODO Auto-generated method stub	
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
-					brodeNewsColumn(4); 
+					brodeNewsColumn(2); 
 					brodeTabhost();		
 			}
 		});
@@ -92,7 +92,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 			    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
-				brodeNewsColumn(8);
+				brodeNewsColumn(3);
 				brodeTabhost();
 			}
 		});
@@ -102,7 +102,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
-					brodeNewsColumn(12);
+					brodeNewsColumn(4);
 					brodeTabhost();
 				}
 			});
@@ -112,7 +112,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					//广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
-					brodeNewsColumn(6);
+					brodeNewsColumn(5);
 					brodeTabhost();
 				}
 			});
