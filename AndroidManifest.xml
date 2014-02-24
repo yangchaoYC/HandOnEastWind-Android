@@ -36,11 +36,13 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name="MyApplication" >
         
         <activity
             android:name="com.evebit.HandOnEastWind.LauchActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -51,32 +53,26 @@
             				android:label="@string/app_name"
             				android:screenOrientation="portrait"
             				></activity>
-        
-         <activity android:name="com.evebit.HandOnEastWind.CarTechActivity"
+          <activity android:name="com.evebit.HandOnEastWind.NavigationActivity"
             				android:label="@string/app_name"
             				android:screenOrientation="portrait"
             				></activity>
          
-         <activity android:name="com.evebit.HandOnEastWind.CarTravelActivity"
-            				android:label="@string/app_name"
-            				android:screenOrientation="portrait"
-            				></activity>
-         
-         <activity android:name="com.evebit.HandOnEastWind.EastWindActivity"
-            				android:label="@string/app_name"
-            				android:screenOrientation="portrait"
-            				></activity>
          
          <activity android:name="com.evebit.HandOnEastWind.EastWindNewsActivity"
             				android:label="@string/app_name"
             				android:screenOrientation="portrait"
             				></activity>
-         
-         <activity android:name="com.evebit.HandOnEastWind.EquipFixActivity"
+        
+          <activity android:name="com.evebit.HandOnEastWind.WebActivity"
             				android:label="@string/app_name"
             				android:screenOrientation="portrait"
             				></activity>
-        
+          
+          <activity android:name="com.evebit.HandOnEastWind.SettingActivity"
+            				android:label="@string/app_name"
+            				android:screenOrientation="portrait"
+            				></activity>
         
           <!-- ###################注册SDK使用的Activity###################### -->
         <!--分享编辑页-->
@@ -163,7 +159,7 @@
         <!-- 目前这个渠道统计功能的报表还未开放。-->
         <meta-data android:name="JPUSH_CHANNEL" android:value="developer-default"/>
         <!-- Required. AppKey copied from Portal -->
-        <meta-data android:name="JPUSH_APPKEY" android:value="f45eb456c096275b66bf60f9"/> 
+        <meta-data android:name="JPUSH_APPKEY" android:value="0984c723ec1fb26a2a884a40"/> 
         
          <!-- ###################添加UmengAppkey###################### -->
         <meta-data

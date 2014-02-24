@@ -1,54 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:tools="http://schemas.android.com/tools" 
-    android:id="@+id/tabhost" 
+    android:id="@android:id/tabhost"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-      <LinearLayout 
-            android:layout_width="fill_parent" 
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >  
-  
-            <!-- FrameLayout的id属性必须为 @android:id/tabcontent-->  
-            <FrameLayout 
-                android:id="@android:id/tabcontent"  
-                 android:layout_weight="1"
-                android:layout_width="fill_parent" 
-                android:layout_height="0dp">  
-                <TextView 
-                    android:id="@+id/view1" 
-                    android:layout_width="wrap_content"  
-                    android:layout_height="wrap_content"   
-                    />  
-                <TextView 
-                    android:id="@+id/view2" 
-                    android:layout_width="wrap_content"  
-                    android:layout_height="wrap_content" />  
-                <TextView 
-                    android:id="@+id/view3" 
-                    android:layout_width="wrap_content"  
-                    android:layout_height="wrap_content" />  
-                <TextView 
-                    android:id="@+id/view4" 
-                    android:layout_width="wrap_content"  
-                    android:layout_height="wrap_content" />  
-                <TextView 
-                    android:id="@+id/view5" 
-                    android:layout_width="wrap_content"  
-                    android:layout_height="wrap_content" />  
-            </FrameLayout>  
-           
-                <!-- TabWidget的id属性必须为 @android:id/tabs-->  
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <FrameLayout
+        android:id="@android:id/tabcontent"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+    <TabWidget
+        android:id="@android:id/tabs"
+        android:layout_width="fill_parent"
+        android:layout_height="110px"
+        android:background="#FFFFFF"
+        android:visibility="gone" >
+    </TabWidget>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+        <RadioGroup
+            android:id="@+id/main_radio"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"        
+            android:gravity="center"
+            >
+            <!-- 导航 -->
+            <RadioButton
+                android:id="@+id/radio_button0"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:drawableTop="@drawable/icon_1_n"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="10dip"
+                android:text="@string/main_navigation"/>
+            <!-- android:background="@drawable/main_radio_bg" -->
+             <!-- 新闻 -->"
+            <RadioButton
+                android:id="@+id/radio_button1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="10dip"
+                android:text="@string/main_news" 
+                android:drawableTop="@drawable/icon_2_n" />
+             <!-- 分享 -->
+            <RadioButton
+                android:id="@+id/radio_button2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="10dip"
+                android:text="@string/main_share" 
+                android:drawableTop="@drawable/icon_3_n" />
+             <!-- 设置 -->
+            <RadioButton
+                android:id="@+id/radio_button3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:button="@null"
+                android:gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:textSize="10dip"
+                android:text="@string/main_setting" 
+                android:drawableTop="@drawable/icon_4_n" />
+        </RadioGroup>
+    </LinearLayout>
 
-                <TabWidget
-                    android:id="@android:id/tabs"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:orientation="horizontal"
-                    android:paddingBottom="0dp" >
-  
-                </TabWidget>  
-          
-        </LinearLayout>  
+</LinearLayout>
 
 </TabHost>
