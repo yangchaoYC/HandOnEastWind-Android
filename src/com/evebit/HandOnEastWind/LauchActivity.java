@@ -46,12 +46,17 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	   private final int SPLASH_DISPLAY_LENGHT = 2000; //2秒后跳转主页面
 	   private Boolean flag= false; //标记是否第一次登陆
 	   
-	   public static final String LAUCH_URL = "http://zhangshangdongfeng.drupal.test.com/"; 
+	   public static final String LAUCH_URL = "http://zhangshangdongfeng.demo.evebit.com/"; 
 	   
-	   public static final String LAUCH_DATE_title = "title"; 
-	   public static final String LAUCH_DATE_content = "content"; 
-	   public static final String LAUCH_DATE_image = "image"; 
-	   public static final String LAUCH_DATE_bigImageView = "bigImageView"; 
+	   public static final String LAUCH_DATE_node_title = "node_title"; 
+	   public static final String LAUCH_DATE_node_created = "node_created"; 
+	   public static final String LAUCH_DATE_field_channel = "field_channel"; 
+	   public static final String LAUCH_DATE_field_newsfrom = "field_newsfrom"; 
+	   public static final String LAUCH_DATE_field_thumbnails = "field_thumbnails"; 
+	   public static final String LAUCH_DATE_field_summary = "field_summary"; 
+	   public static final String LAUCH_DATE_body_1 = "body_1"; 
+	   public static final String LAUCH_DATE_body_2 = "body_2"; 
+	   public static final String LAUCH_DATE_nid = "nid"; 
 
 	   //滑动选项卡
 	   GestureDetector mGestureDetector;  

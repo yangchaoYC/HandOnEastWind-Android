@@ -34,7 +34,7 @@ import android.webkit.WebView;
 @SuppressLint("JavascriptInterface")
 public class WebActivity extends Activity {
       
-	 
+	 //文章ID==LauchActivity.LAUCH_URL + "news/"+nid+".html"
 	private WebView webView;//主体
 	private String webValue;//存储网页返回的值，一般为视频地址
 	private Handler webHandler = new Handler();

@@ -26,12 +26,15 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.HorizontalScrollView;
@@ -74,17 +77,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		private int H_width;
         private LinearLayout linearLayout;
         private XListView list_page_view1,list_page_view2,list_page_view3,list_page_view4,list_page_view5,list_page_view6,list_page_view7,list_page_view8,list_page_view9,list_page_view10,list_page_view11,list_page_view12;
-	    
-        private Boolean addListView = false;
-	    private Boolean moveItem = false;
         
 	    private int LoadPage = 0; //当前为哪个频道，0,1 为第一个频道，2,3,4,5、、、0代表第一次进入
 	    private int LookPage = 0; //当前的栏目id,
 	    
+	    private boolean flag = true; //默认可以滑动
+
+	    
 	    private ArrayList<XListView> listArray = new ArrayList<XListView>();
 	    
-	    private int pageId = 0;//分页id
-        private int mark = 0; //分页数
+	    private int pageId = 15;//频道id
+        
+        private int  mark [] =  {0,0,0,0,0,0,0,0,0,0,0,0};
         
 	    private String NewsUrl = "";
 	    private ArrayList<HashMap<String, Object>> dateMap =  new ArrayList<HashMap<String, Object>>();	 
@@ -106,7 +110,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	    	
 	    	    pageViews = new ArrayList<View>(); 
 			    LayoutInflater inflater = getLayoutInflater(); 
-		        //12个pageView的容器对应的xml
+			    
 			    page_view_1 = inflater.inflate(R.layout.page_view1, null);
 			    page_view_2 = inflater.inflate(R.layout.page_view2, null);
 			    page_view_3 = inflater.inflate(R.layout.page_view3, null);
@@ -119,8 +123,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				page_view_10 = inflater.inflate(R.layout.page_view10, null);
 				page_view_11 = inflater.inflate(R.layout.page_view11, null);
 				page_view_12 = inflater.inflate(R.layout.page_view12, null);
-		      
-	    	
+				
 		    	pageViews.add(page_view_1);
 		        pageViews.add(page_view_2);
 		        pageViews.add(page_view_3); 
@@ -137,7 +140,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			     
 				break;
 			case 8:
-				 LoadPage = 3;
+				 LoadPage = 3;     //12个pageView的容器对应的xml
 				 pageViews.add(page_view_5);
 			     pageViews.add(page_view_6); 
 			     pageViews.add(page_view_7);
@@ -168,7 +171,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			default:
 				break;
 			}
-   
 		    setView(i);
 
 	}    
@@ -246,8 +248,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		  IntentFilter intentFilter = new IntentFilter();  
 	      intentFilter.addAction("news");  
 	      registerReceiver(receiver, intentFilter);
-         
-	      
 	      arrayArray.add(listData1);
 	      arrayArray.add(listData2);
 	      arrayArray.add(listData3);
@@ -262,14 +262,11 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      arrayArray.add(listData12);
 	      //默认为东风汽车报频道，此频道有9个栏目  
 	      InItView(9);
-		
-		 
-
 	}
 	
 	
-	public void setUrl(){
-		NewsUrl = LauchActivity.LAUCH_URL + "mobile/news/?field_channel_tid="+pageId+"&page="+mark;
+	public void setUrl(int pageID){
+		NewsUrl = LauchActivity.LAUCH_URL + "mobile/news/?field_channel_tid="+pageID+"&page="+mark[LookPage];		
 	}
 
 	/**
@@ -283,7 +280,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 * 
 	 */
     public void setView(final int i){
-    	
     	   LayoutInflater inflater = getLayoutInflater(); 
 		   eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.tab_view1, null); 
 		   viewPager = (ViewPager)eastWindNewsGroup.findViewById(R.id.tabView1_container);	  
@@ -295,57 +291,55 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	       
 	       switch (i) {
 		case 9:		
-			 list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
-		     list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
-		     list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
-		     list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
-		     list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
-		     list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
-		     list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
-		     list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
-		     list_page_view9 = (XListView)page_view_9.findViewById(R.id.page_view_9);
-		     listArray.add(list_page_view1);
-		     listArray.add(list_page_view2);
-		     listArray.add(list_page_view3);
-		     listArray.add(list_page_view4);
-		     listArray.add(list_page_view5);
-		     listArray.add(list_page_view6);
-		     listArray.add(list_page_view7);
-		     listArray.add(list_page_view8);
-		     listArray.add(list_page_view9);
-		     array_deledate();
 			 InItTitle1(title1);
 			 setSelector(0,title1);	
-			 setListView1();
+			 Log.v("eastwindnews --- 316-- ", "---");
+			 list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+			 list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+			 list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+			 list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+			 list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+			 list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+			 list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
+			 list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
+			 list_page_view9 = (XListView)page_view_9.findViewById(R.id.page_view_9);
+			 listArray.add(list_page_view1);
+			 listArray.add(list_page_view2);
+			 listArray.add(list_page_view3);
+			 listArray.add(list_page_view4);
+			 listArray.add(list_page_view5);
+			 listArray.add(list_page_view6);
+			 listArray.add(list_page_view7);
+			 listArray.add(list_page_view8);
+			 listArray.add(list_page_view9);
+			 array_deledate();
+			 setListView();
 			break;
         case 4:
+            InItTitle1(title2);
+        	setSelector(0,title2);
         	list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
-     	    list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
-     	    list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
-     	    list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
-     	
-     	    listArray.add(list_page_view1);
-     	    listArray.add(list_page_view2);
-     	    listArray.add(list_page_view3);
-     	    listArray.add(list_page_view4);
-     	   array_deledate();
-        	 InItTitle1(title2);
-        	 setSelector(0,title2);
-        	 setListView2();
+      	    list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+      	    list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+      	    list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+      	    listArray.add(list_page_view1);
+      	    listArray.add(list_page_view2);
+      	    listArray.add(list_page_view3);
+      	    listArray.add(list_page_view4);
+      	    array_deledate();
+        	setListView();
 			break;
         case 8:
-        	
-        	 list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
-             list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
-             list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
-             list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
-             list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
-             list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
-             list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
-             list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
-          
-            
-
+        	InItTitle1(title3);
+        	setSelector(0,title3);
+        	list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+            list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+            list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+            list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+            list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+            list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+            list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
+            list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
             listArray.add(list_page_view1);
             listArray.add(list_page_view2);
             listArray.add(list_page_view3);
@@ -355,64 +349,60 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
             listArray.add(list_page_view7);
             listArray.add(list_page_view8);
             array_deledate();
-        	 InItTitle1(title3);
-        	 setSelector(0,title3);
-        	 setListView3();
+        	setListView();
 			break;
         case 12:
         	
-        	list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
-	        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
-	        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
-	        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
-	        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
-	        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
-	        list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
-	        list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
-	        list_page_view9 = (XListView)page_view_9.findViewById(R.id.page_view_9);
-	        list_page_view10 = (XListView)page_view_10.findViewById(R.id.page_view_10);
-	        list_page_view11 = (XListView)page_view_11.findViewById(R.id.page_view_11);
-	        list_page_view12 = (XListView)page_view_12.findViewById(R.id.page_view_12);
-
-	       listArray.add(list_page_view1);
-	       listArray.add(list_page_view2);
-	       listArray.add(list_page_view3);
-	       listArray.add(list_page_view4);
-	       listArray.add(list_page_view5);
-	       listArray.add(list_page_view6);
-	       listArray.add(list_page_view7);
-	       listArray.add(list_page_view8);
-	       listArray.add(list_page_view9);
-	       listArray.add(list_page_view10);
-	       listArray.add(list_page_view11);
-	       listArray.add(list_page_view12);
-	       array_deledate();
+        
         	 InItTitle1(title4);
         	 setSelector(0,title4);
-        	 setListView4();
+        		list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+    	        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+    	        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+    	        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+    	        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+    	        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+    	        list_page_view7 = (XListView)page_view_7.findViewById(R.id.page_view_7);
+    	        list_page_view8 = (XListView)page_view_8.findViewById(R.id.page_view_8); 
+    	        list_page_view9 = (XListView)page_view_9.findViewById(R.id.page_view_9);
+    	        list_page_view10 = (XListView)page_view_10.findViewById(R.id.page_view_10);
+    	        list_page_view11 = (XListView)page_view_11.findViewById(R.id.page_view_11);
+    	        list_page_view12 = (XListView)page_view_12.findViewById(R.id.page_view_12);
+
+    	       listArray.add(list_page_view1);
+    	       listArray.add(list_page_view2);
+    	       listArray.add(list_page_view3);
+    	       listArray.add(list_page_view4);
+    	       listArray.add(list_page_view5);
+    	       listArray.add(list_page_view6);
+    	       listArray.add(list_page_view7);
+    	       listArray.add(list_page_view8);
+    	       listArray.add(list_page_view9);
+    	       listArray.add(list_page_view10);
+    	       listArray.add(list_page_view11);
+    	       listArray.add(list_page_view12);
+    	       array_deledate();
+        	 setListView();
 			break;
         case 6:
         	
 
-		    list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
-	        list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
-	        list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
-	        list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
-	        list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
-	        list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
-	        
-	       
-
-	       listArray.add(list_page_view1);
-	       listArray.add(list_page_view2);
-	       listArray.add(list_page_view3);
-	       listArray.add(list_page_view4);
-	       listArray.add(list_page_view5);
-	       listArray.add(list_page_view6);
-	       array_deledate();
-        	 InItTitle1(title5);
-        	 setSelector(0,title5);
-        	 setListView5();
+        	InItTitle1(title5);
+        	setSelector(0,title5);
+ 		   list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
+ 	       list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
+ 	       list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
+ 	       list_page_view4 = (XListView)page_view_4.findViewById(R.id.page_view_4);
+ 	       list_page_view5 = (XListView)page_view_5.findViewById(R.id.page_view_5);
+ 	       list_page_view6 = (XListView)page_view_6.findViewById(R.id.page_view_6);
+ 	       listArray.add(list_page_view1);
+ 	       listArray.add(list_page_view2);
+ 	       listArray.add(list_page_view3);
+ 	       listArray.add(list_page_view4);
+ 	       listArray.add(list_page_view5);
+ 	       listArray.add(list_page_view6);
+ 	       array_deledate();
+           setListView();
 			break;
 		default:
 			break;
@@ -420,9 +410,20 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		
 			viewPager.setAdapter(new myPagerView());
 			viewPager.clearAnimation();
+			viewPager.setOnTouchListener( new OnTouchListener() {
+				
+				@Override
+				public boolean onTouch(View v, MotionEvent event) {
+					// TODO Auto-generated method stub
+					if (!flag) {
+						return true; //不能滑动
+					}else {
+						return false;
+					}
+				}
+			});
+			
 			viewPager.setOnPageChangeListener(new OnPageChangeListener() {
-			
-			
 				@Override
 				public void onPageSelected(int arg0) {	
 					LookPage = arg0;
@@ -431,19 +432,23 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					switch (i) {
 					case 9:
 						setSelector(arg0,title1);
-					
+						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 4:
-						setSelector(arg0,title2);					
+						setSelector(arg0,title2);	
+						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 8:
 						setSelector(arg0,title3);
+						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 12:
 						setSelector(arg0,title4);
+						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 6:
 						setSelector(arg0,title5);
+						selectorDate(pageId+LookPage);//切换数据
 						break;
 					default:
 						break;
@@ -463,6 +468,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		}
 
     /**
+     * 
+     * @param pageID  频道ID
+     */
+    private void selectorDate(int pageID)
+    {
+    	Log.v("-----east----483", String.valueOf(LookPage));
+    	setUrl(pageID);
+    	dataThread();
+    }
+    
+    
+    /**
      * 点击事件，loadpage对应的其相对应的栏目
      * 0,1 对应第1个栏目
      * 2   对应第2个栏目 
@@ -473,38 +490,29 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		@Override
 		public void onClick(View v) {
 			LookPage = v.getId();
-			
+			Log.v("eastwindnews---lookpage ----", String.valueOf(LookPage));
 			switch (LoadPage) {
 			case 0:
 				setSelector(v.getId(),title1);
-				pageId = 15+ v.getId();
-				
 				break;
 			case 1:
 				setSelector(v.getId(),title1);
-				pageId = 15+ v.getId();
 				break;
 			case 2:
 				setSelector(v.getId(),title2);	
-				pageId = 24+ v.getId();
 				break;
 			case 3:
 				setSelector(v.getId(),title3);
-				pageId = 28+ v.getId();
 				break;
 			case 4:
 				setSelector(v.getId(),title4);
-				pageId = 35+ v.getId();
 				break;
 			case 5:
 				setSelector(v.getId(),title5);
-				pageId = 47+ v.getId();
 				break;
 			default:
 				break;
 			}	
-	    	setUrl();
-		  dataThread();
 		}
 
 		
@@ -543,6 +551,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		    	return pageViews.get(arg1);
 			}
 
+			
+			
+			
 		}
     
 	/**
@@ -566,58 +577,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	/**
 	 * 9   第1个频道 共9个栏目
 	 */
-       private void setListView1(){
-	    //   map.clear();
-         //  listData.clear();
-           setUrl();
-           Log.v("-------470------", NewsUrl);
+       private void setListView(){  
+           setUrl(pageId);
            dataThread();
 	}
-	
-	/**
-	 *  4   第2个频道 共4个栏目
-	 */
-	private void setListView2(){
-       listData1.clear();
-       setUrl();
-	   dataThread();
-	}
-	
-	/**
-	 * 8   第3个频道 共8个栏目
-	 */
-	private void setListView3(){
-     //  map.clear();
-     //  listData.clear();
-       setUrl();     
-       dataThread();
-	}
-	
-	
-	/**
-	 * 12 第4个频道 共12个栏目
-	 */
-	private void setListView4(){
-	     //  map.clear();
-         //  listData.clear();
-	       setUrl();
-	       dataThread();
-	}
-	
-	
-	/**
-	 * 6  第5个频道 共6个栏目
-	 */
-	private void setListView5(){
-	    //   map.clear();
-        //   listData.clear();
-	       setUrl();
-	       dataThread();
-	}
-	
-	
-
-	
      /**
       * 广播接收器
       * 接受需要的栏目数，并由此可判断为哪个栏目
@@ -636,6 +599,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					else {
 						for (int i = 0; i < arrayArray.size(); i++) {
 							arrayArray.get(i).clear();
+							mark[i] = 0;//清空页数
 						}
 						pageViews.clear();
 						
@@ -682,7 +646,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	public void onRefresh() {
 		// TODO Auto-generated method stub
 		
-		mark = 0;	
+		//mark = 0;	
+		mark[LookPage] = 0 ;
 		onLoad();
 	}
 
@@ -690,6 +655,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
+		
+		
+		mark[LookPage] = mark[LookPage] + 1;//记录下拉页数
+	//	selectorDate(pageId + LookPage);//判断数据地址
 		onLoad();
 	}
 
@@ -716,13 +685,28 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					  Log.v("-------470------", NewsUrl);
 					data = DataManeger.getTestData(NewsUrl);
 					ArrayList<Test_Model> datalist = data.getData();
-					
+					/**
+					nid;//文章ID
+					node_title;//文章标题
+					node_created;//文章创建时间
+					field_channel;//频道
+					field_newsfrom;//新闻来源
+					field_thumbnails;//文章缩略图
+					field_summary;//文章摘要
+					body_1;//图片格式详细内容
+					body_2;//无图片格式详细内容
+					 */
 					HashMap<String, Object> itemMap = new HashMap<String, Object>();
 					for (Test_Model test_Model : datalist) {					    
-						itemMap.put(LauchActivity.LAUCH_DATE_title,(test_Model.getNode_title()==null? "": test_Model.getNode_title()));	
-						itemMap.put(LauchActivity.LAUCH_DATE_content,(test_Model.getField_summary()==null? "": test_Model.getField_summary()));
-						itemMap.put(LauchActivity.LAUCH_DATE_image, (test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails()));
-						itemMap.put(LauchActivity.LAUCH_DATE_bigImageView,getString(R.drawable.ic_launcher));
+						itemMap.put(LauchActivity.LAUCH_DATE_nid,(test_Model.getId()==null? "": test_Model.getId()));
+						itemMap.put(LauchActivity.LAUCH_DATE_node_title,(test_Model.getNode_title()==null? "": test_Model.getNode_title()));	
+						itemMap.put(LauchActivity.LAUCH_DATE_node_created, (test_Model.getNode_created()==null? "": test_Model.getNode_created()));
+						itemMap.put(LauchActivity.LAUCH_DATE_field_channel, (test_Model.getField_channel()==null? "": test_Model.getField_channel()));
+						itemMap.put(LauchActivity.LAUCH_DATE_field_newsfrom,(test_Model.getField_newsfrom()==null? "": test_Model.getField_newsfrom()));
+						itemMap.put(LauchActivity.LAUCH_DATE_field_thumbnails, (test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails()));
+						itemMap.put(LauchActivity.LAUCH_DATE_field_summary, (test_Model.getField_summary()==null? "": test_Model.getField_summary()));
+						itemMap.put(LauchActivity.LAUCH_DATE_body_1, (test_Model.getBody_1()==null? "": test_Model.getBody_1()));
+						itemMap.put(LauchActivity.LAUCH_DATE_body_2, (test_Model.getBody_2()==null? "": test_Model.getBody_2()));
 						dateMap.add(itemMap);	
 					}
 					
@@ -735,33 +719,37 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		}.start();
 	}
 
-	
-	
 	/**
 	 * 把从json中获取的数据存入listview中
 	 * 此为一个列表的数据
 	 */
 	private void setOneListView(XListView list_page_view, ArrayList<HashMap<String, Object>> listData) {
-		// TODO Auto-generated method stub    
+		// TODO Auto-generated method stub   
+		
 		for (int i = 0; i < dateMap.size(); i++) {
 			HashMap<String, Object> itemMap = new HashMap<String, Object>();
-			itemMap.put(LauchActivity.LAUCH_DATE_title,dateMap.get(i).get(LauchActivity.LAUCH_DATE_title));
-			itemMap.put(LauchActivity.LAUCH_DATE_content,("¥："+dateMap.get(i).get(LauchActivity.LAUCH_DATE_content)));
-			itemMap.put(LauchActivity.LAUCH_DATE_image,dateMap.get(i).get(LauchActivity.LAUCH_DATE_image));
-			itemMap.put(LauchActivity.LAUCH_DATE_bigImageView,dateMap.get(i).get(LauchActivity.LAUCH_DATE_bigImageView));
+			itemMap.put(LauchActivity.LAUCH_DATE_nid,dateMap.get(i).get(LauchActivity.LAUCH_DATE_nid));
+			itemMap.put(LauchActivity.LAUCH_DATE_node_title,("¥："+dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_title)));
+			itemMap.put(LauchActivity.LAUCH_DATE_node_created,dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created));
+			itemMap.put(LauchActivity.LAUCH_DATE_field_channel,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_channel));
+			itemMap.put(LauchActivity.LAUCH_DATE_field_newsfrom,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_newsfrom));
+			itemMap.put(LauchActivity.LAUCH_DATE_field_thumbnails,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_thumbnails)));
+			itemMap.put(LauchActivity.LAUCH_DATE_field_summary,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_summary));
+			itemMap.put(LauchActivity.LAUCH_DATE_body_1,dateMap.get(i).get(LauchActivity.LAUCH_DATE_body_1));
+			itemMap.put(LauchActivity.LAUCH_DATE_body_2,dateMap.get(i).get(LauchActivity.LAUCH_DATE_body_2));
 			listData.add(itemMap);
 		}
 		dateMap.clear();
 		ListAdapter adapter = new ListAdapter(this, listData);
-		list_page_view.setAdapter(adapter);
+		list_page_view.setAdapter(adapter);//
 	}
 	
 	/**
 	 * 选择显示不同的列表
 	 */
 	private void chooseShowView(){
-		if (LoadPage == 0 || LoadPage ==1) {
-			switch (LookPage) {
+		if (LoadPage == 0 || LoadPage ==1) {//判断是哪个频道
+			switch (LookPage) {//判断是哪个栏目
 			case 0:
 				setOneListView(list_page_view1,listData1);		
 				break;
@@ -923,9 +911,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			default:
 				break;
 			}
-			
-	
-		
 		}
 	
 	};
