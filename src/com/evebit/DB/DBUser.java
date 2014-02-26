@@ -1,6 +1,8 @@
 package com.evebit.DB;
 
 public class DBUser {
+	   private int id;//文章ID
+	   
 	   private String nid;//文章ID
 	   /////////////getter and setter///////////////
 	   private String node_title;//文章标题
@@ -12,11 +14,19 @@ public class DBUser {
 	   private String body_1;//图片格式详细内容
 	   private String body_2;//无图片格式详细内容
 
+	   public int getId() 
+	   {
+		   return id;
+	   }
+		   public void setId(int id) {
+		   this.id = id;
+		   }
 	   
-	   public String getId() {
+	   
+	   public String getNid() {
 	   return nid;
 	   }
-	   public void setId(String nid) {
+	   public void setNid(String nid) {
 	   this.nid = nid;
 	   }
 	   

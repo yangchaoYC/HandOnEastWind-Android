@@ -20,7 +20,7 @@ import android.widget.TextView;
 public class ListAdapter extends BaseAdapter {
 
 	private Context context;
-	private ArrayList<HashMap<String, Object>> list;   
+	private ArrayList<HashMap<String, String>> list;   
     private LayoutInflater listContainer;  
     public ImageLoader imageLoader; 
     
@@ -35,7 +35,7 @@ public class ListAdapter extends BaseAdapter {
     
  }     
     
-    public ListAdapter(Context context, ArrayList<HashMap<String, Object>> list) {
+    public ListAdapter(Context context, ArrayList<HashMap<String, String>> list) {
 		// TODO Auto-generated constructor stub	
 		this.context=context;
 	    this.list=list;	 
