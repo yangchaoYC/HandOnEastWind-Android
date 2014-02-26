@@ -23,6 +23,7 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="#F8F8F8"
         android:orientation="horizontal" >
         <RadioGroup
             android:id="@+id/main_radio"
@@ -30,20 +31,24 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"        
             android:gravity="center"
+            android:background="@drawable/tab_bg"
             >
-            <!-- 导航 -->
+            <!-- 导航  android:drawableTop="@drawable/main_navigation"   android:text="@string/main_navigation"-->
             <RadioButton
                 android:id="@+id/radio_button0"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:button="@null"
-                android:drawableTop="@drawable/icon_1_n"
-                android:gravity="center"
+                android:button="@null"        
+                android:gravity="center"              
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:textSize="10dip"
-                android:text="@string/main_navigation"/>
+                android:paddingRight="15dp"                        
+                android:drawableTop="@drawable/tab_navigation"
+                android:textSize="10dip"    
+                android:drawablePadding="7dp"           
+                android:textColor="#6E6E6E"
+                android:text="@string/main_navigation"
+             />
             <!-- android:background="@drawable/main_radio_bg" -->
              <!-- 新闻 -->"
             <RadioButton
@@ -54,10 +59,12 @@
                 android:button="@null"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingRight="15dp" 
+                android:drawablePadding="7dp"              
+                android:drawableTop="@drawable/tab_news"
                 android:textSize="10dip"
-                android:text="@string/main_news" 
-                android:drawableTop="@drawable/icon_2_n" />
+                android:textColor="#6E6E6E"
+                android:text="@string/main_news" />
              <!-- 分享 -->
             <RadioButton
                 android:id="@+id/radio_button2"
@@ -67,10 +74,12 @@
                 android:button="@null"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingRight="15dp"  
+                android:drawablePadding="7dp"             
+                android:drawableTop="@drawable/tab_share"
                 android:textSize="10dip"
-                android:text="@string/main_share" 
-                android:drawableTop="@drawable/icon_3_n" />
+                android:textColor="#6E6E6E"
+                android:text="@string/main_share"/>
              <!-- 设置 -->
             <RadioButton
                 android:id="@+id/radio_button3"
@@ -80,10 +89,12 @@
                 android:button="@null"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"
+                android:paddingRight="15dp"   
+                android:drawablePadding="7dp"            
+                android:drawableTop="@drawable/tab_setting"
                 android:textSize="10dip"
-                android:text="@string/main_setting" 
-                android:drawableTop="@drawable/icon_4_n" />
+                android:textColor="#6E6E6E"
+                android:text="@string/main_setting"/>
         </RadioGroup>
     </LinearLayout>
 

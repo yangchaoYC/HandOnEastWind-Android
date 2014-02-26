@@ -9,6 +9,32 @@
     <string name="main_news">新闻</string>
     <string name="main_share">分享</string>
     <string name="main_setting">设置</string>
+    
+    <string name="lauch_dongfeng">掌上东风</string>
+    <string name="lauch_phone">手机新闻客户端</string>
+    <string name="lauch_platform">东风报业传媒出品</string>
+    <string name="lauch_copyright">Copyright@2014 dfcm.cc.inc All Rights Reserved</string>
+    
+     <string name="navigation_title">湖北东风报业传媒有限公司</string>
+     <string name="navigation_1_title">东风汽车报</string> 
+     <string name="navigation_1_content">展示集团风采，弘扬精神文明</string> 
+     <string name="navigation_2_title">东风杂志</string> 
+     <string name="navigation_2_content">展示集团风采，弘扬精神文明</string> 
+     <string name="navigation_3_title">东风之旅</string> 
+     <string name="navigation_3_content">展示集团风采，弘扬精神文明</string> 
+     <string name="navigation_4_title">汽车科技</string> 
+     <string name="navigation_4_content">展示集团风采，弘扬精神文明</string> 
+     <string name="navigation_5_title">装备维修技术</string> 
+     <string name="navigation_5_content">展示集团风采，弘扬精神文明</string> 
+     
+     <string name="label1">字体大小</string> 
+     <string name="label2">无图模式</string> 
+     <string name="label3">推送设置</string> 
+     <string name="label4">推送铃声</string> 
+     <string name="label5">清除缓存</string> 
+     <string name="label6">关于</string> 
+     <string name="label7">免责声明</string> 
+     <string name="label8">检查更新</string> 
    
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>
