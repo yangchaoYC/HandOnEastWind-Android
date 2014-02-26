@@ -194,14 +194,14 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	void InItTitle1(String title[]) {
 		textViews = new ArrayList<TextView>();
 		H_width = getWindowManager().getDefaultDisplay().getWidth() / 4;
-		int height = 70;
+		int height = 90;
 		
-		
+		 
 		for (int i = 0; i < title.length; i++) {
 			TextView textView = new TextView(this);
 			textView.setText(title[i]);
 			textView.setTextSize(17);
-			textView.setTextColor(Color.BLACK);
+			textView.setTextColor(0xFF999999);
 			textView.setWidth(H_width);
 			//Log.e("aa", "text_width=" + textView.getWidth());
 			textView.setHeight(height - 30);
@@ -216,7 +216,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			layoutParams.height = height - 40;
 			layoutParams.gravity = Gravity.CENTER;
 			view.setLayoutParams(layoutParams);
-			view.setBackgroundColor(Color.GRAY);
+			//view.setBackgroundColor(Color.GRAY);
 			linearLayout.addView(textView);
 			if (i != title.length - 1) {
 				linearLayout.addView(view);
@@ -245,7 +245,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				viewPager.setCurrentItem(i);
 			} else {
 				textViews.get(i).setBackgroundDrawable(new BitmapDrawable());
-				textViews.get(i).setTextColor(Color.BLACK);
+				textViews.get(i).setTextColor(0xFF999999);
 			}
 		}
 	}

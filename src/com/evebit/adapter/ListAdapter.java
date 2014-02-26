@@ -27,6 +27,7 @@ public class ListAdapter extends BaseAdapter {
     public final class ListItemView{  
     
     	public TextView title;
+    	public TextView big_title;
     	public TextView content;
     	public TextView time;
     	public TextView newsfrom;
@@ -68,33 +69,46 @@ public class ListAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		  ListItemView  listItemView = null;   
 		  
+
 	        if (convertView == null) {   
-	            listItemView = new ListItemView();      
+	            listItemView = new ListItemView();               
 	            convertView = listContainer.inflate(R.layout.list_view1_test, null);            
-	            listItemView.title = (TextView)convertView.findViewById(R.id.title);  
+	            listItemView.title = (TextView)convertView.findViewById(R.id.title); 
+	            listItemView.big_title = (TextView)convertView.findViewById(R.id.big_title); 
 	            listItemView.content = (TextView)convertView.findViewById(R.id.content);  
 	            listItemView.time = (TextView)convertView.findViewById(R.id.time);  
-	            listItemView.newsfrom = (TextView)convertView.findViewById(R.id.newsfrom); 
+	            listItemView.newsfrom = (TextView)convertView.findViewById(R.id.newsfrom);  
 	            listItemView.imageView = (ImageView)convertView.findViewById(R.id.image); 
-	            listItemView.bigImageView = (ImageView)convertView.findViewById(R.id.big_image); 
+	            listItemView.bigImageView = (ImageView)convertView.findViewById(R.id.big_image); 	            
 	            convertView.setTag(listItemView);   
 	        }else {   
 	            listItemView = (ListItemView)convertView.getTag();   
-	        }   
-	        
-		    if (position == 0) {
-		    	 imageLoader.DisplayImage((String) list.get(position).get("image"), listItemView.bigImageView);
-		    	 listItemView.bigImageView.setVisibility(View.VISIBLE);
+	        }    
+	        if (position == 0) {
+		    	  listItemView.big_title.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_node_title));   	    	  
+		    	  imageLoader.DisplayImage((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_thumbnails), listItemView.bigImageView);
+		    	  listItemView.bigImageView.setVisibility(View.VISIBLE);
+		    	  listItemView.big_title.setVisibility(View.VISIBLE);
+		    	  listItemView.title.setVisibility(View.GONE);
+		    	  listItemView.content.setVisibility(View.GONE);
+		    	  listItemView.time.setVisibility(View.GONE);
+		    	  listItemView.newsfrom.setVisibility(View.GONE);
+		    	  listItemView.imageView.setVisibility(View.GONE);
 			}  else {
+				 listItemView.title.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_node_title));   
+				 listItemView.content.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_summary)); 
+				 listItemView.time.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_node_created)); 
+				 listItemView.newsfrom.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_newsfrom)); 
+				 imageLoader.DisplayImage((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_thumbnails),  listItemView.imageView);
 				 listItemView.bigImageView.setVisibility(View.GONE);
-			}  
+				 listItemView.big_title.setVisibility(View.GONE);
+				 listItemView.title.setVisibility(View.VISIBLE);
+		    	 listItemView.content.setVisibility(View.VISIBLE);
+		    	 listItemView.time.setVisibility(View.VISIBLE);
+		    	 listItemView.newsfrom.setVisibility(View.VISIBLE);
+		    	 listItemView.imageView.setVisibility(View.VISIBLE);
+			} 
 		  
-		    
-		    listItemView.title.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_node_title));   
-		    listItemView.content.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_summary));  
-		    listItemView.time.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_node_created));   
-		    listItemView.newsfrom.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_newsfrom)); 
-		    imageLoader.DisplayImage((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_thumbnails),  listItemView.imageView);
 		return convertView;   
 	}
 

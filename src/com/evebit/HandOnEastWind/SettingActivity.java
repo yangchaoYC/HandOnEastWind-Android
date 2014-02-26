@@ -8,30 +8,45 @@ import cn.jpush.android.api.JPushInterface;
 import android.app.Activity;
 import android.app.Notification;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.ImageView;
 
 public class SettingActivity extends Activity {
 
+	  ImageView soundOpenImage ;
+	  ImageView soundCloseImage ;
+	  
+	  ImageView pushOpenImage ; //默认显示推送开启，点击后推送关闭
+	  ImageView pushCloseImage ;
+	  
+	  ImageView imageOpen ; //默认显示图片开启，点击后无图模式
+	  ImageView imageClose ;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setting);
 		
-		Button buttonClose = (Button)findViewById(R.id.sound_close);
-		Button buttonOpen = (Button)findViewById(R.id.sound_open);
+		soundOpenImage = (ImageView)findViewById(R.id.setting_sound_open);
+		soundCloseImage = (ImageView)findViewById(R.id.setting_sound_close);
 		
+		pushOpenImage = (ImageView)findViewById(R.id.setting_push_open);
+		pushCloseImage = (ImageView)findViewById(R.id.setting_push_close);
 		
-		buttonClose.setOnClickListener(new OnClickListener() {
+		imageOpen = (ImageView)findViewById(R.id.setting_image_open);
+		imageClose = (ImageView)findViewById(R.id.setting_image_close);
+		
+		soundOpenImage.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
+				soundOpenImage.setVisibility(View.GONE);
+				soundCloseImage.setVisibility(View.VISIBLE);
+				
 				BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(SettingActivity.this);
 				builder.statusBarDrawable = R.drawable.jpush_notification_icon;
 				builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //����Ϊ�Զ���ʧ	
@@ -41,12 +56,15 @@ public class SettingActivity extends Activity {
 			}
 		});
 		
-		buttonOpen.setOnClickListener(new OnClickListener() {
+		soundCloseImage.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
+				soundOpenImage.setVisibility(View.VISIBLE);
+				soundCloseImage.setVisibility(View.GONE);
+				
 				BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(SettingActivity.this);
 				builder.statusBarDrawable = R.drawable.jpush_notification_icon;
 				builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //����Ϊ�Զ���ʧ	
@@ -58,24 +76,46 @@ public class SettingActivity extends Activity {
 		});
 		
 		
+		pushOpenImage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				pushOpenImage.setVisibility(View.GONE);
+				pushCloseImage.setVisibility(View.VISIBLE);
+			    JPushInterface.stopPush(getApplicationContext());
+			}
+	    });
+		
+		pushCloseImage.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				pushOpenImage.setVisibility(View.VISIBLE);
+				pushCloseImage.setVisibility(View.GONE);
+			    JPushInterface.resumePush(getApplicationContext());
+			}
+	    });
+		
+		imageOpen.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				imageClose.setVisibility(View.VISIBLE);
+				imageOpen.setVisibility(View.GONE);
+			 
+			}
+	    });
+		
+		imageClose.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				imageClose.setVisibility(View.GONE);
+				imageOpen.setVisibility(View.VISIBLE);
+			 
+			}
+	    });
+		
 	}
 
-	/**
-	 * 屏蔽返回按钮
-	 */
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	/**
-	 * 屏蔽菜单键
-	 */
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	
 }
