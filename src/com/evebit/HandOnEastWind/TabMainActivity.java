@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -49,7 +50,17 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 	private RadioButton radioButton1;
 	private RadioButton radioButton2;
 	private RadioButton radioButton3;
-	private RadioButton radioButton4;
+	
+	private Drawable drawableTop0;
+	private Drawable drawableTop1;
+	private Drawable drawableTop2;
+	private Drawable drawableTop3;
+	
+	private Drawable drawableTop0_red;
+	private Drawable drawableTop1_red;
+	private Drawable drawableTop2_red;
+	private Drawable drawableTop3_red;
+
 	
     private TabHost tabhost;
     private Intent navigation; //导航频道
@@ -60,6 +71,7 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 	 // tabhsot 的标志位 为跳转做准备
 	 private int tabIndex;
 
+	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -81,6 +93,16 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 		    radioButton1 = (RadioButton)findViewById(R.id.radio_button1);
 		    radioButton2 = (RadioButton)findViewById(R.id.radio_button2);
 		    radioButton3 = (RadioButton)findViewById(R.id.radio_button3);
+		    
+		   drawableTop0 = getResources().getDrawable(R.drawable.tab_navigation);
+		    drawableTop1 = getResources().getDrawable(R.drawable.tab_news);
+		    drawableTop2 = getResources().getDrawable(R.drawable.tab_share);
+		    drawableTop3 = getResources().getDrawable(R.drawable.tab_setting);
+		    
+		    drawableTop0_red = getResources().getDrawable(R.drawable.tab_navigation_red);
+		    drawableTop1_red = getResources().getDrawable(R.drawable.tab_news_red);
+		    drawableTop2_red = getResources().getDrawable(R.drawable.tab_share_red);
+		    drawableTop3_red = getResources().getDrawable(R.drawable.tab_setting_red);
 		
 	        mainTab.setOnCheckedChangeListener(this);        
 	        tabhost = getTabHost();
@@ -95,11 +117,11 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 	        tabhost.addTab(tabhost.newTabSpec("news")
 	                .setIndicator(getResources().getString(R.string.main_news), getResources().getDrawable(R.drawable.icon_2_n))
 	                .setContent(news));
-	     /*   
-	        share = new Intent(this, CarTravelActivity.class);
+	        
+	        share = new Intent(this, ShareActivity.class);
 	        tabhost.addTab(tabhost.newTabSpec("share")
 	                .setIndicator(getResources().getString(R.string.main_share), getResources().getDrawable(R.drawable.icon_3_n))
-	                .setContent(share));*/
+	                .setContent(share));
 	        
 	        setting = new Intent(this,SettingActivity.class);
 	        tabhost.addTab(tabhost.newTabSpec("setting")
@@ -122,33 +144,46 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 		super.onPause();
 		MobclickAgent.onPause(this);
 	}
+	
+	
+	public void setDefaulftTab(){
+		  radioButton0.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop0 , null, null);
+		  radioButton1.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop1 , null, null);
+		  radioButton2.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop2 , null, null);
+		  radioButton3.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop3 , null, null);		  
+	}
 
+	
+	
     //底部四个选项卡，分别为导航频道，新闻频道，分享按钮，设置按钮
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
 		// TODO Auto-generated method stub
 		 switch(checkedId){
 		     //导航
-	        case R.id.radio_button0:
-	           // tabIndex = 0;
-	            this.tabhost.setCurrentTabByTag("navigation");	            
+	        case R.id.radio_button0:	      
+	            this.tabhost.setCurrentTabByTag("navigation");
+	            setDefaulftTab();
+	            radioButton0.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop0_red , null, null);	            
 	            break;
 	        //新闻    
-	        case R.id.radio_button1:
-	        //	 tabIndex = 1;
-	            this.tabhost.setCurrentTabByTag("news");
+	        case R.id.radio_button1:	    
+	            this.tabhost.setCurrentTabByTag("news");	
+	            setDefaulftTab();
+	            radioButton1.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop1_red , null, null);
 	            break;
 	        //分享   
-	        case R.id.radio_button2:
-	        //	 tabIndex = 2;
-	            this.tabhost.setCurrentTabByTag("share");
+	        case R.id.radio_button2:	    
+	            this.tabhost.setCurrentTabByTag("share"); 
+	            setDefaulftTab();
+	            radioButton2.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop2_red , null, null);	       
 	            break;
 	       //设置     
-	        case R.id.radio_button3:
-	        //	 tabIndex = 3;
+	        case R.id.radio_button3:	       
 	            this.tabhost.setCurrentTabByTag("setting");
-	            break;
-	      
+	            setDefaulftTab();
+	            radioButton3.setCompoundDrawablesWithIntrinsicBounds(null, drawableTop3_red , null, null);
+	            break;      
 	        }
 	}
 	

@@ -7,7 +7,7 @@
 
       <LinearLayout 
 	    android:layout_width="fill_parent"
-	    android:layout_height="wrap_content"
+	    android:layout_height="50dp"
 	    android:padding="15dp"
 	    android:background="#f2f1ef"	  
 	    android:orientation="vertical"
@@ -15,11 +15,17 @@
     <TextView 
           android:layout_width="wrap_content"
           android:layout_height="wrap_content" 
-          android:text="设置"
+          android:text="@string/setting"
           android:textSize="15sp"
           android:textColor="#C50000"
         />
     </LinearLayout>
+    
+       <View  
+       android:layout_height="1dp" 
+       android:background="#A0A0A0"       
+       android:layout_width="fill_parent"
+       ></View>     
     
         <TableLayout 
             android:layout_width="wrap_content"  
@@ -71,13 +77,13 @@
 		    </TableRow>  
 		    <TableRow 	      
 		        android:background="#FFFFFF" 
-		        android:layout_margin="0.5dip" 
+		        android:layout_marginLeft="0.5dip"
+		        android:layout_marginRight="0.5dip"
 		        android:layout_weight="1"   
 		        android:gravity="center_vertical">  
 		        <TextView  
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:gravity="center_vertical"
 		            android:textColor="#565656" 
 		            android:text="@string/label2"  
 		            android:paddingLeft="10dp"  
@@ -90,7 +96,7 @@
 		               android:layout_height="match_parent"	
 		               android:layout_gravity="right"
 		             >
-		              <ImageView 
+		           <ImageView 
 		             android:id="@+id/setting_image_close"   
 		             android:layout_width="wrap_content"
 		             android:layout_height="match_parent"
@@ -112,9 +118,8 @@
 		        android:layout_weight="1"   
 		        android:gravity="center_vertical"> 
 		        <TextView   
-		             android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:gravity="center_vertical"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"		     
 		            android:textColor="#565656"
 		            android:text="@string/label3"  
 		            android:paddingLeft="10dp"  
@@ -143,9 +148,10 @@
 		    </TableRow> 
 		     <TableRow 	      
 		         android:background="#FFFFFF" 
-		        android:layout_margin="0.5dip" 
-		        android:layout_weight="1"   
-		        android:gravity="center_vertical"> 
+		         android:layout_marginLeft="0.5dip"
+		         android:layout_marginRight="0.5dip"
+		         android:layout_weight="1"   
+		         android:gravity="center_vertical"> 
 		        <TextView   
 		             android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"	       
@@ -175,20 +181,35 @@
 		        </LinearLayout> 
 		    </TableRow> 
 		     <TableRow 	      
-		         android:background="#FFFFFF" android:layout_margin="0.5dip" android:layout_weight="1"    >  
+		         android:background="#FFFFFF" 
+		         android:layout_margin="0.5dip" 
+		         android:layout_weight="1" 
+		         android:gravity="center_vertical">  
 		        <TextView   
-		             android:layout_width="fill_parent"
-		            android:layout_height="fill_parent"
-		            android:gravity="center_vertical"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"	        
 		            android:textColor="#565656"
 		            android:text="@string/label5"  
 		            android:paddingLeft="10dp"  
-		            android:textSize="15sp"   
-		  
-		          />  		 
+		            android:textSize="15sp"   	  
+		          />  	
+		          
+		        <TextView 
+		            android:id="@+id/setting_storage"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:gravity="right"        
+		            android:textColor="#B0B0B0"
+		            android:paddingRight="10dp"  
+		            android:textSize="15sp"
+		            android:text="@string/setting_storage" 
+		            />	 
 		    </TableRow> 
 		     <TableRow 	      
-		          android:background="#FFFFFF" android:layout_margin="0.5dip" android:layout_weight="1"    >  
+		          android:background="#FFFFFF"
+		          android:layout_marginLeft="0.5dip"
+		          android:layout_marginRight="0.5dip"
+		          android:layout_weight="1"    >  
 		        <TextView   
 		             android:layout_width="fill_parent"
 		            android:layout_height="fill_parent"
@@ -201,7 +222,9 @@
 		          />  		 
 		    </TableRow> 
 		     <TableRow 	      
-		         android:background="#FFFFFF" android:layout_margin="0.5dip" android:layout_weight="1"    >  
+		         android:background="#FFFFFF" 
+		         android:layout_margin="0.5dip" 
+		         android:layout_weight="1"    >  
 		        <TextView   
 		             android:layout_width="fill_parent"
 		            android:layout_height="fill_parent"
@@ -214,7 +237,11 @@
 		          />  		 
 		    </TableRow> 
 		     <TableRow 	      
-		         android:background="#FFFFFF" android:layout_margin="0.5dip" android:layout_weight="1"     >  
+		         android:background="#FFFFFF" 
+		         android:layout_marginLeft="0.5dip"
+		         android:layout_marginRight="0.5dip"
+		         android:layout_marginBottom="0.5dip"
+		         android:layout_weight="1"     >  
 		        <TextView   
 		             android:layout_width="fill_parent"
 		            android:layout_height="fill_parent"

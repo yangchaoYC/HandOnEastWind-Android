@@ -62,8 +62,8 @@
        android:id="@+id/title"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
-       android:textSize="21sp"
        android:singleLine="true"
+       android:textSize="21sp"
        android:textColor="#333333"
        android:text="张家超董事会召开"
        /> 
@@ -74,8 +74,7 @@
 	       android:layout_height="wrap_content"
 	       android:textColor="#333333"
 	       android:textSize="14sp"
-	       android:layout_marginTop="7dp"
-	       android:maxEms="12" 
+	       android:layout_marginTop="7dp"	     
 	       android:singleLine="true"
 	       android:text="第几次公司开始实行张家超董事会召开"
           />
@@ -97,6 +96,8 @@
 		       android:id="@+id/newsfrom"
 		       android:layout_width="wrap_content"
 		       android:layout_height="wrap_content"
+		       android:singleLine="true"
+		       android:maxEms="12" 
 		       android:textSize="11sp"
 		       android:paddingLeft="4dp"
 		       android:textColor="#333333"

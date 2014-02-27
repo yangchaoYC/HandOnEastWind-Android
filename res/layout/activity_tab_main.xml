@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"        
             android:gravity="center"
-            android:background="@drawable/tab_bg"
+            android:background="@drawable/tab_bg2"
             >
             <!-- 导航  android:drawableTop="@drawable/main_navigation"   android:text="@string/main_navigation"-->
             <RadioButton
@@ -43,10 +43,10 @@
                 android:gravity="center"              
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"                        
-                android:drawableTop="@drawable/tab_navigation"
-                android:textSize="10dip"    
-                android:drawablePadding="7dp"           
-                android:textColor="#6E6E6E"
+                android:drawableTop="@drawable/tab_navigation_red"
+                android:textSize="10dip"  
+                android:checked="true"            
+                android:textColor="@color/color_radiobutton"
                 android:text="@string/main_navigation"
              />
             <!-- android:background="@drawable/main_radio_bg" -->
@@ -59,11 +59,10 @@
                 android:button="@null"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp" 
-                android:drawablePadding="7dp"              
+                android:paddingRight="15dp"                           
                 android:drawableTop="@drawable/tab_news"
                 android:textSize="10dip"
-                android:textColor="#6E6E6E"
+                android:textColor="@color/color_radiobutton"
                 android:text="@string/main_news" />
              <!-- 分享 -->
             <RadioButton
@@ -74,11 +73,10 @@
                 android:button="@null"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"  
-                android:drawablePadding="7dp"             
+                android:paddingRight="15dp"                      
                 android:drawableTop="@drawable/tab_share"
                 android:textSize="10dip"
-                android:textColor="#6E6E6E"
+                android:textColor="@color/color_radiobutton"
                 android:text="@string/main_share"/>
              <!-- 设置 -->
             <RadioButton
@@ -89,11 +87,10 @@
                 android:button="@null"
                 android:gravity="center"
                 android:paddingLeft="15dp"
-                android:paddingRight="15dp"   
-                android:drawablePadding="7dp"            
+                android:paddingRight="15dp"                       
                 android:drawableTop="@drawable/tab_setting"
                 android:textSize="10dip"
-                android:textColor="#6E6E6E"
+                android:textColor="@color/color_radiobutton"
                 android:text="@string/main_setting"/>
         </RadioGroup>
     </LinearLayout>
