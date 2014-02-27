@@ -38,9 +38,8 @@ public class WebActivity extends Activity {
 	private WebView webView;//主体
 	private String webValue;//存储网页返回的值，一般为视频地址
 	private Handler webHandler = new Handler();
-	
+	private String nid,node_title,node_created,field_channel,field_newsfrom,body_1,body_2;
 	private String base = null;
-	private ArrayList<Hashtable<String, String>> Data = new ArrayList<Hashtable<String, String>>();//存储获取的网络信息
 	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
 	@SuppressWarnings("deprecation")
 	@Override
@@ -51,10 +50,19 @@ public class WebActivity extends Activity {
 		 
 		 setContentView(R.layout.activity_web);
 		 
+		 
+		 nid = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_nid);
+		 node_title = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_node_title);
+		 node_created = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_node_created);
+		 field_channel = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_field_channel);
+		 field_newsfrom = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_field_newsfrom);
+		 body_1 = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_body_1);
+		 body_2 = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_body_2);
+		 
 		 base = "<base href=\""+ LauchActivity.LAUCH_URL  +" \" />";
 			webView = (WebView)findViewById(R.id.webView_WebView);
 
-			initWeb(Data.get(0).get("title"),Data.get(0).get("name"),"我是时间",Data.get(0).get("nid"));
+			initWeb();
 
 
 			//webView.setWebChromeClient(mChromeClient);
@@ -103,10 +111,10 @@ public class WebActivity extends Activity {
 		 * @param time	时间
 		 * 根据数据调用本地html进行网页显示
 		 */
-		private void initWeb(String title,String introtext,String time,String nid) {
+		private void initWeb() {
 			
 			
-			Log.v("-----yyyyy----", introtext);
+			//Log.v("-----yyyyy----", introtext);
 			//byte b[] = android.util.Base64.decode(introtext, Base64.DEFAULT);//解码
 			//introtext = new String(b);
 			
@@ -114,9 +122,10 @@ public class WebActivity extends Activity {
 			String summary = normal.getFromAssets("template.html");
 			summary = summary.replace("base", base);
 			summary = summary.replace("URL", LauchActivity.LAUCH_URL + "news/"+nid+".html");
-			summary = summary.replace("titleString", title);
-			summary = summary.replace("introtextString", introtext);
-			summary = summary.replace("timeString", time);
+			summary = summary.replace("titleString", node_title);
+			summary = summary.replace("introtextString", body_1);
+			summary = summary.replace("timeString", node_created);
+			
 			webView.getSettings().setDefaultTextEncodingName("UTF-8"); 
 			//mWebView.getSettings().setJavaScriptEnabled(true);
 			webView.getSettings().setBuiltInZoomControls(true);

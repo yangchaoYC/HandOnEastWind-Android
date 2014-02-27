@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -74,7 +75,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 		 LinearLayout ad=(LinearLayout)findViewById(R.id.ad);  
 		 ad.setOnTouchListener(this);  
 		 ad.setLongClickable(true);  
-	     
+	     Shared();
 		 //加载首页的广告图片
 	     imgThread();     
          
@@ -82,6 +83,14 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 		 MobclickAgent.updateOnlineConfig(LauchActivity.this);		
 	}
 	
+	
+	private void Shared()
+	{
+		SharedPreferences settings = this.getSharedPreferences("CheckLoginXML", 0);
+		SharedPreferences.Editor localEditor = settings.edit();
+		localEditor.putString("CheckLogin","15");
+		localEditor.commit(); 
+	}
 	/**
 	 * 加载广告图片
 	 */

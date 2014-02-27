@@ -22,6 +22,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -109,12 +110,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	    private ListAdapter Adapter9;
 	    private ListAdapter Adapter10;
 	    private ListAdapter Adapter11;
-	    private ListAdapter Adapter12;
-	    private ArrayList<ListAdapter> adaptersArray = new ArrayList<ListAdapter>();
-	    
-	    
+	    private ListAdapter Adapter12;	    
 	    private int pageId = 15;//频道id
-	    private int listKey = 0;//数组ID
         private int  mark [] =  {0,0,0,0,0,0,0,0,0,0,0,0};
         private String time = null;
 	    private String NewsUrl = "";
@@ -288,23 +285,23 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      arrayArray.add(listData11);
 	      arrayArray.add(listData12);
 	      //默认为东风汽车报频道，此频道有9个栏目  
-	      
-	      adaptersArray.add(Adapter1);
-	      adaptersArray.add(Adapter2);
-	      adaptersArray.add(Adapter3);
-	      adaptersArray.add(Adapter4);
-	      adaptersArray.add(Adapter5);
-	      adaptersArray.add(Adapter6);
-	      adaptersArray.add(Adapter7);
-	      adaptersArray.add(Adapter8);
-	      adaptersArray.add(Adapter9);
-	      adaptersArray.add(Adapter10);
-	      adaptersArray.add(Adapter11);
-	      adaptersArray.add(Adapter12);
+
 
 	      time = Time();
 	      db = FinalDb.create(this);//实例化数据对象
+	      
+	      pageId = Integer.valueOf(getShared());
+	      
+	      
 	      InItView(9);
+	}
+	
+	private String getShared()
+	{
+		String user_name_string= null;
+		SharedPreferences settings = this.getSharedPreferences("CheckLoginXML", 0);
+		user_name_string = settings.getString("CheckLogin", "");	
+		return user_name_string;
 	}
 	
 	
@@ -603,9 +600,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
+				Log.v("east----593", pageId+"");
 				String condition ="nid='" + (pageId+LookPage)+ "'";//搜索条件
 				List<DBUser> list = db.findAllByWhere(DBUser.class, condition);
-			//	Log.v("easea----577----", "---"+list.size());
 				for (int i = 0; i < list.size(); i++) {
 					
 						HashMap<String, String> itemMap = new HashMap<String, String>();
@@ -620,7 +617,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 						itemMap.put(LauchActivity.LAUCH_DATE_body_2,list.get(i).getBody_2());
 						
 						arrayArray.get(LookPage).add(itemMap);
-					//	Log.v("easea----579----", "---"+arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_nid));
 				}
 				
 				handler.sendEmptyMessage(4);
@@ -638,10 +634,59 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
      */
     private void ShowList()
     {
-    	Log.v("easea----579----", "我开始刷新"+"---"+LookPage);
-    	ListAdapter adapter = adaptersArray.get(LookPage);
-    	adapter = new ListAdapter(this, arrayArray.get(LookPage));
-		listArray.get(LookPage).setAdapter(adapter);//
+		switch (LookPage) {
+		case 0:
+			Adapter1= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter1);//
+			break;
+		case 1:
+			Adapter2= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter2);//
+			break;
+		case 2:
+			Adapter3= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter3);//
+			break;
+		case 3:
+			Adapter4= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter4);//
+			break;
+		case 4:
+			Adapter5= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter5);//
+			break;
+		case 5:
+			Adapter6= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter6);//
+			break;
+		case 6:
+			Adapter7= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter7);//
+			break;
+		case 7:
+			Adapter8= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter8);//
+			break;
+		case 8:
+			Adapter9= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter9);//
+			break;
+		case 9:
+			Adapter10= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter10);//
+			break;
+		case 10:
+			Adapter11= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter11);//
+			break;
+		case 11:
+			Adapter12= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter12);//
+			break;
+		default:
+			break;
+		}
+		
 		
     }
     
@@ -855,8 +900,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				// TODO Auto-generated method stub
+				Intent intent = new Intent(EastWindNewsActivity.this, WebActivity.class);
+				intent.putExtra(LauchActivity.LAUCH_DATE_nid, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_node_title, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_node_created, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_field_channel, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_field_newsfrom, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_body_1, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_body_2, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
 				
+				startActivity(intent);
 			}
+			
 	    }
 		
     /**
@@ -866,7 +921,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	public void onRefresh() {
 		// TODO Auto-generated method stub
 		if (flag) {//执行下拉刷新
-			Log.v("east---709---", "a");
 			mark[LookPage] = 0 ;
 			flag = false;//刷新期间不允许viewpage滑动
 			dataThread(6);
@@ -933,8 +987,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					body_1;//图片格式详细内容
 					body_2;//无图片格式详细内容
 					 */
-					HashMap<String, String> itemMap = new HashMap<String, String>();
-					for (Test_Model test_Model : datalist) {					    
+					
+					for (Test_Model test_Model : datalist) {	
+						HashMap<String, String> itemMap = new HashMap<String, String>();
 						itemMap.put(LauchActivity.LAUCH_DATE_nid,(test_Model.getId()==null? "": test_Model.getId()));
 						itemMap.put(LauchActivity.LAUCH_DATE_node_title,(test_Model.getNode_title()==null? "": test_Model.getNode_title()));	
 						itemMap.put(LauchActivity.LAUCH_DATE_node_created, (test_Model.getNode_created()==null? "": test_Model.getNode_created()));
@@ -967,7 +1022,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 */
 	private void setOneListView(int what) {
 		// TODO Auto-generated method stub   
-		Log.v("-----eastwindnews----939--", ""+LookPage);
 		for (int i = 0; i < dateMap.size(); i++) {
 			HashMap<String, String> itemMap = new HashMap<String, String>();
 			itemMap.put(LauchActivity.LAUCH_DATE_nid,dateMap.get(i).get(LauchActivity.LAUCH_DATE_nid));
@@ -1133,8 +1187,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				setShowListView();
 				break;
 			case 6://检测属性数据是否有更新，如果有更新则重新刷新列表，如果没有则不做动作
-
-				Log.v("east------1017", ""+dateMap.size());
 				if (dateMap.size() == arrayArray.get(LookPage).size()) {
 					if (dateMap.get(dateMap.size()-1).get(LauchActivity.LAUCH_DATE_nid).toString().equals(arrayArray.get(LookPage).get(dateMap.size()-1).get(LauchActivity.LAUCH_DATE_nid).toString())) {
 						
@@ -1193,7 +1245,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			AddDBUser();
 		}
 		else {
-			Log.v("easta---1080---", list.get(list.size()-1).getNode_title());
+			//Log.v("easta---1080---", list.get(list.size()-1).getNode_title());
 		}
 	}
 	
