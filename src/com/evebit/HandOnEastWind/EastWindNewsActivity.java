@@ -48,6 +48,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
 
 
@@ -97,6 +98,20 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	    private FinalDb db = null;//数据库对象
 	    
 	    private ArrayList<XListView> listArray = new ArrayList<XListView>();
+	    private ListAdapter Adapter1 ;
+	    private ListAdapter Adapter2;
+	    private ListAdapter Adapter3;
+	    private ListAdapter Adapter4;
+	    private ListAdapter Adapter5;
+	    private ListAdapter Adapter6;
+	    private ListAdapter Adapter7;
+	    private ListAdapter Adapter8;
+	    private ListAdapter Adapter9;
+	    private ListAdapter Adapter10;
+	    private ListAdapter Adapter11;
+	    private ListAdapter Adapter12;
+	    private ArrayList<ListAdapter> adaptersArray = new ArrayList<ListAdapter>();
+	    
 	    
 	    private int pageId = 15;//频道id
 	    private int listKey = 0;//数组ID
@@ -274,6 +289,19 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      arrayArray.add(listData12);
 	      //默认为东风汽车报频道，此频道有9个栏目  
 	      
+	      adaptersArray.add(Adapter1);
+	      adaptersArray.add(Adapter2);
+	      adaptersArray.add(Adapter3);
+	      adaptersArray.add(Adapter4);
+	      adaptersArray.add(Adapter5);
+	      adaptersArray.add(Adapter6);
+	      adaptersArray.add(Adapter7);
+	      adaptersArray.add(Adapter8);
+	      adaptersArray.add(Adapter9);
+	      adaptersArray.add(Adapter10);
+	      adaptersArray.add(Adapter11);
+	      adaptersArray.add(Adapter12);
+
 	      time = Time();
 	      db = FinalDb.create(this);//实例化数据对象
 	      InItView(9);
@@ -296,7 +324,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 */
     public void setView(final int i){
     	   LayoutInflater inflater = getLayoutInflater(); 
-		   eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.tab_view1, null); 
+		   eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.activity_easewindnews, null); 
 		   viewPager = (ViewPager)eastWindNewsGroup.findViewById(R.id.tabView1_container);	  
 		   viewPager.setAdapter(new myPagerView());
 	       setContentView(eastWindNewsGroup);
@@ -487,7 +515,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		}
 
     
-    
+    /**
+     * 委托绑定列表点击事项
+     * @param key
+     */
     private void listCheck(int key)
     {
     	list_page_view1.setOnItemClickListener(new ListOnCheck());
@@ -547,7 +578,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
 					Dialog = false ; 
 					deleteTimeThread();
-			    	dataThread();
+			    	dataThread(1);
 				}	
 			}
 			else 
@@ -555,7 +586,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
 				Dialog = false ; 
 				AddTimeThread();
-		    	dataThread();
+		    	dataThread(1);
 			}
     	}
     }
@@ -601,11 +632,15 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		
 
     }
+    
+    /**
+     * 加载缓存数据显示
+     */
     private void ShowList()
     {
     	Log.v("easea----579----", "我开始刷新"+"---"+LookPage);
-    	Log.v("easea----579----", arrayArray.get(LookPage).get(0).get(LauchActivity.LAUCH_DATE_node_title).toString());
-    	ListAdapter adapter = new ListAdapter(this, arrayArray.get(LookPage));
+    	ListAdapter adapter = adaptersArray.get(LookPage);
+    	adapter = new ListAdapter(this, arrayArray.get(LookPage));
 		listArray.get(LookPage).setAdapter(adapter);//
 		
     }
@@ -642,7 +677,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				// TODO Auto-generated method stub
 				String condition ="nid='" + (pageId+LookPage)+ "'";//删除条件,先删除这个记录然后添加
 				db.deleteByWhere(DBTime.class, condition);
-				
 				handler.sendEmptyMessage(2);
 			}
 			
@@ -769,7 +803,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				if (action.equals("news")) {
 					int column = intent.getIntExtra("column",0);
 					if (column == LoadPage) {
-						
+						flag = true;
 					}
 					else {
 						for (int i = 0; i < arrayArray.size(); i++) {
@@ -778,7 +812,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 							mark[i] = 0;//清空页数
 						}
 						pageViews.clear();
-						
+						flag = true;
 						switch (column) {
 						case 1:	
 							LookPage = 0;
@@ -831,27 +865,45 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
+		if (flag) {//执行下拉刷新
+			Log.v("east---709---", "a");
+			mark[LookPage] = 0 ;
+			flag = false;//刷新期间不允许viewpage滑动
+			dataThread(6);
+		}
 		
-		Log.v("east---709---", "a");
-		mark[LookPage] = 0 ;
-		onLoad();
+		//onLoad();
 	}
 
-
+/**
+ * 加载更多
+ */
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
+		if (arrayArray.get(LookPage).size()/(mark[LookPage]+1) == 15) {
+			if (flag) {//执行加载更多
+				mark[LookPage] = mark[LookPage] + 1;//记录下拉页数
+				flag = false;//加载更多期间不允许vviewpage滑动
+				dataThread(8);
+			}
+		}
+		else {
+			handler.sendEmptyMessage(7);	
+		}
 		
-		
-		mark[LookPage] = mark[LookPage] + 1;//记录下拉页数
 	//	selectorDate(pageId + LookPage);//判断数据地址
-		onLoad();
+		//onLoad();
 	}
 
+	
+	
 	/**
 	 * 下拉或加载更多关闭
 	 */
 	private void onLoad() {
+		flag =true;
+		
 		for (int i = 0; i < listArray.size(); i++) {		
 			listArray.get(i).stopRefresh();
 			listArray.get(i).stopLoadMore();
@@ -862,7 +914,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	/**
 	 * 添加jason中读取数据,传入url
 	 */
-	private void dataThread() {
+	private void dataThread(final int what) {
 		// TODO Auto-generated method stub
 		new Thread(){
 			public void run() {
@@ -894,8 +946,13 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 						itemMap.put(LauchActivity.LAUCH_DATE_body_2, (test_Model.getBody_2()==null? "": test_Model.getBody_2()));
 						dateMap.add(itemMap);	
 					}
-					
-					handler.sendEmptyMessage(1);					
+					if (dateMap.size() == 0) {
+						handler.sendEmptyMessage(7);	
+					}
+					else {
+						handler.sendEmptyMessage(what);	
+					}
+									
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
@@ -908,9 +965,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 * 把从json中获取的数据存入listview中
 	 * 此为一个列表的数据
 	 */
-	private void setOneListView(XListView list_page_view, ArrayList<HashMap<String, String>> listData,int what) {
+	private void setOneListView(int what) {
 		// TODO Auto-generated method stub   
-		
+		Log.v("-----eastwindnews----939--", ""+LookPage);
 		for (int i = 0; i < dateMap.size(); i++) {
 			HashMap<String, String> itemMap = new HashMap<String, String>();
 			itemMap.put(LauchActivity.LAUCH_DATE_nid,dateMap.get(i).get(LauchActivity.LAUCH_DATE_nid));
@@ -922,169 +979,132 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			itemMap.put(LauchActivity.LAUCH_DATE_field_summary,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_summary));
 			itemMap.put(LauchActivity.LAUCH_DATE_body_1,dateMap.get(i).get(LauchActivity.LAUCH_DATE_body_1));
 			itemMap.put(LauchActivity.LAUCH_DATE_body_2,dateMap.get(i).get(LauchActivity.LAUCH_DATE_body_2));
-			listData.add(itemMap);
+			arrayArray.get(LookPage).add(itemMap);
 		}
 		dateMap.clear();
-		ListAdapter adapter = new ListAdapter(this, listData);
-		list_page_view.setAdapter(adapter);//
 		handler.sendEmptyMessage(what);
+	}
+/**
+ * 下拉刷新数据添加
+ */
+	private void setShowListView()
+	{
+		//ListAdapter adapter = adaptersArray.get(LookPage);
+		
+		switch (LookPage) {
+		case 0:
+			Adapter1= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter1);//
+			break;
+		case 1:
+			Adapter2= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter2);//
+			break;
+		case 2:
+			Adapter3= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter3);//
+			break;
+		case 3:
+			Adapter4= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter4);//
+			break;
+		case 4:
+			Adapter5= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter5);//
+			break;
+		case 5:
+			Adapter6= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter6);//
+			break;
+		case 6:
+			Adapter7= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter7);//
+			break;
+		case 7:
+			Adapter8= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter8);//
+			break;
+		case 8:
+			Adapter9= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter9);//
+			break;
+		case 9:
+			Adapter10= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter10);//
+			break;
+		case 10:
+			Adapter11= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter11);//
+			break;
+		case 11:
+			Adapter12= new ListAdapter(this, arrayArray.get(LookPage));
+			listArray.get(LookPage).setAdapter(Adapter12);//
+			break;
+		default:
+			break;
+		}
+		 
+		handler.sendEmptyMessage(3);
 	}
 	
 	/**
-	 * 选择显示不同的列表
+	 * 加载更多数据添加
 	 */
-	private void chooseShowView(int what){
-		if (LoadPage == 0 || LoadPage ==1) {//判断是哪个频道
-			switch (LookPage) {//判断是哪个栏目
-			case 0:
-				setOneListView(list_page_view1,listData1,what);		
-				break;
-			case 1:
-				setOneListView(list_page_view2,listData2,what);					
-				break;
-			case 2:
-				setOneListView(list_page_view3,listData3,what);	
-				break;
-			case 3:
-				setOneListView(list_page_view4,listData4,what);	
-				break;
-			case 4:
-				setOneListView(list_page_view5,listData5,what);	
-				break;
-			case 5:
-				setOneListView(list_page_view6,listData6,what);	
-				break;
-			case 6:
-				setOneListView(list_page_view7,listData7,what);	
-				break;
-			case 7:
-				setOneListView(list_page_view8,listData8,what);	
-				break;
-			case 8:
-				setOneListView(list_page_view9,listData9,what);	
-				break;
-			default:
-				break;
-			}
-		}else if(LoadPage == 2){
-			switch (LookPage) {
-			case 0:
-				setOneListView(list_page_view1,listData1,what);		
-				break;
-			case 1:
-				setOneListView(list_page_view2,listData2,what);						
-				break;
-			case 2:
-				setOneListView(list_page_view3,listData3,what);		
-				break;
-			case 3:
-				setOneListView(list_page_view4,listData4,what);		
-				break;
-			default:
-				break;
-			}
-		}else if(LoadPage == 3){
-			switch (LookPage) {
-			case 0:
-				setOneListView(list_page_view1,listData1,what);		
-				break;
-			case 1:
-				setOneListView(list_page_view2,listData2,what);				
-				break;
-			case 2:
-				setOneListView(list_page_view3,listData3,what);
-				break;
-			case 3:
-				setOneListView(list_page_view4,listData4,what);
-				break;
-			case 4:
-				setOneListView(list_page_view5,listData5,what);
-				break;
-			case 5:
-				setOneListView(list_page_view6,listData6,what);
-				break;
-			case 6:
-				setOneListView(list_page_view7,listData7,what);
-				break;
-			case 7:
-				setOneListView(list_page_view8,listData8,what);
-			default:
-				break;
-			}	
-		}else if(LoadPage == 4){
-			switch (LookPage) {
-			case 0:
-				setOneListView(list_page_view1,listData1,what);		
-				break;
-			case 1:
-				setOneListView(list_page_view2,listData2,what);					
-				break;
-			case 2:
-				setOneListView(list_page_view3,listData3,what);	
-				break;
-			case 3:
-				setOneListView(list_page_view4,listData4,what);	
-				break;
-			case 4:
-				setOneListView(list_page_view5,listData5,what);	
-				break;
-			case 5:
-				setOneListView(list_page_view6,listData6,what);	
-				break;
-			case 6:
-				setOneListView(list_page_view7,listData7,what);	
-				break;
-			case 7:
-				setOneListView(list_page_view8,listData8,what);	
-				break;
-			case 8:
-				setOneListView(list_page_view9,listData9,what);	
-				break;
-			case 9:
-				setOneListView(list_page_view10,listData10,what);	
-				break;
-			case 10:
-				setOneListView(list_page_view11,listData11,what);	
-				break;
-			case 11:
-				setOneListView(list_page_view12,listData12,what);	
-				break;
-			default:
-				break;
-			}
-		}else if (LoadPage == 5) {
-			switch (LookPage) {
-			case 0:
-				setOneListView(list_page_view1,listData1,what);		
-				break;
-			case 1:
-				setOneListView(list_page_view2,listData2,what);				
-				break;
-			case 2:
-				setOneListView(list_page_view3,listData3,what);
-				break;
-			case 3:
-				setOneListView(list_page_view4,listData4,what);
-				break;
-			case 4:
-				setOneListView(list_page_view5,listData5,what);
-				break;
-			case 5:
-				setOneListView(list_page_view6,listData6,what);
-				break;
-			default:
-				break;
-			}		
+	private void addShowListView()
+	{
+		switch (LookPage) {
+		case 0:
+			Adapter1.notifyDataSetChanged();
+			break;
+		case 1:
+			Adapter2.notifyDataSetChanged();
+			break;
+		case 2:
+			Adapter3.notifyDataSetChanged();
+			break;
+		case 3:
+			Adapter4.notifyDataSetChanged();
+			break;
+		case 4:
+			Adapter5.notifyDataSetChanged();
+			break;
+		case 5:
+			Adapter6.notifyDataSetChanged();
+			break;
+		case 6:
+			Adapter7.notifyDataSetChanged();
+			break;
+		case 7:
+			Adapter8.notifyDataSetChanged();
+			break;
+		case 8:
+			Adapter9.notifyDataSetChanged();
+			break;
+		case 9:
+			Adapter10.notifyDataSetChanged();
+			break;
+		case 10:
+			Adapter11.notifyDataSetChanged();
+			break;
+		case 11:
+			Adapter12.notifyDataSetChanged();
+			break;
+		default:
+			break;
 		}
-		
+
+		onLoad();
 	}
-	
 	/**
 	 * 通过handler
 	 * what:
-	 * 1第一次加载数据
+	 * 1加载数据
 	 * 2执行添加日期
 	 * 3执行对比数据
+	 * 4显示缓存数据列表
+	 * 5显示第一次加载数据列表
+	 * 6检测属性数据是否有更新，如果有更新则重新刷新列表，如果没有则不做动作
+	 * 7没有数据情况提示
 	 */
 	private Handler handler = new Handler()
 	{
@@ -1098,19 +1118,62 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					progressDialog.dismiss();
 					Dialog = true;
 				}
-			
-				chooseShowView(3);
+				setOneListView(5);
 				break;
-			
 			case 2:
 				AddTimeThread();
 				break;
-				
 			case 3:
 				Contrast();
 				break;
 			case 4:
 				ShowList();
+				break;
+			case 5:
+				setShowListView();
+				break;
+			case 6://检测属性数据是否有更新，如果有更新则重新刷新列表，如果没有则不做动作
+
+				Log.v("east------1017", ""+dateMap.size());
+				if (dateMap.size() == arrayArray.get(LookPage).size()) {
+					if (dateMap.get(dateMap.size()-1).get(LauchActivity.LAUCH_DATE_nid).toString().equals(arrayArray.get(LookPage).get(dateMap.size()-1).get(LauchActivity.LAUCH_DATE_nid).toString())) {
+						
+						dateMap.clear();
+						handler.sendEmptyMessage(7);
+					}
+					else {
+						if (!Dialog) {
+							progressDialog.dismiss();
+							Dialog = true;
+						}
+						onLoad();
+						arrayArray.get(LookPage).clear();
+						setOneListView(5);
+					}
+				}
+				else {
+					if (!Dialog) {
+						progressDialog.dismiss();
+						Dialog = true;
+					}
+					onLoad();
+					arrayArray.get(LookPage).clear();
+					setOneListView(5);
+				}
+				break;
+			case 7://没有数据情况提示
+				if (!Dialog) {
+					progressDialog.dismiss();
+					Dialog = true;
+				}
+				onLoad();
+				Toast.makeText(getApplicationContext(), "没有更多数据", Toast.LENGTH_SHORT).show();
+				break;
+			case 8:
+				setOneListView(9);
+				break;
+			case 9:
+				addShowListView();
 				break;
 			default:
 				break;
