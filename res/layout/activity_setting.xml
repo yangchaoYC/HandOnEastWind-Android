@@ -259,6 +259,7 @@
 		          />  		 
 		    </TableRow> 
 		     <TableRow 	      
+		         android:id="@+id/Setting_Update"
 		         android:background="#FFFFFF" 
 		         android:layout_marginLeft="0.5dip"
 		         android:layout_marginRight="0.5dip"

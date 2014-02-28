@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.evebit.DB.DBSize;
 import com.evebit.DB.DBTime;
+import com.umeng.update.UmengUpdateAgent;
 
 import net.tsz.afinal.FinalDb;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TableRow;
 
 public class SettingActivity extends Activity implements android.view.View.OnClickListener{
 
@@ -33,7 +35,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	  private Button size1Button,size2Button,size3Button;
 	  private String Size = null;
 	  private FinalDb db = null;
-	
+	  private TableRow updateTableRow;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -151,6 +153,16 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				CheckImage("flase");
 			}
 	    });
+		
+		
+		updateTableRow.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				UmengUpdateAgent.forceUpdate(SettingActivity.this);
+			}
+		});
 		
 	}
 
