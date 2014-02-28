@@ -4,10 +4,13 @@ import com.facebook.Session.NewPermissionsRequest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -71,6 +74,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				public void onClick(View v) {
 					// TODO Auto-generated method stub	
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+					Shared("15");
 					brodeNewsColumn(1);
 					brodeTabhost();				
 				}
@@ -81,6 +85,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			public void onClick(View v) {
 				// TODO Auto-generated method stub	
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+				Shared("24");
 					brodeNewsColumn(2); 
 					brodeTabhost();		
 			}
@@ -92,6 +97,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 			    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+				Shared("28");
 				brodeNewsColumn(3);
 				brodeTabhost();
 			}
@@ -102,6 +108,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+					Shared("35");
 					brodeNewsColumn(4);
 					brodeTabhost();
 				}
@@ -112,10 +119,20 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					//广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
+					Shared("47");
 					brodeNewsColumn(5);
 					brodeTabhost();
 				}
 			});
+	}
+	
+	
+	private void Shared(String shaerd)
+	{
+		SharedPreferences settings = this.getSharedPreferences("CheckLoginXML", 0);
+		SharedPreferences.Editor localEditor = settings.edit();
+		localEditor.putString("CheckLogin",shaerd);
+		localEditor.commit(); 
 	}
 	
 	/**
@@ -151,12 +168,12 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
         if (e1.getX()-e2.getX() > FLING_MIN_DISTANCE   
                    && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   
                // Fling left   
-               Toast.makeText(this, "向左手势", Toast.LENGTH_SHORT).show();   
+             //  Toast.makeText(this, "向左手势", Toast.LENGTH_SHORT).show();   
            } else if (e2.getX()-e1.getX() > FLING_MIN_DISTANCE   
                    && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   
                // Fling right  
         	   onBackPressed();
-               Toast.makeText(this, "向右手势", Toast.LENGTH_SHORT).show();   
+             //  Toast.makeText(this, "向右手势", Toast.LENGTH_SHORT).show();   
            }   
            return false;   
 	}
@@ -188,6 +205,22 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
          return mGestureDetector.onTouchEvent(event);   
 	}
 
-	
+	/**
+	 * 屏蔽返回按钮
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * 屏蔽菜单键
+	 */
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }

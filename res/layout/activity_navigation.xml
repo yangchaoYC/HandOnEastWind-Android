@@ -3,66 +3,322 @@
     android:id="@+id/navigation"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@android:color/white" >
     
-<TextView 
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="东风"
-    />
+    <LinearLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:padding="15dp"
+    android:background="#f2f1ef"
+    android:orientation="vertical"
+    >
+		 <TextView 
+		    android:id="@+id/navigation_title"
+			android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+			android:textColor="#BB0000"
+			android:textSize="15sp"
+			android:text="@string/navigation_title"
+		    />
+   </LinearLayout>
+   <View  
+       android:layout_height="1dp" 
+       android:background="#A0A0A0"       
+       android:layout_width="fill_parent"
+       ></View>
     
- <LinearLayout 
+   <LinearLayout 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:weightSum="5"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
     >
 
+      <LinearLayout 
+	    android:id="@+id/navigation_news"
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@android:color/white"
+	    android:layout_weight="1"
+	    android:weightSum="2"
+	    >
 
-  <LinearLayout
-    android:id="@+id/navigation_news"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/icon_1_n"
-    android:layout_weight="1"
-    >
-  </LinearLayout>
+          <LinearLayout
+              android:layout_width="0dp"
+              android:layout_height="fill_parent"
+              android:layout_weight="1"
+              android:gravity="center"
+              android:orientation="vertical" >
+
+             
+              <ImageView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:src="@drawable/navigation_news1" />
+              
+          </LinearLayout>
+     
+      <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:paddingLeft="12dp"
+         android:orientation="vertical"
+         android:gravity="center_vertical"
+        >
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:text="@string/navigation_1_title"
+	        />
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="5dp"
+            android:textColor="#696969"
+            android:text="@string/navigation_1_content"
+	        />
+          
+	  </LinearLayout> 
+      
+   </LinearLayout>
+   
+       <View  
+       android:layout_height="1dp" 
+       android:background="#D7D7D7"       
+       android:layout_width="fill_parent"
+    
+       ></View>
   
    <LinearLayout 
     android:id="@+id/navigation_dongfeng"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/icon_1_n"
+    android:background="@android:color/white"
     android:layout_weight="1"
-    ></LinearLayout>
+    android:weightSum="2"
+    >
+        <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:orientation="vertical"
+         android:gravity="center"
+        >
+	    <ImageView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:src="@drawable/navigation_news1"
+	        />  
+     </LinearLayout> 
+     
+      <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:paddingLeft="12dp"
+         android:orientation="vertical"
+         android:gravity="center_vertical"
+        >
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:text="@string/navigation_2_title"
+	        />
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="5dp"
+            android:textColor="#696969"
+            android:text="@string/navigation_2_content"
+	        />
+          
+	  </LinearLayout> 
+       
+   </LinearLayout>
   
+    <View  
+       android:layout_height="1dp" 
+       android:background="#D7D7D7"       
+       android:layout_width="fill_parent"
+    
+       ></View>
+   
     <LinearLayout 
     android:id="@+id/navigation_travel"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/icon_1_n"
+    android:background="@android:color/white"
     android:layout_weight="1"
-    ></LinearLayout>
+    android:weightSum="2"
+    >
+        
+          <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:orientation="vertical"
+         android:gravity="center"
+        >
+	    <ImageView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:src="@drawable/navigation_news1"
+	        />  
+     </LinearLayout> 
+     
+      <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:paddingLeft="12dp"
+         android:orientation="vertical"
+         android:gravity="center_vertical"
+        >
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:text="@string/navigation_3_title"
+	        />
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="5dp"
+            android:textColor="#696969"
+            android:text="@string/navigation_3_content"
+	        />
+          
+	  </LinearLayout>
+    </LinearLayout>
+    
+     <View  
+       android:layout_height="1dp" 
+       android:background="#D7D7D7"       
+       android:layout_width="fill_parent"
+    
+       ></View>
    
      <LinearLayout
-    android:id="@+id/navigation_tech"
-    android:orientation="vertical" 
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/icon_1_n"
-    android:layout_weight="1"
-    ></LinearLayout>
+	    android:id="@+id/navigation_tech"
+	    android:orientation="horizontal"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="@android:color/white"
+	    android:layout_weight="1"
+	    android:weightSum="2"
+	    >
+         
+           <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:orientation="vertical"
+         android:gravity="center"
+        >
+	    <ImageView 
+	       android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:src="@drawable/navigation_news1"
+	        />  
+     </LinearLayout> 
+     
+      <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:paddingLeft="12dp"
+         android:orientation="vertical"
+         android:gravity="center_vertical"
+        >
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:text="@string/navigation_4_title"
+	        />
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="5dp"
+            android:textColor="#696969"
+            android:text="@string/navigation_4_content"
+	        />
+          
+	  </LinearLayout>
+     </LinearLayout>
     
+      <View  
+       android:layout_height="1dp" 
+       android:background="#D7D7D7"       
+       android:layout_width="fill_parent"   
+       ></View>
+      
       <LinearLayout
     android:id="@+id/navigation_fix"
-    android:orientation="vertical" 
+    android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/icon_1_n"
+    android:background="@android:color/white"
     android:layout_weight="1"
-    ></LinearLayout>
+    android:weightSum="2"
+    >
+          
+            <LinearLayout 
+	         android:layout_width="0dp"
+	         android:layout_height="fill_parent"
+	         android:layout_weight="1"
+	         android:orientation="vertical"
+	         android:gravity="center"
+	        >
+	    <ImageView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:src="@drawable/navigation_news1"
+	        />  
+     </LinearLayout> 
+     
+      <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:paddingLeft="12dp"
+         android:orientation="vertical"
+         android:gravity="center_vertical"
+        >
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#333333"
+            android:text="@string/navigation_5_title"
+	        />
+	    <TextView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            android:layout_marginTop="5dp"
+            android:textColor="#696969"
+            android:text="@string/navigation_5_content"
+	        />
+          
+	  </LinearLayout>
+      </LinearLayout>
  </LinearLayout>    
 </LinearLayout>
