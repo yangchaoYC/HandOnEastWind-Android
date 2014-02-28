@@ -107,6 +107,9 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		});
 		
 		
+		
+		
+		
 		pushOpenImage.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -150,6 +153,8 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	    });
 		
 	}
+
+	
 
 	
 	

@@ -24,11 +24,11 @@
 			android:textSize="16sp"
 			android:text="@string/navigation_title"
 		    />
-		    <LinearLayout 
+		    <RelativeLayout 
 		    android:layout_width="match_parent"
 		    android:layout_height="50dp"
 		    android:layout_marginTop="7dp"
-		    android:orientation="vertical"	
+		   
 		 
 		    >
 		  <TextView 
@@ -40,9 +40,10 @@
 			android:textSize="12sp"
 			android:gravity="center"
 			android:layout_marginRight="2dp"
+			android:layout_alignParentRight="true"
 			android:text="@string/navigation_company"
 		    />
-		 </LinearLayout>
+		 </RelativeLayout>
    </LinearLayout>
    <View  
        android:layout_height="1dp" 

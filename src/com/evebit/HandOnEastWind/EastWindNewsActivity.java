@@ -784,7 +784,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		String condition ="nid='" + "image"+ "'";//搜索条件
 		List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
 		if (list.size() == 0) {
-			imageString = "true";
+			imageString = "flase";
 		}
 		else {
 			imageString = list.get(0).getSize().toString();

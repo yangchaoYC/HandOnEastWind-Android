@@ -67,13 +67,11 @@ public class ImageLoader {
 	        PhotoToLoad p=new PhotoToLoad(url, imageView);   
 	        executorService.submit(new PhotosLoader(p));   
 	    }   
-	    
 
-	    
 	    
 	    private Bitmap getBitmap(String url)   
 	    {   
-	    	
+	    	Log.v("image----76---", url+"");
 	        File f=fileCache.getFile(url);   
 	    
 	        //浠巗d鍗� 
