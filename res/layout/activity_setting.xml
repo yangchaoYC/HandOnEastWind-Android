@@ -203,6 +203,7 @@
 		        </LinearLayout> 
 		    </TableRow> 
 		     <TableRow 	      
+		         android:id="@+id/Setting_Cache"
 		         android:background="#FFFFFF" 
 		         android:layout_margin="0.5dip" 
 		         android:layout_weight="1" 
@@ -223,8 +224,8 @@
 		            android:gravity="right"        
 		            android:textColor="#B0B0B0"
 		            android:paddingRight="10dp"  
-		            android:textSize="15sp"
-		            android:text="@string/setting_storage" 
+		            android:textSize="12sp"
+		            android:text="@string/setting_storage"
 		            />	 
 		    </TableRow> 
 		     <TableRow 	      

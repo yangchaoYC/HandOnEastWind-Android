@@ -1,6 +1,7 @@
 package com.evebit.HandOnEastWind;
 
 
+import java.io.File;
 import java.util.List;
 
 import com.evebit.DB.DBSize;
@@ -14,12 +15,16 @@ import cn.jpush.android.api.JPushInterface;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 public class SettingActivity extends Activity implements android.view.View.OnClickListener{
 
@@ -31,11 +36,20 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	  
 	  ImageView imageOpen ; //默认显示图片开启，点击后无图模式
 	  ImageView imageClose ;
-	  
-	  private Button size1Button,size2Button,size3Button;
+	  long fileSize = 0;  
+      String cacheSize = "0KB";
+      
+      
+		 File filesDir = getFilesDir();
+		File cacheDir = getCacheDir();
+	  private Button size1Button,size2Button,size3Button;//字体大小按钮
 	  private String Size = null;
 	  private FinalDb db = null;
-	  private TableRow updateTableRow;
+	  private TextView cacheTextView;//显示缓存
+	  private TableRow updateTableRow;//更新按钮
+	  private TableRow cacheTableRow;//更新按钮
+	  //private File cacheDir;  
+	  //private File fileDir;  
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -52,7 +66,9 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		imageClose = (ImageView)findViewById(R.id.setting_image_close);
 		db = FinalDb.create(this);
 		
-		
+		cacheTextView = (TextView)findViewById(R.id.setting_storage);
+		cacheTableRow = (TableRow)findViewById(R.id.Setting_Cache);
+		updateTableRow = (TableRow)findViewById(R.id.Setting_Update);
 		 size1Button = (Button)findViewById(R.id.Setting_button_size1);
 		 size2Button = (Button)findViewById(R.id.Setting_button_size2);
 		 size3Button = (Button)findViewById(R.id.Setting_button_size3);
@@ -61,11 +77,13 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		 size1Button.setOnClickListener(this);
 		 size2Button.setOnClickListener(this);
 		 size3Button.setOnClickListener(this);
-		 getSize();
-		 push();
-		 sound();
-		 image();
-		
+		 getSize();//获取当前字体大小
+		 push();//获取当前是否开启推送
+		 sound();//获取当前是否开启推送铃声
+		 image();//获取当前是否是无图模式
+		// cacheDir = this.getCacheDir(); 
+		// fileDir = this.getFilesDir();   	
+		 cache();//获取当前缓存文件
 		soundOpenImage.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -107,11 +125,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				CheckSound("flase");
 			}
 		});
-		
-		
-		
-		
-		
+			
 		pushOpenImage.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -154,7 +168,6 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 			}
 	    });
 		
-		
 		updateTableRow.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -164,12 +177,115 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 			}
 		});
 		
+		
+		
+		cacheTableRow.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				File[] files = getCacheDir().listFiles();
+                for (File f : files)
+                        f.delete();
+                
+                
+                handler.sendEmptyMessage(1);
+			}
+		});
 	}
 
 	
+	private Handler handler = new Handler()
+	{
 
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			cache();
+		}
+		
+	};
+	
+	private void cache()
+	{
+		
+		
+		//fileSize += getDirSize(filesDir);  
+        fileSize += getDirSize(cacheDir); 
+        
+        if(isMethodsCompat(android.os.Build.VERSION_CODES.FROYO)){  
+        	  
+            File externalCacheDir = getExternalCacheDir(this);//"<sdcard>/Android/data/<package_name>/cache/"  
+            fileSize += getDirSize(externalCacheDir);             
+  
+        } 
+        if (fileSize > 0)  
+        {
+        	cacheSize = formatFileSize(fileSize);
+        	cacheTextView.setText("已有"+cacheSize+"缓存文件");
+        	
+        }
+	}
 	
 	
+	
+	
+	
+	/**  
+     * 转换文件大小  
+     *  
+     * @param fileS  
+     * @return B/KB/MB/GB  
+     */  
+    public static String formatFileSize(long fileS) {  
+        java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");  
+        String fileSizeString = "";  
+        if (fileS < 1024) {  
+            fileSizeString = df.format((double) fileS) + "B";  
+        } else if (fileS < 1048576) {  
+            fileSizeString = df.format((double) fileS / 1024) + "KB";  
+        } else if (fileS < 1073741824) {  
+            fileSizeString = df.format((double) fileS / 1048576) + "MB";  
+        } else {  
+            fileSizeString = df.format((double) fileS / 1073741824) + "G";  
+        }  
+        return fileSizeString;  
+    }
+	
+	private File getExternalCacheDir(Context context) {
+		// TODO Auto-generated method stub
+		return context.getExternalCacheDir();
+	}
+
+
+
+	private boolean isMethodsCompat(int froyo) {
+		// TODO Auto-generated method stub
+		int currentVersion = android.os.Build.VERSION.SDK_INT;  
+        return currentVersion >= froyo; 
+	}
+
+
+
+	public static long getDirSize(File dir) {  
+        if (dir == null) {  
+            return 0;  
+        }  
+        if (!dir.isDirectory()) {  
+            return 0;  
+        }  
+        long dirSize = 0;  
+        File[] files = dir.listFiles();  
+        for (File file : files) {  
+            if (file.isFile()) {  
+                dirSize += file.length();  
+            } else if (file.isDirectory()) {  
+                dirSize += file.length();  
+                dirSize += getDirSize(file); // 递归调用继续统计  
+            }  
+        }  
+        return dirSize;  
+    } 
 	private void image()
 	{
 		String condition ="nid='" + "image"+ "'";//搜索条件
