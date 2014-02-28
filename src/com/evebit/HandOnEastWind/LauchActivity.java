@@ -4,6 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+
+import net.tsz.afinal.FinalDb;
+
+import cn.jpush.android.api.JPushInterface;
+
+import com.evebit.DB.DBSize;
 import com.umeng.analytics.MobclickAgent;
 
 import android.os.Bundle;
@@ -46,7 +53,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	   Bitmap bitmap =null; //显示广告图片
 	   private final int SPLASH_DISPLAY_LENGHT = 2000; //2秒后跳转主页面
 	   private Boolean flag= false; //标记是否第一次登陆
-	   
+	   private FinalDb db = null;
 	   public static final String LAUCH_URL = "http://zhangshangdongfeng.demo.evebit.com/"; 
 	   
 	   public static final String LAUCH_DATE_node_title = "node_title"; 
@@ -78,12 +85,12 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	     Shared();
 		 //加载首页的广告图片
 	     imgThread();     
-         
+	     db = FinalDb.create(this);
 	     //检测更新
 		 MobclickAgent.updateOnlineConfig(LauchActivity.this);		
 	}
 	
-	
+
 	private void Shared()
 	{
 		SharedPreferences settings = this.getSharedPreferences("CheckLoginXML", 0);
@@ -205,12 +212,12 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 				 if (e1.getX()-e2.getX() > FLING_MIN_DISTANCE   
 		                 && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   
 		             // Fling left   
-		             Toast.makeText(this, "left", Toast.LENGTH_SHORT).show();  
+		            
 		             goTabMain();
 		         } else if (e2.getX()-e1.getX() > FLING_MIN_DISTANCE   
 		                 && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   
 		             // Fling right   
-		             Toast.makeText(this, "right", Toast.LENGTH_SHORT).show();  
+		           
 		            
 		         }   
 			}

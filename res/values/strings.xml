@@ -19,6 +19,7 @@
     <string name="lauch_copyright">Copyright@2014 dfcm.cc.inc All Rights Reserved</string>
     
      <string name="navigation_title">湖北东风报业传媒有限公司</string>
+     <string name="navigation_company">战略合作伙伴</string>
      <string name="navigation_1_title">东风汽车报</string> 
      <string name="navigation_1_content">展示集团风采，弘扬精神文明</string> 
      <string name="navigation_2_title">东风杂志</string> 
@@ -38,6 +39,11 @@
      <string name="label6">关于</string> 
      <string name="label7">免责声明</string> 
      <string name="label8">检查更新</string> 
+     
+          <string name="size1">小</string> 
+          <string name="size2">中</string> 
+          <string name="size3">大</string> 
+          
      
     <string name="setting_storage">已有348KB缓存文件</string> 
     <string name="share_code">扫描二维码下载手机客户端</string> 

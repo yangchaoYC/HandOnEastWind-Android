@@ -3,15 +3,33 @@ package com.evebit.HandOnEastWind;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+
+import net.tsz.afinal.FinalDb;
+
+import com.evebit.DB.DBSize;
+import com.evebit.DB.DBTime;
 import com.evebit.HandOnEastWind.R;
 import com.evebit.adapter.Normal;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.controller.RequestType;
+import com.umeng.socialize.controller.UMServiceFactory;
+import com.umeng.socialize.controller.UMSocialService;
+import com.umeng.socialize.controller.UMSsoHandler;
+import com.umeng.socialize.controller.UMWXHandler;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.sso.QZoneSsoHandler;
+import com.umeng.socialize.sso.SinaSsoHandler;
+import com.umeng.socialize.sso.TencentWBSsoHandler;
+
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.widget.SimpleCursorAdapter.ViewBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -22,6 +40,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
+import android.widget.Button;
+import android.widget.ImageView;
 
 
 /**
@@ -32,7 +52,7 @@ import android.webkit.WebView;
  */
 
 @SuppressLint("JavascriptInterface")
-public class WebActivity extends Activity {
+public class WebActivity extends Activity implements android.view.View.OnClickListener{
       
 	 //文章ID==LauchActivity.LAUCH_URL + "news/"+nid+".html"
 	private WebView webView;//主体
@@ -40,6 +60,15 @@ public class WebActivity extends Activity {
 	private Handler webHandler = new Handler();
 	private String nid,node_title,node_created,field_channel,field_newsfrom,body_1,body_2;
 	private String base = null;
+	private String Size = null;
+	private String imageString;
+	private Button size1Button,size2Button,size3Button;
+	private ImageView backImageView,shareImageView;
+	private FinalDb db = null;
+	int size;
+	private String Body;
+	final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share",RequestType.SOCIAL);
+	
 	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
 	@SuppressWarnings("deprecation")
 	@Override
@@ -49,6 +78,28 @@ public class WebActivity extends Activity {
 		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); 
 		 
 		 setContentView(R.layout.activity_web);
+		 
+		 //share
+		 mController.getConfig().removePlatform(SHARE_MEDIA.DOUBAN,SHARE_MEDIA.RENREN,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE);
+		
+		 mController.setShareContent(LauchActivity.LAUCH_URL + "news/"+nid+".html");
+				
+			mController.setShareMedia(new UMImage(WebActivity.this,R.drawable.ic_launcher));
+					
+					mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.baidu.com/");   
+					
+			        mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.umeng.com/social");  		
+					String appID = "wx967daebe835fbeac";
+					//分享内容跳转的URL
+					String contentUrl = LauchActivity.LAUCH_URL + "news/"+nid+".html";
+					UMWXHandler wxHandler = mController.getConfig().supportWXPlatform(WebActivity.this,appID, contentUrl);
+					wxHandler.setWXTitle(node_title);
+					UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(WebActivity.this,appID, contentUrl) ;
+					circleHandler.setCircleTitle(node_title);
+
+					mController.getConfig().setSsoHandler(new SinaSsoHandler());
+					mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
+		 
 		 
 		 
 		 nid = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_nid);
@@ -60,9 +111,34 @@ public class WebActivity extends Activity {
 		 body_2 = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_body_2);
 		 
 		 base = "<base href=\""+ LauchActivity.LAUCH_URL  +" \" />";
-			webView = (WebView)findViewById(R.id.webView_WebView);
+		 
+		 db = FinalDb.create(this);
+		 size1Button = (Button)findViewById(R.id.Web_button_size1);
+		 size2Button = (Button)findViewById(R.id.Web_button_size2);
+		 size3Button = (Button)findViewById(R.id.Web_button_size3);
+		 backImageView = (ImageView)findViewById(R.id.Web_Button_back);
+		 shareImageView = (ImageView)findViewById(R.id.Web_Button_Shaer);
 
-			initWeb();
+		 size1Button.setOnClickListener(this);
+		 size2Button.setOnClickListener(this);
+		 size3Button.setOnClickListener(this);
+		 backImageView.setOnClickListener(this);
+		 shareImageView.setOnClickListener(this);
+		 
+		webView = (WebView)findViewById(R.id.webView_WebView);
+		getSize();//获取字体大小
+		image();
+
+		
+		
+		if (imageString.equals("true")) {
+			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
+		}
+		else {
+			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+		}
+		
+		initWeb(Body);//显示网页
 
 
 			//webView.setWebChromeClient(mChromeClient);
@@ -93,6 +169,19 @@ public class WebActivity extends Activity {
 			
 	}
 	
+	
+	 private void image()
+		{
+			String condition ="nid='" + "image"+ "'";//搜索条件
+			List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+			if (list.size() == 0) {
+				imageString = "true";
+			}
+			else {
+				imageString = list.get(0).getSize().toString();
+			}
+		}
+	
 		/**
 		 * 根据传递的url调用系统播放器进行视频播放
 		 * @param url
@@ -111,21 +200,19 @@ public class WebActivity extends Activity {
 		 * @param time	时间
 		 * 根据数据调用本地html进行网页显示
 		 */
-		private void initWeb() {
+		private void initWeb(String body) {
 			
-			
-			//Log.v("-----yyyyy----", introtext);
 			//byte b[] = android.util.Base64.decode(introtext, Base64.DEFAULT);//解码
 			//introtext = new String(b);
 			
 			Normal normal = new Normal(this);
 			String summary = normal.getFromAssets("template.html");
 			summary = summary.replace("base", base);
-			summary = summary.replace("URL", LauchActivity.LAUCH_URL + "news/"+nid+".html");
+		//	summary = summary.replace("URL", LauchActivity.LAUCH_URL + "news/"+nid+".html");
 			summary = summary.replace("titleString", node_title);
-			summary = summary.replace("introtextString", body_1);
+			summary = summary.replace("introtextString", body);
 			summary = summary.replace("timeString", node_created);
-			
+			summary = summary.replace("meidaSting", node_created);
 			webView.getSettings().setDefaultTextEncodingName("UTF-8"); 
 			//mWebView.getSettings().setJavaScriptEnabled(true);
 			webView.getSettings().setBuiltInZoomControls(true);
@@ -133,6 +220,84 @@ public class WebActivity extends Activity {
 		
 		}
 
+		
+		
+		/**
+		 * 查询字体大小
+		 * @param size
+		 */
+		private void getSize()
+		{
+			String condition ="nid='" + "size"+ "'";//搜索条件
+			List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+			if (list.size() == 0) {
+				DBSize("1");
+				size1Button.setTextColor(0xFFAA823C);
+				size = 15;
+			}
+			else {
+				Size = list.get(0).getSize();
+				if (Size.equals("1")) {
+					size1Button.setTextColor(0xFFAA823C);
+					size2Button.setTextColor(0xFF000000);
+					size3Button.setTextColor(0xFF000000);
+					size = 15;
+				}
+				else if (Size.equals("2")) {
+					size1Button.setTextColor(0xFF000000);
+					size2Button.setTextColor(0xFFAA823C);
+					size3Button.setTextColor(0xFF000000);
+					size = 20;
+				}
+				else {
+					size1Button.setTextColor(0xFF000000);
+					size2Button.setTextColor(0xFF000000);
+					size3Button.setTextColor(0xFFAA823C);
+					size = 25;
+				}
+			}
+		}
+		
+		/**
+		 * 修改字体大小
+		 * @param size
+		 */
+		private void Updatesize(String size)
+		{
+			String condition ="nid='" + "size"+ "'";//搜索条件
+			List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+			if (list.size() == 0) {
+				DBSize(size);
+			}
+			else {
+				String delete ="nid='" + "size"+ "'";//搜索条件
+				db.deleteByWhere(DBSize.class, delete);
+				DBSize(size);
+			}
+		}
+		
+		
+		private void DBSize(final String size)
+		{
+			new Thread()
+			{
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					
+					String condition ="nid='" + "size"+ "'";
+					db.deleteByWhere(DBSize.class, condition);
+					
+					DBSize user = new DBSize();
+					user.setNid("size");
+					user.setSize(size);
+					db.save(user);
+				}
+				
+			}.start();
+		}
+		
 		
 	private WebChromeClient mChromeClient = new WebChromeClient()
 	{
@@ -195,6 +360,83 @@ public class WebActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.lauch, menu);
 		return true;
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.Web_button_size1:
+			Updatesize("1");
+			size1Button.setTextColor(0xFFAA823C);
+			size2Button.setTextColor(0xFF000000);
+			size3Button.setTextColor(0xFF000000);
+			size = 15;
+			if (imageString.equals("true")) {
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
+			}
+			else {
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+			}
+			
+			initWeb(Body);			break;
+		case R.id.Web_button_size2:
+			Updatesize("2");	
+			size1Button.setTextColor(0xFF000000);
+			size2Button.setTextColor(0xFFAA823C);
+			size3Button.setTextColor(0xFF000000);
+			size = 20;
+			if (imageString.equals("true")) {
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
+			}
+			else {
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+			}
+			
+			initWeb(Body);
+			break;
+		case R.id.Web_button_size3:
+			Updatesize("3");
+			size1Button.setTextColor(0xFF000000);
+			size2Button.setTextColor(0xFF000000);
+			size3Button.setTextColor(0xFFAA823C);
+			size = 25;
+			if (imageString.equals("true")) {
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
+			}
+			else {
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+			}
+			
+			initWeb(Body);
+
+			break;
+		case R.id.Web_Button_back:
+			onBackPressed();
+			break;
+		case R.id.Web_Button_Shaer:
+			shareOut();
+			mController.openShare(WebActivity.this, false);
+		//	
+			break;
+		default:
+			break;
+		}
+	}
+
+	private void shareOut() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// TODO Auto-generated method stub
+		super.onActivityResult(requestCode, resultCode, data);
+		UMSsoHandler ssoHandler = mController.getConfig().getSsoHandler(requestCode) ;
+	    if(ssoHandler != null){
+	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
+	    }
 	}
 	
 	

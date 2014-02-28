@@ -23,7 +23,7 @@ public class ListAdapter extends BaseAdapter {
 	private ArrayList<HashMap<String, String>> list;   
     private LayoutInflater listContainer;  
     public ImageLoader imageLoader; 
-    
+    private String imageString;
     public final class ListItemView{  
     
     	public TextView title;
@@ -36,12 +36,13 @@ public class ListAdapter extends BaseAdapter {
     
  }     
     
-    public ListAdapter(Context context, ArrayList<HashMap<String, String>> list) {
+    public ListAdapter(Context context, ArrayList<HashMap<String, String>> list,String imageString) {
 		// TODO Auto-generated constructor stub	
 		this.context=context;
 	    this.list=list;	 
+	    this.imageString = imageString;
 	    listContainer = LayoutInflater.from(context);  
-	    imageLoader = new ImageLoader(context);
+	    imageLoader = new ImageLoader(context,imageString);
   }
 
     

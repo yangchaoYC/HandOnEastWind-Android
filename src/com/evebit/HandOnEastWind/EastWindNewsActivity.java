@@ -7,6 +7,7 @@ import java.util.List;
 
 import net.tsz.afinal.FinalDb;
 
+import com.evebit.DB.DBSize;
 import com.evebit.DB.DBTime;
 import com.evebit.DB.DBUser;
 import com.evebit.ListView.XListView;
@@ -76,10 +77,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         * 汽车科技(12个栏目)：播报、国际前研、新车测评、政能量、创新观察、人物专访、特别关注、特稿、设计•研究、试验•测试、工艺•材料、公告牌
         * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
         */
-		private String title1[] = {  "头 条", "要 闻", "生产经营", "东风党建", "和谐东风",  "东风人", "东风文艺", "专题报道", "四城视点" };
-		private String title2[] = {  "专 题", "企 业", "观 点", "对 话"};
+		private String title1[] = {  " 头 条 ", " 要 闻 ", "生产经营", "东风党建", "和谐东风",  " 东风人 ", "东风文艺", "专题报道", "四城视点" };
+		private String title2[] = {  " 专 题 ", " 企 业 ", " 观 点 ", " 对 话 "};
 		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博·贴士邦"};
-		private String title4[] = {  "播 报", "国际前研", "新车测评", "政能量", "创新观察", "人物专访", "特别关注", "特稿", "设计•研究", "试验•测试" , "工艺•材料", "公告牌"};
+		private String title4[] = {  " 播 报 ", "国际前研", "新车测评", " 政能量 ", "创新观察", "人物专访", "特别关注", " 特 稿 ", "设计•研究", "试验•测试" , "工艺•材料", " 公告牌 "};
 		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
 		
 		  private ImageView news_choose_ImageView; //点击拉开更多频道
@@ -121,7 +122,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	    private boolean Dialog =true;
 	    		
 	    private FinalDb db = null;//数据库对象
-	    
+	    private String imageString;
 	    private ArrayList<XListView> listArray = new ArrayList<XListView>();
 	    private ListAdapter Adapter1 ;
 	    private ListAdapter Adapter2;
@@ -260,6 +261,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			for (int j = title.length; j < 12; j++) {
 				buttons.get(j).setVisibility(View.INVISIBLE);
 			}
+			
+			
+			
 		}
 	}
 
@@ -319,8 +323,26 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      
 	      pageId = Integer.valueOf(getShared());
 	      
-	      
-	      InItView(9);
+	      switch (pageId) {
+		case 15:
+			 InItView(9);
+			break;
+		case 24:
+			 InItView(4);	
+			break;
+		case 28:
+			 InItView(8);
+			break;
+		case 35:
+			 InItView(12);
+			break;
+		case 47:
+			 InItView(6);
+			break;
+		default:
+			break;
+		}
+	     
 	}
 	
 	private String getShared()
@@ -394,7 +416,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		case 9:		
 			 InItTitle1(title1);
 			 setSelector(0,title1);	
-			 Log.v("eastwindnews --- 316-- ", "---");
 			 list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
 			 list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
 			 list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
@@ -613,23 +634,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					switch (choose) {
 					case 9:
 						setSelector(Integer.parseInt(v.getTag().toString()),title1);
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 4:
 						setSelector(Integer.parseInt(v.getTag().toString()),title2);	
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 8:
 						setSelector(Integer.parseInt(v.getTag().toString()),title3);
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 12:
 						setSelector(Integer.parseInt(v.getTag().toString()),title4);
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 6:
 						setSelector(Integer.parseInt(v.getTag().toString()),title5);
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					default:
 						break;
@@ -730,7 +746,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Log.v("east----593", pageId+"");
+			//	Log.v("east----593", pageId+"");
 				String condition ="nid='" + (pageId+LookPage)+ "'";//搜索条件
 				List<DBUser> list = db.findAllByWhere(DBUser.class, condition);
 				for (int i = 0; i < list.size(); i++) {
@@ -762,55 +778,70 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
     /**
      * 加载缓存数据显示
      */
+    
+    private void image()
+	{
+		String condition ="nid='" + "image"+ "'";//搜索条件
+		List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+		if (list.size() == 0) {
+			imageString = "true";
+		}
+		else {
+			imageString = list.get(0).getSize().toString();
+		}
+	}
+    
+    
     private void ShowList()
     {
+    	image();
 		switch (LookPage) {
 		case 0:
-			Adapter1= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter1= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter1);//
 			break;
 		case 1:
-			Adapter2= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter2= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter2);//
 			break;
 		case 2:
-			Adapter3= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter3= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter3);//
 			break;
 		case 3:
-			Adapter4= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter4= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter4);//
 			break;
 		case 4:
-			Adapter5= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter5= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter5);//
 			break;
 		case 5:
-			Adapter6= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter6= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter6);//
 			break;
 		case 6:
-			Adapter7= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter7= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter7);//
 			break;
 		case 7:
-			Adapter8= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter8= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter8);//
 			break;
 		case 8:
-			Adapter9= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter9= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter9);//
 			break;
 		case 9:
-			Adapter10= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter10= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter10);//
 			break;
 		case 10:
-			Adapter11= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter11= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter11);//
 			break;
 		case 11:
-			Adapter12= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter12= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter12);//
 			break;
 		default:
@@ -1031,13 +1062,13 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(EastWindNewsActivity.this, WebActivity.class);
-				intent.putExtra(LauchActivity.LAUCH_DATE_nid, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_nid, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_nid));
 				intent.putExtra(LauchActivity.LAUCH_DATE_node_title, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_node_created, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_field_channel, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_field_newsfrom, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_body_1, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_body_2, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_node_created, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_created));
+				intent.putExtra(LauchActivity.LAUCH_DATE_field_channel, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_field_channel));
+				intent.putExtra(LauchActivity.LAUCH_DATE_field_newsfrom, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_field_newsfrom));
+				intent.putExtra(LauchActivity.LAUCH_DATE_body_1, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_body_1));
+				intent.putExtra(LauchActivity.LAUCH_DATE_body_2, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_body_2));
 				
 				startActivity(intent);
 			}
@@ -1174,54 +1205,54 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	private void setShowListView()
 	{
 		//ListAdapter adapter = adaptersArray.get(LookPage);
-		
+		image();
 		switch (LookPage) {
 		case 0:
-			Adapter1= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter1= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter1);//
 			break;
 		case 1:
-			Adapter2= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter2= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter2);//
 			break;
 		case 2:
-			Adapter3= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter3= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter3);//
 			break;
 		case 3:
-			Adapter4= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter4= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter4);//
 			break;
 		case 4:
-			Adapter5= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter5= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter5);//
 			break;
 		case 5:
-			Adapter6= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter6= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter6);//
 			break;
 		case 6:
-			Adapter7= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter7= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter7);//
 			break;
 		case 7:
-			Adapter8= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter8= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter8);//
 			break;
 		case 8:
-			Adapter9= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter9= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter9);//
 			break;
 		case 9:
-			Adapter10= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter10= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter10);//
 			break;
 		case 10:
-			Adapter11= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter11= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter11);//
 			break;
 		case 11:
-			Adapter12= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter12= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter12);//
 			break;
 		default:

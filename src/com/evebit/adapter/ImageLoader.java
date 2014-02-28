@@ -7,11 +7,17 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;   
 import java.net.URL;   
 import java.util.Collections;   
+import java.util.List;
 import java.util.Map;   
 import java.util.WeakHashMap;   
 import java.util.concurrent.ExecutorService;   
 import java.util.concurrent.Executors;    
 
+import net.tsz.afinal.FinalDb;
+
+import com.evebit.DB.DBSize;
+import com.evebit.HandOnEastWind.LauchActivity;
+import com.evebit.HandOnEastWind.NavigationActivity;
 import com.evebit.HandOnEastWind.R;
 
 
@@ -19,17 +25,25 @@ import com.evebit.HandOnEastWind.R;
 
 import android.app.Activity;   
 import android.content.Context;   
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;   
 import android.graphics.BitmapFactory;   
+import android.util.Log;
 import android.widget.ImageView;
 public class ImageLoader {
+	
+	 
+	 
+	 
 	 MemoryCache memoryCache=new MemoryCache();   
 	    FileCache fileCache;   
+	    String imageString;
 	    private Map<ImageView, String> imageViews=Collections.synchronizedMap(new WeakHashMap<ImageView, String>());   
 	    ExecutorService executorService;    
 	    
-	    public ImageLoader(Context context){   
-	        fileCache=new FileCache(context);   
+	    public ImageLoader(Context context,String imageString){   
+	        fileCache=new FileCache(context);  
+	        this.imageString = imageString ;
 	        executorService=Executors.newFixedThreadPool(5);   
 	    }   
 	    
@@ -54,8 +68,12 @@ public class ImageLoader {
 	        executorService.submit(new PhotosLoader(p));   
 	    }   
 	    
+
+	    
+	    
 	    private Bitmap getBitmap(String url)   
 	    {   
+	    	
 	        File f=fileCache.getFile(url);   
 	    
 	        //浠巗d鍗� 
@@ -63,8 +81,17 @@ public class ImageLoader {
 	        if(b!=null)   
 	            return b;   
 	    
+	        
 	        //浠庣綉缁� 
+	        
+	        
+	        
 			try {
+				if (imageString.equals("true")) {
+					return null;
+				}
+				else {
+				
 				Bitmap bitmap =null;
 				URL	imageUrl = new URL(url);
 				HttpURLConnection connection =(HttpURLConnection)imageUrl.openConnection();
@@ -77,6 +104,8 @@ public class ImageLoader {
 				is.close();
 				
 				return bitmap;
+				
+				}
 			} catch (Exception e) {
 				// TODO: handle exception
 				 e.printStackTrace();
