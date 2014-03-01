@@ -715,9 +715,11 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			List<DBTime> list = db.findAllByWhere(DBTime.class, condition);
 			if (list.size() != 0) {
 				if (String.valueOf(list.get(0).getTime()).equals(time)) {
+					mark[LookPage] = 1;
 					AddDateListView();
 				}
 				else {
+					
 					progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
 					Dialog = false ; 
 					deleteTimeThread();
