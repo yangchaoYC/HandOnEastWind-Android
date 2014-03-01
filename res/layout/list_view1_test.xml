@@ -63,7 +63,7 @@
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:singleLine="true"
-       android:textSize="21sp"
+       android:textSize="20sp"
        android:textColor="#333333"
        android:text="张家超董事会召开"
        /> 
@@ -89,7 +89,7 @@
 		       android:layout_width="wrap_content"
 		       android:layout_height="wrap_content"
 		       android:textSize="12sp"
-		       android:textColor="#333333"
+		       android:textColor="#d3d3d3"
 		       android:text="2014-02-16"
 		       /> 
             <TextView 
@@ -99,8 +99,8 @@
 		       android:singleLine="true"
 		       android:maxEms="12" 
 		       android:textSize="11sp"
-		       android:paddingLeft="4dp"
-		       android:textColor="#333333"
+		       android:layout_marginLeft="10dp"
+		       android:textColor="#d3d3d3"
 		       android:text="新华网"
 		       /> 
       </LinearLayout>

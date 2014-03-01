@@ -152,7 +152,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 	        webSettings.setUseWideViewPort(false) ;
 	        webSettings.setRenderPriority(RenderPriority.HIGH);
 	        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-	        webSettings.setDisplayZoomControls(false);
+	      //  webSettings.setDisplayZoomControls(false);
 	        webSettings.setPluginsEnabled(true);
 	        webView.addJavascriptInterface(new Object() {       
 	            @SuppressWarnings("unused")

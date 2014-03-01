@@ -2,10 +2,12 @@ package com.evebit.HandOnEastWind;
 
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import com.evebit.DB.DBSize;
 import com.evebit.DB.DBTime;
+import com.evebit.DB.DBUser;
 import com.umeng.update.UmengUpdateAgent;
 
 import net.tsz.afinal.FinalDb;
@@ -19,6 +21,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -40,8 +43,8 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
       String cacheSize = "0KB";
       
       
-		 File filesDir = getFilesDir();
-		File cacheDir = getCacheDir();
+      private File filesDir ;
+      private File cacheDir ;
 	  private Button size1Button,size2Button,size3Button;//字体大小按钮
 	  private String Size = null;
 	  private FinalDb db = null;
@@ -81,8 +84,11 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		 push();//获取当前是否开启推送
 		 sound();//获取当前是否开启推送铃声
 		 image();//获取当前是否是无图模式
-		// cacheDir = this.getCacheDir(); 
-		// fileDir = this.getFilesDir();   	
+		 cacheDir = this.getCacheDir(); //获取缓存目录
+		 filesDir = this.getFilesDir(); //获取缓存目录
+		 
+		
+
 		 cache();//获取当前缓存文件
 		soundOpenImage.setOnClickListener(new OnClickListener() {
 			
@@ -184,11 +190,10 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				File[] files = getCacheDir().listFiles();
-                for (File f : files)
-                        f.delete();
-                
-                
+
+				cleanCacheFile(cacheDir+"", "20.cer");
+				
+				db.deleteByWhere(DBUser.class, "");
                 handler.sendEmptyMessage(1);
 			}
 		});
@@ -207,85 +212,122 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	};
 	
 	private void cache()
-	{
-		
-		
-		//fileSize += getDirSize(filesDir);  
-        fileSize += getDirSize(cacheDir); 
-        
-        if(isMethodsCompat(android.os.Build.VERSION_CODES.FROYO)){  
-        	  
-            File externalCacheDir = getExternalCacheDir(this);//"<sdcard>/Android/data/<package_name>/cache/"  
-            fileSize += getDirSize(externalCacheDir);             
-  
-        } 
-        if (fileSize > 0)  
-        {
-        	cacheSize = formatFileSize(fileSize);
-        	cacheTextView.setText("已有"+cacheSize+"缓存文件");
-        	
-        }
+	{   
+//        if(isMethodsCompat(android.os.Build.VERSION_CODES.FROYO)){  
+//        	  
+//            File externalCacheDir = getExternalCacheDir(this);//"<sdcard>/Android/data/<package_name>/cache/"  
+//            fileSize += getDirSize(externalCacheDir);             
+//  
+//        } 
+
+        //	cacheSize = getPathSize(folderFullPath);
+		//Log.v("setting---222", getPathSize(filesDir+""));
+		//Log.v("setting---222", filesDir+"");
+
+
+		//Log.v("setting---222", getPathSize("/data/data/com.evebit.HandOnEastWind/databases"));
+
+        cacheTextView.setText("已有"+getPathSize("/data/data/com.evebit.HandOnEastWind/databases")+"缓存文件");
 	}
 	
 	
-	
-	
-	
-	/**  
-     * 转换文件大小  
-     *  
-     * @param fileS  
-     * @return B/KB/MB/GB  
-     */  
-    public static String formatFileSize(long fileS) {  
-        java.text.DecimalFormat df = new java.text.DecimalFormat("#.00");  
-        String fileSizeString = "";  
-        if (fileS < 1024) {  
-            fileSizeString = df.format((double) fileS) + "B";  
-        } else if (fileS < 1048576) {  
-            fileSizeString = df.format((double) fileS / 1024) + "KB";  
-        } else if (fileS < 1073741824) {  
-            fileSizeString = df.format((double) fileS / 1048576) + "MB";  
-        } else {  
-            fileSizeString = df.format((double) fileS / 1073741824) + "G";  
-        }  
-        return fileSizeString;  
+	/**
+     * <删除指定文件夹下除指定文件之外的所有文件>
+     * 
+     * @param final String appCachePath 被删除的文件夹目录
+     * @param final String excludedFileName 文件夹第一级目录下，不想被删除的文件的名称
+     * @throw  内部捕捉异常，删除失败，不做处理
+     * @return void
+     */
+    public static void cleanCacheFile(final String appCachePath,
+        final String excludedFileName) {
+        try {
+            File file = new File(appCachePath.trim());
+            if (null != file && file.isDirectory()) {
+                for (File file1 : file.listFiles()) {
+                    if (file1.isDirectory()) {
+                        deleteAllFile(file1.getAbsolutePath());
+                    } else {
+                        if (!excludedFileName.equals(file1.getName())) {
+                            file1.delete();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+
+    }
+
+    private static void deleteAllFile(String folderFullPath) {
+        File file = new File(folderFullPath);
+        if (null != file && file.exists()) {
+            if (file.isDirectory()) {
+                File[] fileList = file.listFiles();
+                for (int i = 0; i < fileList.length; i++) {
+                    String filePath = fileList[i].getPath();
+                    deleteAllFile(filePath);
+                }
+            } else if (file.isFile()) {
+                file.delete();
+            }
+        }
     }
 	
-	private File getExternalCacheDir(Context context) {
-		// TODO Auto-generated method stub
-		return context.getExternalCacheDir();
-	}
+	  public static String getPathSize(String path) {
+	        String flieSizesString = "";
+	        File file = new File(path.trim());
+	        long fileSizes = 0;
+	        if (null != file && file.exists()) {
+	            if (file.isDirectory()) { // 如果路径是文件夹的时候
+	                fileSizes = getFileFolderTotalSize(file);
+	            } else if (file.isFile()) {
+	                fileSizes = file.length();
+	            }
+	        }
+	        flieSizesString = formatFileSizeToString(fileSizes);
+	        return flieSizesString;
+	    }
+	  
+	  
+	  private static long getFileFolderTotalSize(File fileDir) {
+	        long totalSize = 0;
+	        File fileList[] = fileDir.listFiles();
+	        for (int fileIndex = 0; fileIndex < fileList.length; fileIndex++) {
+	            if (fileList[fileIndex].isDirectory()) {
+	                totalSize =
+	                    totalSize + getFileFolderTotalSize(fileList[fileIndex]);
+	            } else {
+	                totalSize = totalSize + fileList[fileIndex].length();
+	            }
+	        }
+	        return totalSize;
+	    }
+
+	    private static String formatFileSizeToString(long fileSize) {// 转换文件大小
+	        String fileSizeString = "";
+	        DecimalFormat decimalFormat = new DecimalFormat("#.00");
+	        if (fileSize < 1024) {
+	            fileSizeString = decimalFormat.format((double)fileSize) + "B";
+	        } else if (fileSize < (1 * 1024 * 1024)) {
+	            fileSizeString =
+	                decimalFormat.format((double)fileSize / 1024) + "K";
+	        } else if (fileSize < (1 * 1024 * 1024 * 1024)) {
+	            fileSizeString =
+	                decimalFormat.format((double)fileSize / (1 * 1024 * 1024))
+	                    + "M";
+	        } else {
+	            fileSizeString =
+	                decimalFormat.format((double)fileSize
+	                    / (1 * 1024 * 1024 * 1024))
+	                    + "G";
+	        }
+	        return fileSizeString;
+	    }
+	
 
 
 
-	private boolean isMethodsCompat(int froyo) {
-		// TODO Auto-generated method stub
-		int currentVersion = android.os.Build.VERSION.SDK_INT;  
-        return currentVersion >= froyo; 
-	}
-
-
-
-	public static long getDirSize(File dir) {  
-        if (dir == null) {  
-            return 0;  
-        }  
-        if (!dir.isDirectory()) {  
-            return 0;  
-        }  
-        long dirSize = 0;  
-        File[] files = dir.listFiles();  
-        for (File file : files) {  
-            if (file.isFile()) {  
-                dirSize += file.length();  
-            } else if (file.isDirectory()) {  
-                dirSize += file.length();  
-                dirSize += getDirSize(file); // 递归调用继续统计  
-            }  
-        }  
-        return dirSize;  
-    } 
 	private void image()
 	{
 		String condition ="nid='" + "image"+ "'";//搜索条件
