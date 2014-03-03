@@ -4,6 +4,8 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.tsz.afinal.FinalDb;
@@ -11,6 +13,9 @@ import net.tsz.afinal.FinalDb;
 import cn.jpush.android.api.JPushInterface;
 
 import com.evebit.DB.DBSize;
+import com.evebit.json.DataManeger;
+import com.evebit.json.Test_Bean;
+import com.evebit.json.Test_Model;
 import com.umeng.analytics.MobclickAgent;
 
 import android.os.Bundle;
@@ -70,7 +75,8 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	   GestureDetector mGestureDetector;  
 	   private static final int FLING_MIN_DISTANCE = 50;  
 	   private static final int FLING_MIN_VELOCITY = 0;  
-	    
+	   private String imgUrl = LAUCH_URL + "/mobile/adstart";
+	   private String image_Url = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
@@ -84,13 +90,45 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 		 ad.setLongClickable(true);  
 	     Shared();
 		 //加载首页的广告图片
-	     imgThread();     
+	     //imgThread();     
+	     UrlThread();
 	     db = FinalDb.create(this);
 	     //检测更新
 		 MobclickAgent.updateOnlineConfig(LauchActivity.this);		
 	}
 	
 
+	
+	private void UrlThread()
+	{
+		Log.v("lauch---119", imgUrl);
+
+		new Thread()
+		{
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				Test_Bean data;
+				try {	
+					data = DataManeger.getTestData(imgUrl);
+					ArrayList<Test_Model> datalist = data.getData();
+					for (Test_Model test_Model : datalist) {	
+						Log.v("lauch---119", imgUrl);
+
+					 image_Url =	test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails();
+					}
+					handler.sendEmptyMessage(2);
+									
+				} catch (Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
+		}.start();
+		
+	}
+	
 	private void Shared()
 	{
 		SharedPreferences settings = this.getSharedPreferences("CheckLoginXML", 0);
@@ -111,7 +149,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	                   // TODO Auto-generated method stub                
 	                        URL imageUrl =null;                      
 	                        try {
-	                             imageUrl = new URL("http://www.hua.com/flower_picture/meiguihua/images/r14s.jpg");
+	                             imageUrl = new URL(image_Url);
 	                        } catch (Exception e) {
 	                             // TODO: handle exception
 	                        }
@@ -150,7 +188,9 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	                    ad_ImageView.setImageBitmap(bitmap);
 	                    startCountTime();
 	                    break;
-	                    
+	               case 2:
+	                	imgThread(); 
+	               	  break;
 	               default:
 	                    break;
 	               }

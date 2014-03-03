@@ -744,8 +744,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
      */
     private void AddDateListView()
     {
-    	
-    	
     	new Thread()
     	{
 			@Override
@@ -767,7 +765,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 						itemMap.put(LauchActivity.LAUCH_DATE_field_summary,list.get(i).getField_summary());
 						itemMap.put(LauchActivity.LAUCH_DATE_body_1,list.get(i).getBody_1());
 						itemMap.put(LauchActivity.LAUCH_DATE_body_2,list.get(i).getBody_2());
-						
 						arrayArray.get(LookPage).add(itemMap);
 				}
 				
