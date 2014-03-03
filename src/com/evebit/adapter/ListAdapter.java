@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class ListAdapter extends BaseAdapter {
@@ -33,7 +34,7 @@ public class ListAdapter extends BaseAdapter {
     	public TextView newsfrom;
     	public ImageView bigImageView;
     	public ImageView imageView;
-    
+    	public RelativeLayout firstNews;
  }     
     
     public ListAdapter(Context context, ArrayList<HashMap<String, String>> list,String imageString) {
@@ -80,7 +81,8 @@ public class ListAdapter extends BaseAdapter {
 	            listItemView.time = (TextView)convertView.findViewById(R.id.time);  
 	            listItemView.newsfrom = (TextView)convertView.findViewById(R.id.newsfrom);  
 	            listItemView.imageView = (ImageView)convertView.findViewById(R.id.image); 
-	            listItemView.bigImageView = (ImageView)convertView.findViewById(R.id.big_image); 	            
+	            listItemView.bigImageView = (ImageView)convertView.findViewById(R.id.big_image); 	
+	            listItemView.firstNews = (RelativeLayout)convertView.findViewById(R.id.firstNews);
 	            convertView.setTag(listItemView);   
 	        }else {   
 	            listItemView = (ListItemView)convertView.getTag();   
@@ -92,6 +94,7 @@ public class ListAdapter extends BaseAdapter {
 		    	  listItemView.big_title.setVisibility(View.VISIBLE);
 		    	  listItemView.title.setVisibility(View.GONE);
 		    	  listItemView.content.setVisibility(View.GONE);
+		    	  listItemView.firstNews.setVisibility(View.VISIBLE);
 		    	  listItemView.time.setVisibility(View.GONE);
 		    	  listItemView.newsfrom.setVisibility(View.GONE);
 		    	  listItemView.imageView.setVisibility(View.GONE);
@@ -105,6 +108,7 @@ public class ListAdapter extends BaseAdapter {
 				 listItemView.big_title.setVisibility(View.GONE);
 				 listItemView.title.setVisibility(View.VISIBLE);
 		    	 listItemView.content.setVisibility(View.VISIBLE);
+		    	 listItemView.firstNews.setVisibility(View.GONE);
 		    	 listItemView.time.setVisibility(View.VISIBLE);
 		    	 listItemView.newsfrom.setVisibility(View.VISIBLE);
 		    	 listItemView.imageView.setVisibility(View.VISIBLE);
