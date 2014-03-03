@@ -31,6 +31,16 @@
      <string name="navigation_5_title">装备维修技术</string> 
      <string name="navigation_5_content">展示集团风采，弘扬精神文明</string> 
      
+     
+     <string name="lauch_platform1">东</string>
+    <string name="lauch_platform2">风</string>
+    <string name="lauch_platform3">报</string>
+    <string name="lauch_platform4">业</string>
+    <string name="lauch_platform5">传</string>
+    <string name="lauch_platform6">媒</string>
+    <string name="lauch_platform7">出</string>
+    <string name="lauch_platform8">品</string>
+     
      <string name="label1">字体大小</string> 
      <string name="label2">无图模式</string> 
      <string name="label3">推送设置</string> 
