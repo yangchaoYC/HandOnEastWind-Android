@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -42,7 +43,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 GestureDetector mGestureDetector;  
 	 private static final int FLING_MIN_DISTANCE = 50;  
 	 private static final int FLING_MIN_VELOCITY = 0; 
-	 
+	 private TextView textView;
 	 //导航页面 5个频道对应的LinearLayout区域：东风汽车报 东风 汽车之旅 汽车科技 维修装备技术
 	 private LinearLayout newsLinearLayout,dongfengLinearLayout,travelLinearLayout,techLinearLayout,fixLinearLayout;
 
@@ -64,10 +65,19 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	     travelLinearLayout = (LinearLayout)findViewById(R.id.navigation_travel);
 	     techLinearLayout = (LinearLayout)findViewById(R.id.navigation_tech);
 	     fixLinearLayout = (LinearLayout)findViewById(R.id.navigation_fix);
-		
+	     textView = (TextView)findViewById(R.id.navigation_company);
+	     
+	     
 	     travelLinearLayout.setOnTouchListener(this);  
 	     travelLinearLayout.setLongClickable(true);  
-	     
+	     textView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(), "正在开发中",Toast.LENGTH_SHORT).show();
+			}
+		});
 	     
 	     newsLinearLayout.setOnClickListener(new OnClickListener() {		
 				@Override

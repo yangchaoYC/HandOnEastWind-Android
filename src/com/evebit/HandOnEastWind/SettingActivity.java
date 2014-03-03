@@ -179,6 +179,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
+				Log.v("jiancha ", "update");
 				UmengUpdateAgent.forceUpdate(SettingActivity.this);
 			}
 		});
