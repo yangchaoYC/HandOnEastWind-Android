@@ -79,6 +79,26 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		 
 		 setContentView(R.layout.activity_web);
 		 
+		 
+		 nid = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_nid);
+		 node_title = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_node_title);
+		 node_created = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_node_created);
+		 field_channel = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_field_channel);
+		 field_newsfrom = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_field_newsfrom);
+		 body_1 = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_body_1);
+		 body_2 = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_body_2);
+		 
+		 base = "<base href=\""+ LauchActivity.LAUCH_URL  +" \" />";
+		 Log.e("web----92", nid);
+		 db = FinalDb.create(this);
+		 size1Button = (Button)findViewById(R.id.Web_button_size1);
+		 size2Button = (Button)findViewById(R.id.Web_button_size2);
+		 size3Button = (Button)findViewById(R.id.Web_button_size3);
+		 backImageView = (ImageView)findViewById(R.id.Web_Button_back);
+		 shareImageView = (ImageView)findViewById(R.id.Web_Button_Shaer);
+		 
+		 
+		 
 		 //share
 		 mController.getConfig().removePlatform(SHARE_MEDIA.DOUBAN,SHARE_MEDIA.RENREN,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE);
 		
@@ -102,22 +122,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		 
 		 
 		 
-		 nid = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_nid);
-		 node_title = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_node_title);
-		 node_created = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_node_created);
-		 field_channel = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_field_channel);
-		 field_newsfrom = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_field_newsfrom);
-		 body_1 = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_body_1);
-		 body_2 = getIntent().getExtras().getString(LauchActivity.LAUCH_DATE_body_2);
-		 
-		 base = "<base href=\""+ LauchActivity.LAUCH_URL  +" \" />";
-		 
-		 db = FinalDb.create(this);
-		 size1Button = (Button)findViewById(R.id.Web_button_size1);
-		 size2Button = (Button)findViewById(R.id.Web_button_size2);
-		 size3Button = (Button)findViewById(R.id.Web_button_size3);
-		 backImageView = (ImageView)findViewById(R.id.Web_Button_back);
-		 shareImageView = (ImageView)findViewById(R.id.Web_Button_Shaer);
+		
 
 		 size1Button.setOnClickListener(this);
 		 size2Button.setOnClickListener(this);
@@ -130,16 +135,19 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		image();
 
 		
-		
-		if (imageString.equals("true")) {
+		Log.v("-web  136---", body_1);
+		Log.v("-web  136---", body_2);
+		if (imageString.equals("flase")) {
 			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
+			
 		}
 		else {
+			
 			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+		//	Log.v("-web  137---", Body);
 		}
 		
-		initWeb(Body);//显示网页
-
+		
 
 			//webView.setWebChromeClient(mChromeClient);
 			webView.getSettings().setPluginsEnabled(true);
@@ -152,7 +160,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 	        webSettings.setUseWideViewPort(false) ;
 	        webSettings.setRenderPriority(RenderPriority.HIGH);
 	        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
-	      //  webSettings.setDisplayZoomControls(false);
+	        webSettings.setDisplayZoomControls(false);
 	        webSettings.setPluginsEnabled(true);
 	        webView.addJavascriptInterface(new Object() {       
 	            @SuppressWarnings("unused")
@@ -167,6 +175,10 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 	            }       
 	        }, "demo"); 
 			
+	        
+	        initWeb(Body);//显示网页
+
+	        
 	}
 	
 	
@@ -175,7 +187,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			String condition ="nid='" + "image"+ "'";//搜索条件
 			List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
 			if (list.size() == 0) {
-				imageString = "true";
+				imageString = "false";
 			}
 			else {
 				imageString = list.get(0).getSize().toString();
@@ -212,9 +224,8 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			summary = summary.replace("titleString", node_title);
 			summary = summary.replace("introtextString", body);
 			summary = summary.replace("timeString", node_created);
-			summary = summary.replace("meidaSting", node_created);
+			summary = summary.replace("meidaSting", field_newsfrom);
 			webView.getSettings().setDefaultTextEncodingName("UTF-8"); 
-			//mWebView.getSettings().setJavaScriptEnabled(true);
 			webView.getSettings().setBuiltInZoomControls(true);
 			webView.loadDataWithBaseURL("file:///android_asset/",summary, "text/html", "UTF-8", "about:blank");
 		

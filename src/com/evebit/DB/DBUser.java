@@ -2,7 +2,7 @@ package com.evebit.DB;
 
 public class DBUser {
 	   private int id;//文章ID
-	   
+	   private String page;//文章分类
 	   private String nid;//文章ID
 	   /////////////getter and setter///////////////
 	   private String node_title;//文章标题
@@ -29,7 +29,12 @@ public class DBUser {
 	   public void setNid(String nid) {
 	   this.nid = nid;
 	   }
-	   
+	   public String getPage() {
+		  return page;
+	   }
+	   public void setPage(String page) {
+		 this.page = page;
+	   }
 	   public String getNode_title() {
 	   return node_title;
 	   }

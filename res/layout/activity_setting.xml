@@ -244,7 +244,8 @@
 		    
 		          />  		 
 		    </TableRow> 
-		     <TableRow 	      
+		     <TableRow 	   
+		         android:id="@+id/Setting_Disclaimer"   
 		         android:background="#FFFFFF" 
 		         android:layout_margin="0.5dip" 
 		         android:layout_weight="1"    >  

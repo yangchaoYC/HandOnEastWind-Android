@@ -65,7 +65,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	   public static final String LAUCH_DATE_body_1 = "body_1"; 
 	   public static final String LAUCH_DATE_body_2 = "body_2"; 
 	   public static final String LAUCH_DATE_nid = "nid"; 
-
+	   public static final String LAUCH_DATE_page = "page"; 
 	   //滑动选项卡
 	   GestureDetector mGestureDetector;  
 	   private static final int FLING_MIN_DISTANCE = 50;  

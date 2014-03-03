@@ -17,17 +17,22 @@ import cn.jpush.android.api.JPushInterface;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SettingActivity extends Activity implements android.view.View.OnClickListener{
 
@@ -42,7 +47,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	  long fileSize = 0;  
       String cacheSize = "0KB";
       
-      
+      private long firstime = 0;
       private File filesDir ;
       private File cacheDir ;
 	  private Button size1Button,size2Button,size3Button;//字体大小按钮
@@ -50,7 +55,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	  private FinalDb db = null;
 	  private TextView cacheTextView;//显示缓存
 	  private TableRow updateTableRow;//更新按钮
-	  private TableRow cacheTableRow;//更新按钮
+	  private TableRow cacheTableRow,disclaimerRow;//更新按钮
 	  //private File cacheDir;  
 	  //private File fileDir;  
 	@Override
@@ -72,6 +77,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		cacheTextView = (TextView)findViewById(R.id.setting_storage);
 		cacheTableRow = (TableRow)findViewById(R.id.Setting_Cache);
 		updateTableRow = (TableRow)findViewById(R.id.Setting_Update);
+		disclaimerRow = (TableRow)findViewById(R.id.Setting_Disclaimer);
 		 size1Button = (Button)findViewById(R.id.Setting_button_size1);
 		 size2Button = (Button)findViewById(R.id.Setting_button_size2);
 		 size3Button = (Button)findViewById(R.id.Setting_button_size3);
@@ -87,9 +93,15 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		 cacheDir = this.getCacheDir(); //获取缓存目录
 		 filesDir = this.getFilesDir(); //获取缓存目录
 		 
-		
+		 
 
 		 cache();//获取当前缓存文件
+		 
+		 
+		 IntentFilter intentFilter = new IntentFilter();  
+		    intentFilter.addAction("cache");  
+		    registerReceiver(receiver, intentFilter);
+		 
 		soundOpenImage.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -195,7 +207,21 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				cleanCacheFile(cacheDir+"", "20.cer");
 				
 				db.deleteByWhere(DBUser.class, "");
-                handler.sendEmptyMessage(1);
+				
+				db.deleteByWhere(DBTime.class, "");
+               // handler.sendEmptyMessage(1);
+		        cacheTextView.setText("已有0KB缓存文件");
+
+			}
+		});
+		
+		disclaimerRow.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(SettingActivity.this, DisclaimerActivity.class);
+				startActivity(intent);
 			}
 		});
 	}
@@ -311,8 +337,9 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	        if (fileSize < 1024) {
 	            fileSizeString = decimalFormat.format((double)fileSize) + "B";
 	        } else if (fileSize < (1 * 1024 * 1024)) {
+	        
 	            fileSizeString =
-	                decimalFormat.format((double)fileSize / 1024) + "K";
+	                decimalFormat.format((double)fileSize / 1024) + "KB";
 	        } else if (fileSize < (1 * 1024 * 1024 * 1024)) {
 	            fileSizeString =
 	                decimalFormat.format((double)fileSize / (1 * 1024 * 1024))
@@ -342,8 +369,8 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				imageClose.setVisibility(View.VISIBLE);
 			}
 			else {
-				imageOpen.setVisibility(View.GONE);
-				imageClose.setVisibility(View.VISIBLE);
+				imageOpen.setVisibility(View.VISIBLE);
+				imageClose.setVisibility(View.GONE);
 			}
 		}
 	}
@@ -596,4 +623,45 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		}
 	}
 
+	
+	/**
+	 * 广播接收器
+	 * 接收到切换到新闻频道，选项卡切换到新闻
+	 */
+      private BroadcastReceiver receiver = new BroadcastReceiver() {
+		
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			// TODO Auto-generated method stub
+			String action = intent.getAction();  
+			if (action.equals("cache")) {
+				Log.v("setting---623", "测试");
+				cache();
+			}
+			
+		}
+	};
+	/**
+	 * 屏蔽返回按钮
+	 */
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		// TODO Auto-generated method stub
+		long secondtime = System.currentTimeMillis();
+		if (secondtime - firstime > 2000) {
+			Toast.makeText(SettingActivity.this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+			firstime = System.currentTimeMillis();
+			return true;
+		} else {
+			 finish();
+			 Intent startMain = new Intent(Intent.ACTION_MAIN);   
+             startMain.addCategory(Intent.CATEGORY_HOME);   
+             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);   
+             startActivity(startMain);   
+             System.exit(0); 
+		}
+	
+	return super.onKeyDown(keyCode, event);		
+	}
+	
 }

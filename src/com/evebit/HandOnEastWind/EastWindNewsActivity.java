@@ -1,7 +1,9 @@
 package com.evebit.HandOnEastWind;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import com.evebit.json.DataManeger;
 import com.evebit.json.Test_Bean;
 import com.evebit.json.Test_Model;
 import android.R.integer;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -82,7 +85,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博·贴士邦"};
 		private String title4[] = {  " 播 报 ", "国际前研", "新车测评", " 政能量 ", "创新观察", "人物专访", "特别关注", " 特 稿 ", "设计•研究", "试验•测试" , "工艺•材料", " 公告牌 "};
 		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
-		
+		private long firstime = 0;
 		  private ImageView news_choose_ImageView; //点击拉开更多频道
 	        private LinearLayout newsDownLayout;//底部显示新闻的layout
 	        private LinearLayout newsUpLayout;//上层选择频道的layout
@@ -749,11 +752,12 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			public void run() {
 				// TODO Auto-generated method stub
 			//	Log.v("east----593", pageId+"");
-				String condition ="nid='" + (pageId+LookPage)+ "'";//搜索条件
+				String condition ="page='" + (pageId+LookPage)+ "'";//搜索条件
 				List<DBUser> list = db.findAllByWhere(DBUser.class, condition);
 				for (int i = 0; i < list.size(); i++) {
 					
 						HashMap<String, String> itemMap = new HashMap<String, String>();
+						itemMap.put(LauchActivity.LAUCH_DATE_page,list.get(i).getPage());
 						itemMap.put(LauchActivity.LAUCH_DATE_nid,list.get(i).getNid());
 						itemMap.put(LauchActivity.LAUCH_DATE_node_title,list.get(i).getNode_title());
 						itemMap.put(LauchActivity.LAUCH_DATE_node_created,list.get(i).getNode_created());
@@ -1064,6 +1068,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(EastWindNewsActivity.this, WebActivity.class);
+				
 				intent.putExtra(LauchActivity.LAUCH_DATE_nid, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_nid));
 				intent.putExtra(LauchActivity.LAUCH_DATE_node_title, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
 				intent.putExtra(LauchActivity.LAUCH_DATE_node_created, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_created));
@@ -1103,6 +1108,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				mark[LookPage] = mark[LookPage] + 1;//记录下拉页数
 				flag = false;//加载更多期间不允许vviewpage滑动
 				dataThread(8);
+				
 			}
 		}
 		else {
@@ -1128,9 +1134,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	
 	}
 	
-	/**
-	 * 添加jason中读取数据,传入url
-	 */
+
 	private void dataThread(final int what) {
 		// TODO Auto-generated method stub
 		new Thread(){
@@ -1183,13 +1187,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 * 把从json中获取的数据存入listview中
 	 * 此为一个列表的数据
 	 */
+	@SuppressLint("SimpleDateFormat")
 	private void setOneListView(int what) {
 		// TODO Auto-generated method stub   
 		for (int i = 0; i < dateMap.size(); i++) {
 			HashMap<String, String> itemMap = new HashMap<String, String>();
+			
+			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 			itemMap.put(LauchActivity.LAUCH_DATE_nid,dateMap.get(i).get(LauchActivity.LAUCH_DATE_nid));
 			itemMap.put(LauchActivity.LAUCH_DATE_node_title,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_title)));
-			itemMap.put(LauchActivity.LAUCH_DATE_node_created,dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created));
+			
+			itemMap.put(LauchActivity.LAUCH_DATE_node_created,sdf.format(new Date(Long.parseLong(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created)))));
+			
 			itemMap.put(LauchActivity.LAUCH_DATE_field_channel,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_channel));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_newsfrom,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_newsfrom));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_thumbnails,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_thumbnails)));
@@ -1402,13 +1411,14 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 */
 	private void Contrast()
 	{
-		String condition ="nid='" + (pageId+LookPage)+ "'";//搜索条件
+		String condition ="page='" + (pageId+LookPage)+ "'";//搜索条件
 		List<DBUser> list = db.findAllByWhere(DBUser.class, condition);
 		if (list.size() == 0) {
 			AddDBUser();
 		}
 		else {
-			//Log.v("easta---1080---", list.get(list.size()-1).getNode_title());
+			db.deleteByWhere(DBUser.class, condition);
+			AddDBUser();
 		}
 	}
 	
@@ -1418,7 +1428,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 * 添加缓存数据
 	 */
 	private void AddDBUser()
-	{
+	{   
+		brodeCache();
+		
 		new Thread()
 		{
 
@@ -1427,7 +1439,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				// TODO Auto-generated method stub
 				DBUser dbUser = new DBUser();
 				for (int i = 0; i < arrayArray.get(LookPage).size(); i++) {
-					dbUser.setNid(String.valueOf(pageId+LookPage));	
+					dbUser.setPage(String.valueOf(pageId+LookPage));	
+					dbUser.setNid(arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_nid));
 					dbUser.setNode_title(arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_node_title));
 					dbUser.setNode_created(arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_node_created));
 					dbUser.setField_channel(arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_field_channel));
@@ -1443,14 +1456,37 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			
 		}.start();
 	}
+	
+	/**
+	 * 通知刷新缓存
+	 */
+	public void brodeCache(){
+		Intent intent =  new Intent();
+		intent.setAction("cache");
+		sendBroadcast(intent);
+	}
+	
 	/**
 	 * 屏蔽返回按钮
 	 */
 	@Override
  	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		return false;
-	}
+		long secondtime = System.currentTimeMillis();
+		if (secondtime - firstime > 2000) {
+			Toast.makeText(EastWindNewsActivity.this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+			firstime = System.currentTimeMillis();
+			return true;
+		} else {
+			 finish();
+			 Intent startMain = new Intent(Intent.ACTION_MAIN);   
+             startMain.addCategory(Intent.CATEGORY_HOME);   
+             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);   
+             startActivity(startMain);   
+             System.exit(0); 
+		}
+	
+	return super.onKeyDown(keyCode, event);		}
 
 	/**
 	 * 屏蔽菜单键
