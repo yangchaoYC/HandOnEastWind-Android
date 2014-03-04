@@ -1105,7 +1105,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				mark[LookPage] = mark[LookPage] + 1;//记录下拉页数
 				flag = false;//加载更多期间不允许vviewpage滑动
 				dataThread(8);
-				
 			}
 		}
 		else {

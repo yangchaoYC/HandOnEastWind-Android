@@ -139,12 +139,9 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		Log.v("-web  136---", body_2);
 		if (imageString.equals("flase")) {
 			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
-			
 		}
-		else {
-			
+		else {		
 			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
-		//	Log.v("-web  137---", Body);
 		}
 		
 		
@@ -383,7 +380,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size2Button.setTextColor(0xFF000000);
 			size3Button.setTextColor(0xFF000000);
 			size = 15;
-			if (imageString.equals("true")) {
+			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
@@ -397,13 +394,12 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size2Button.setTextColor(0xFFAA823C);
 			size3Button.setTextColor(0xFF000000);
 			size = 20;
-			if (imageString.equals("true")) {
+			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
 			}
-			
 			initWeb(Body);
 			break;
 		case R.id.Web_button_size3:
@@ -412,7 +408,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size2Button.setTextColor(0xFF000000);
 			size3Button.setTextColor(0xFFAA823C);
 			size = 25;
-			if (imageString.equals("true")) {
+			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
@@ -449,7 +445,4 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 	       ssoHandler.authorizeCallBack(requestCode, resultCode, data);
 	    }
 	}
-	
-	
-	
 	}
