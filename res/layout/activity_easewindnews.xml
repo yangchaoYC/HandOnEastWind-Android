@@ -126,7 +126,7 @@
                 <Button 
                  android:id="@+id/news_button1" 
                  android:tag="0"  
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -135,7 +135,7 @@
               <Button 
                  android:id="@+id/news_button2"
                  android:tag="1" 
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -144,7 +144,7 @@
               <Button 
                  android:id="@+id/news_button3"  
                  android:tag="2" 
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -153,7 +153,7 @@
               <Button 
                  android:id="@+id/news_button4" 
                  android:tag="3"
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -172,7 +172,7 @@
                  <Button 
                  android:id="@+id/news_button5" 
                  android:tag="4" 
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="1dp"
                  android:text="要闻"
 	             android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
               <Button
                  android:id="@+id/news_button6" 
                  android:tag="5" 
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -192,7 +192,7 @@
               <Button
                  android:id="@+id/news_button7" 
                  android:tag="6" 
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -202,7 +202,7 @@
               <Button
                  android:id="@+id/news_button8"
                  android:tag="7"
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -222,7 +222,7 @@
                 <Button 
                  android:id="@+id/news_button9"  
                  android:tag="8"
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -232,7 +232,7 @@
               <Button
                  android:id="@+id/news_button10" 
                  android:tag="9" 
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -242,7 +242,7 @@
               <Button 
                  android:id="@+id/news_button11" 
                  android:tag="10"
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -252,7 +252,7 @@
               <Button 
                  android:id="@+id/news_button12"  
                  android:tag="11"
-                 android:textSize="6.5pt"     
+                 android:textSize="5pt"     
                  android:layout_width="wrap_content"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"

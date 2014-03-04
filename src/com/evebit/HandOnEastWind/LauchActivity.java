@@ -231,6 +231,9 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 			MobclickAgent.onPause(this);
 		}
 		
+			
+			
+			
 		@Override
 		public boolean onCreateOptionsMenu(Menu menu) {
 			// Inflate the menu; this adds items to the action bar if it is present.
@@ -295,5 +298,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 			Log.i("touch","touch");  
 	        return mGestureDetector.onTouchEvent(event);  
 		}
-	
+		
+		
+		
 	}

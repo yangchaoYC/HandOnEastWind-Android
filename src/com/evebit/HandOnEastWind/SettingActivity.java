@@ -55,7 +55,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	  private FinalDb db = null;
 	  private TextView cacheTextView;//显示缓存
 	  private TableRow updateTableRow;//更新按钮
-	  private TableRow cacheTableRow,disclaimerRow;//更新按钮
+	  private TableRow cacheTableRow,disclaimerRow,aboutTableRow;//更新按钮
 	  //private File cacheDir;  
 	  //private File fileDir;  
 	@Override
@@ -76,8 +76,13 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		
 		cacheTextView = (TextView)findViewById(R.id.setting_storage);
 		cacheTableRow = (TableRow)findViewById(R.id.Setting_Cache);
+		
+		
 		updateTableRow = (TableRow)findViewById(R.id.Setting_Update);
 		disclaimerRow = (TableRow)findViewById(R.id.Setting_Disclaimer);
+		aboutTableRow = (TableRow)findViewById(R.id.Setting_About);
+
+		
 		 size1Button = (Button)findViewById(R.id.Setting_button_size1);
 		 size2Button = (Button)findViewById(R.id.Setting_button_size2);
 		 size3Button = (Button)findViewById(R.id.Setting_button_size3);
@@ -210,7 +215,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				
 				db.deleteByWhere(DBTime.class, "");
                // handler.sendEmptyMessage(1);
-		        cacheTextView.setText("已有0KB缓存文件");
+		        cacheTextView.setText("    已有0KB缓存   ");
 
 			}
 		});
@@ -224,6 +229,18 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				startActivity(intent);
 			}
 		});
+		
+		aboutTableRow.setOnClickListener( new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(SettingActivity.this, AboutActivity.class);
+				startActivity(intent);
+			}
+		});
+		
+		
 	}
 
 	
@@ -254,7 +271,7 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 
 		//Log.v("setting---222", getPathSize("/data/data/com.evebit.HandOnEastWind/databases"));
 
-        cacheTextView.setText("已有"+getPathSize("/data/data/com.evebit.HandOnEastWind/databases")+"缓存文件");
+        cacheTextView.setText("    已有"+getPathSize("/data/data/com.evebit.HandOnEastWind/databases")+"缓存文件    ");
 	}
 	
 	

@@ -724,6 +724,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				else {
 					
 					progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
+					progressDialog.setCancelable(true);
 					Dialog = false ; 
 					deleteTimeThread();
 			    	dataThread(1);
@@ -732,6 +733,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			else 
 			{
 				progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
+				progressDialog.setCancelable(true);
 				Dialog = false ; 
 				AddTimeThread();
 		    	dataThread(1);

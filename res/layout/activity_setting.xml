@@ -207,28 +207,33 @@
 		         android:background="#FFFFFF" 
 		         android:layout_margin="0.5dip" 
 		         android:layout_weight="1" 
-		         android:gravity="center_vertical">  
+		         android:weightSum="2"
+		         android:gravity="center_vertical"> 
+		       
 		        <TextView   
-		            android:layout_width="wrap_content"
+		            android:layout_width="1dp"
 		            android:layout_height="wrap_content"	        
 		            android:textColor="#565656"
 		            android:text="@string/label5"  
+		            android:layout_weight="1"
 		            android:paddingLeft="10dp"  
 		            android:textSize="15sp"   	  
 		          />  	
 		          
 		        <TextView 
 		            android:id="@+id/setting_storage"
-		            android:layout_width="wrap_content"
+		            android:layout_width="1dp"
 		            android:layout_height="wrap_content"
-		            android:gravity="right"        
+		            android:gravity="right"       
+		             android:layout_weight="1" 
 		            android:textColor="#B0B0B0"
 		            android:paddingRight="10dp"  
-		            android:textSize="12sp"
+		            android:textSize="10sp"
 		            android:text="@string/setting_storage"
 		            />	 
 		    </TableRow> 
-		     <TableRow 	      
+		     <TableRow 	     
+		          android:id="@+id/Setting_About"   
 		          android:background="#FFFFFF"
 		          android:layout_marginLeft="0.5dip"
 		          android:layout_marginRight="0.5dip"
@@ -250,7 +255,7 @@
 		         android:layout_margin="0.5dip" 
 		         android:layout_weight="1"    >  
 		        <TextView   
-		             android:layout_width="fill_parent"
+		            android:layout_width="fill_parent"
 		            android:layout_height="fill_parent"
 		            android:gravity="center_vertical"
 		            android:textColor="#565656"
