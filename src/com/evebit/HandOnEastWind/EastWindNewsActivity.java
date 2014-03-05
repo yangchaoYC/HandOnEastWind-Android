@@ -1,12 +1,15 @@
 package com.evebit.HandOnEastWind;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import net.tsz.afinal.FinalDb;
 
+import com.evebit.DB.DBSize;
 import com.evebit.DB.DBTime;
 import com.evebit.DB.DBUser;
 import com.evebit.ListView.XListView;
@@ -16,6 +19,7 @@ import com.evebit.json.DataManeger;
 import com.evebit.json.Test_Bean;
 import com.evebit.json.Test_Model;
 import android.R.integer;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -76,12 +80,12 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         * 汽车科技(12个栏目)：播报、国际前研、新车测评、政能量、创新观察、人物专访、特别关注、特稿、设计•研究、试验•测试、工艺•材料、公告牌
         * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
         */
-		private String title1[] = {  "头 条", "要 闻", "生产经营", "东风党建", "和谐东风",  "东风人", "东风文艺", "专题报道", "四城视点" };
-		private String title2[] = {  "专 题", "企 业", "观 点", "对 话"};
+		private String title1[] = {  " 头 条 ", " 要 闻 ", "生产经营", "东风党建", "和谐东风",  " 东风人 ", "东风文艺", "专题报道", "四城视点" };
+		private String title2[] = {  " 专 题 ", " 企 业 ", " 观 点 ", " 对 话 "};
 		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博·贴士邦"};
-		private String title4[] = {  "播 报", "国际前研", "新车测评", "政能量", "创新观察", "人物专访", "特别关注", "特稿", "设计•研究", "试验•测试" , "工艺•材料", "公告牌"};
+		private String title4[] = {  " 播 报 ", "国际前研", "新车测评", " 政能量 ", "创新观察", "人物专访", "特别关注", " 特 稿 ", "设计•研究", "试验•测试" , "工艺•材料", " 公告牌 "};
 		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
-		
+		private long firstime = 0;
 		  private ImageView news_choose_ImageView; //点击拉开更多频道
 	        private LinearLayout newsDownLayout;//底部显示新闻的layout
 	        private LinearLayout newsUpLayout;//上层选择频道的layout
@@ -121,7 +125,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	    private boolean Dialog =true;
 	    		
 	    private FinalDb db = null;//数据库对象
-	    
+	    private String imageString;
 	    private ArrayList<XListView> listArray = new ArrayList<XListView>();
 	    private ListAdapter Adapter1 ;
 	    private ListAdapter Adapter2;
@@ -260,6 +264,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			for (int j = title.length; j < 12; j++) {
 				buttons.get(j).setVisibility(View.INVISIBLE);
 			}
+			
+			
+			
 		}
 	}
 
@@ -319,8 +326,26 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      
 	      pageId = Integer.valueOf(getShared());
 	      
-	      
-	      InItView(9);
+	      switch (pageId) {
+		case 15:
+			 InItView(9);
+			break;
+		case 24:
+			 InItView(4);	
+			break;
+		case 28:
+			 InItView(8);
+			break;
+		case 35:
+			 InItView(12);
+			break;
+		case 47:
+			 InItView(6);
+			break;
+		default:
+			break;
+		}
+	     
 	}
 	
 	private String getShared()
@@ -394,7 +419,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		case 9:		
 			 InItTitle1(title1);
 			 setSelector(0,title1);	
-			 Log.v("eastwindnews --- 316-- ", "---");
 			 list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
 			 list_page_view2 = (XListView)page_view_2.findViewById(R.id.page_view_2); 
 			 list_page_view3 = (XListView)page_view_3.findViewById(R.id.page_view_3);
@@ -613,23 +637,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					switch (choose) {
 					case 9:
 						setSelector(Integer.parseInt(v.getTag().toString()),title1);
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 4:
 						setSelector(Integer.parseInt(v.getTag().toString()),title2);	
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 8:
 						setSelector(Integer.parseInt(v.getTag().toString()),title3);
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 12:
 						setSelector(Integer.parseInt(v.getTag().toString()),title4);
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					case 6:
 						setSelector(Integer.parseInt(v.getTag().toString()),title5);
-						selectorDate(pageId+LookPage);//切换数据
 						break;
 					default:
 						break;
@@ -699,10 +718,13 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			List<DBTime> list = db.findAllByWhere(DBTime.class, condition);
 			if (list.size() != 0) {
 				if (String.valueOf(list.get(0).getTime()).equals(time)) {
+					mark[LookPage] = 1;
 					AddDateListView();
 				}
 				else {
+					
 					progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
+					progressDialog.setCancelable(true);
 					Dialog = false ; 
 					deleteTimeThread();
 			    	dataThread(1);
@@ -711,6 +733,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			else 
 			{
 				progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
+				progressDialog.setCancelable(true);
 				Dialog = false ; 
 				AddTimeThread();
 		    	dataThread(1);
@@ -723,19 +746,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
      */
     private void AddDateListView()
     {
-    	
-    	
     	new Thread()
     	{
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
-				Log.v("east----593", pageId+"");
-				String condition ="nid='" + (pageId+LookPage)+ "'";//搜索条件
+			//	Log.v("east----593", pageId+"");
+				String condition ="page='" + (pageId+LookPage)+ "'";//搜索条件
 				List<DBUser> list = db.findAllByWhere(DBUser.class, condition);
 				for (int i = 0; i < list.size(); i++) {
 					
 						HashMap<String, String> itemMap = new HashMap<String, String>();
+						itemMap.put(LauchActivity.LAUCH_DATE_page,list.get(i).getPage());
 						itemMap.put(LauchActivity.LAUCH_DATE_nid,list.get(i).getNid());
 						itemMap.put(LauchActivity.LAUCH_DATE_node_title,list.get(i).getNode_title());
 						itemMap.put(LauchActivity.LAUCH_DATE_node_created,list.get(i).getNode_created());
@@ -745,7 +767,6 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 						itemMap.put(LauchActivity.LAUCH_DATE_field_summary,list.get(i).getField_summary());
 						itemMap.put(LauchActivity.LAUCH_DATE_body_1,list.get(i).getBody_1());
 						itemMap.put(LauchActivity.LAUCH_DATE_body_2,list.get(i).getBody_2());
-						
 						arrayArray.get(LookPage).add(itemMap);
 				}
 				
@@ -762,55 +783,70 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
     /**
      * 加载缓存数据显示
      */
+    
+    private void image()
+	{
+		String condition ="nid='" + "image"+ "'";//搜索条件
+		List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+		if (list.size() == 0) {
+			imageString = "flase";
+		}
+		else {
+			imageString = list.get(0).getSize().toString();
+		}
+	}
+    
+    
     private void ShowList()
     {
+    	image();
 		switch (LookPage) {
 		case 0:
-			Adapter1= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter1= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter1);//
 			break;
 		case 1:
-			Adapter2= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter2= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter2);//
 			break;
 		case 2:
-			Adapter3= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter3= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter3);//
 			break;
 		case 3:
-			Adapter4= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter4= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter4);//
 			break;
 		case 4:
-			Adapter5= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter5= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter5);//
 			break;
 		case 5:
-			Adapter6= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter6= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter6);//
 			break;
 		case 6:
-			Adapter7= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter7= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter7);//
 			break;
 		case 7:
-			Adapter8= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter8= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter8);//
 			break;
 		case 8:
-			Adapter9= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter9= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter9);//
 			break;
 		case 9:
-			Adapter10= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter10= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter10);//
 			break;
 		case 10:
-			Adapter11= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter11= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter11);//
 			break;
 		case 11:
-			Adapter12= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter12= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter12);//
 			break;
 		default:
@@ -1031,13 +1067,14 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					long arg3) {
 				// TODO Auto-generated method stub
 				Intent intent = new Intent(EastWindNewsActivity.this, WebActivity.class);
-				intent.putExtra(LauchActivity.LAUCH_DATE_nid, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				
+				intent.putExtra(LauchActivity.LAUCH_DATE_nid, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_nid));
 				intent.putExtra(LauchActivity.LAUCH_DATE_node_title, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_node_created, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_field_channel, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_field_newsfrom, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_body_1, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
-				intent.putExtra(LauchActivity.LAUCH_DATE_body_2, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_title));
+				intent.putExtra(LauchActivity.LAUCH_DATE_node_created, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_node_created));
+				intent.putExtra(LauchActivity.LAUCH_DATE_field_channel, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_field_channel));
+				intent.putExtra(LauchActivity.LAUCH_DATE_field_newsfrom, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_field_newsfrom));
+				intent.putExtra(LauchActivity.LAUCH_DATE_body_1, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_body_1));
+				intent.putExtra(LauchActivity.LAUCH_DATE_body_2, arrayArray.get(LookPage).get(arg2-1).get(LauchActivity.LAUCH_DATE_body_2));
 				
 				startActivity(intent);
 			}
@@ -1095,9 +1132,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	
 	}
 	
-	/**
-	 * 添加jason中读取数据,传入url
-	 */
+
 	private void dataThread(final int what) {
 		// TODO Auto-generated method stub
 		new Thread(){
@@ -1150,13 +1185,18 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 * 把从json中获取的数据存入listview中
 	 * 此为一个列表的数据
 	 */
+	@SuppressLint("SimpleDateFormat")
 	private void setOneListView(int what) {
 		// TODO Auto-generated method stub   
 		for (int i = 0; i < dateMap.size(); i++) {
 			HashMap<String, String> itemMap = new HashMap<String, String>();
+			
+			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 			itemMap.put(LauchActivity.LAUCH_DATE_nid,dateMap.get(i).get(LauchActivity.LAUCH_DATE_nid));
 			itemMap.put(LauchActivity.LAUCH_DATE_node_title,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_title)));
-			itemMap.put(LauchActivity.LAUCH_DATE_node_created,dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created));
+			
+			itemMap.put(LauchActivity.LAUCH_DATE_node_created,sdf.format(new Date(Long.parseLong(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created)))));
+			
 			itemMap.put(LauchActivity.LAUCH_DATE_field_channel,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_channel));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_newsfrom,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_newsfrom));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_thumbnails,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_thumbnails)));
@@ -1174,54 +1214,54 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	private void setShowListView()
 	{
 		//ListAdapter adapter = adaptersArray.get(LookPage);
-		
+		image();
 		switch (LookPage) {
 		case 0:
-			Adapter1= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter1= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter1);//
 			break;
 		case 1:
-			Adapter2= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter2= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter2);//
 			break;
 		case 2:
-			Adapter3= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter3= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter3);//
 			break;
 		case 3:
-			Adapter4= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter4= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter4);//
 			break;
 		case 4:
-			Adapter5= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter5= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter5);//
 			break;
 		case 5:
-			Adapter6= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter6= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter6);//
 			break;
 		case 6:
-			Adapter7= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter7= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter7);//
 			break;
 		case 7:
-			Adapter8= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter8= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter8);//
 			break;
 		case 8:
-			Adapter9= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter9= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter9);//
 			break;
 		case 9:
-			Adapter10= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter10= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter10);//
 			break;
 		case 10:
-			Adapter11= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter11= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter11);//
 			break;
 		case 11:
-			Adapter12= new ListAdapter(this, arrayArray.get(LookPage));
+			Adapter12= new ListAdapter(this, arrayArray.get(LookPage),imageString);
 			listArray.get(LookPage).setAdapter(Adapter12);//
 			break;
 		default:
@@ -1369,13 +1409,14 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 */
 	private void Contrast()
 	{
-		String condition ="nid='" + (pageId+LookPage)+ "'";//搜索条件
+		String condition ="page='" + (pageId+LookPage)+ "'";//搜索条件
 		List<DBUser> list = db.findAllByWhere(DBUser.class, condition);
 		if (list.size() == 0) {
 			AddDBUser();
 		}
 		else {
-			//Log.v("easta---1080---", list.get(list.size()-1).getNode_title());
+			db.deleteByWhere(DBUser.class, condition);
+			AddDBUser();
 		}
 	}
 	
@@ -1385,7 +1426,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 * 添加缓存数据
 	 */
 	private void AddDBUser()
-	{
+	{   
+		brodeCache();
+		
 		new Thread()
 		{
 
@@ -1394,7 +1437,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				// TODO Auto-generated method stub
 				DBUser dbUser = new DBUser();
 				for (int i = 0; i < arrayArray.get(LookPage).size(); i++) {
-					dbUser.setNid(String.valueOf(pageId+LookPage));	
+					dbUser.setPage(String.valueOf(pageId+LookPage));	
+					dbUser.setNid(arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_nid));
 					dbUser.setNode_title(arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_node_title));
 					dbUser.setNode_created(arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_node_created));
 					dbUser.setField_channel(arrayArray.get(LookPage).get(i).get(LauchActivity.LAUCH_DATE_field_channel));
@@ -1410,14 +1454,37 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			
 		}.start();
 	}
+	
+	/**
+	 * 通知刷新缓存
+	 */
+	public void brodeCache(){
+		Intent intent =  new Intent();
+		intent.setAction("cache");
+		sendBroadcast(intent);
+	}
+	
 	/**
 	 * 屏蔽返回按钮
 	 */
 	@Override
  	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		return false;
-	}
+		long secondtime = System.currentTimeMillis();
+		if (secondtime - firstime > 2000) {
+			Toast.makeText(EastWindNewsActivity.this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+			firstime = System.currentTimeMillis();
+			return true;
+		} else {
+			 finish();
+			 Intent startMain = new Intent(Intent.ACTION_MAIN);   
+             startMain.addCategory(Intent.CATEGORY_HOME);   
+             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);   
+             startActivity(startMain);   
+             System.exit(0); 
+		}
+	
+	return super.onKeyDown(keyCode, event);		}
 
 	/**
 	 * 屏蔽菜单键

@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /**
@@ -39,10 +40,11 @@ import android.widget.Toast;
 public class NavigationActivity extends Activity  implements OnTouchListener,  OnGestureListener {
 
 	//滑动功能
+	private long firstime = 0;
 	 GestureDetector mGestureDetector;  
 	 private static final int FLING_MIN_DISTANCE = 50;  
 	 private static final int FLING_MIN_VELOCITY = 0; 
-	 
+	 private TextView textView;
 	 //导航页面 5个频道对应的LinearLayout区域：东风汽车报 东风 汽车之旅 汽车科技 维修装备技术
 	 private LinearLayout newsLinearLayout,dongfengLinearLayout,travelLinearLayout,techLinearLayout,fixLinearLayout;
 
@@ -64,10 +66,19 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	     travelLinearLayout = (LinearLayout)findViewById(R.id.navigation_travel);
 	     techLinearLayout = (LinearLayout)findViewById(R.id.navigation_tech);
 	     fixLinearLayout = (LinearLayout)findViewById(R.id.navigation_fix);
-		
+	     textView = (TextView)findViewById(R.id.navigation_company);
+	     
+	     
 	     travelLinearLayout.setOnTouchListener(this);  
 	     travelLinearLayout.setLongClickable(true);  
-	     
+	     textView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Toast.makeText(getApplicationContext(), "正在开发中",Toast.LENGTH_SHORT).show();
+			}
+		});
 	     
 	     newsLinearLayout.setOnClickListener(new OnClickListener() {		
 				@Override
@@ -76,7 +87,8 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
 					Shared("15");
 					brodeNewsColumn(1);
-					brodeTabhost();				
+					brodeTabhost();		
+					brodeCache();
 				}
 			});
 	     
@@ -87,7 +99,8 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
 				Shared("24");
 					brodeNewsColumn(2); 
-					brodeTabhost();		
+					brodeTabhost();	
+					brodeCache();
 			}
 		});
 		
@@ -100,6 +113,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				Shared("28");
 				brodeNewsColumn(3);
 				brodeTabhost();
+				brodeCache();
 			}
 		});
 	     
@@ -111,6 +125,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 					Shared("35");
 					brodeNewsColumn(4);
 					brodeTabhost();
+					brodeCache();
 				}
 			});
 	     
@@ -122,6 +137,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 					Shared("47");
 					brodeNewsColumn(5);
 					brodeTabhost();
+					brodeCache();
 				}
 			});
 	}
@@ -141,6 +157,14 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	public void brodeTabhost(){
 		Intent intent =  new Intent();
 		intent.setAction("tabHost");
+		sendBroadcast(intent);
+	}
+	/**
+	 * 通知刷新缓存
+	 */
+	public void brodeCache(){
+		Intent intent =  new Intent();
+		intent.setAction("cache");
 		sendBroadcast(intent);
 	}
 	
@@ -211,7 +235,21 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
-		return false;
+		long secondtime = System.currentTimeMillis();
+		if (secondtime - firstime > 2000) {
+			Toast.makeText(NavigationActivity.this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+			firstime = System.currentTimeMillis();
+			return true;
+		} else {
+			 finish();
+			 Intent startMain = new Intent(Intent.ACTION_MAIN);   
+             startMain.addCategory(Intent.CATEGORY_HOME);   
+             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);   
+             startActivity(startMain);   
+             System.exit(0); 
+		}
+	
+	return super.onKeyDown(keyCode, event);	
 	}
 
 	/**

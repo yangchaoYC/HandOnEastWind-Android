@@ -11,7 +11,7 @@ package com.evebit.json;
 
 public class Test_Model {
 
-
+	  
 	   private String nid;//文章ID
 	   /////////////getter and setter///////////////
 	   private String node_title;//文章标题

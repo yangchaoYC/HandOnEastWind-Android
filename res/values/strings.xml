@@ -19,16 +19,27 @@
     <string name="lauch_copyright">Copyright@2014 dfcm.cc.inc All Rights Reserved</string>
     
      <string name="navigation_title">湖北东风报业传媒有限公司</string>
+     <string name="navigation_company">战略合作伙伴</string>
      <string name="navigation_1_title">东风汽车报</string> 
      <string name="navigation_1_content">展示集团风采，弘扬精神文明</string> 
-     <string name="navigation_2_title">东风杂志</string> 
+     <string name="navigation_2_title">东风</string> 
      <string name="navigation_2_content">展示集团风采，弘扬精神文明</string> 
-     <string name="navigation_3_title">东风之旅</string> 
+     <string name="navigation_3_title">汽车之旅</string> 
      <string name="navigation_3_content">展示集团风采，弘扬精神文明</string> 
      <string name="navigation_4_title">汽车科技</string> 
      <string name="navigation_4_content">展示集团风采，弘扬精神文明</string> 
      <string name="navigation_5_title">装备维修技术</string> 
      <string name="navigation_5_content">展示集团风采，弘扬精神文明</string> 
+     
+     
+     <string name="lauch_platform1">东</string>
+    <string name="lauch_platform2">风</string>
+    <string name="lauch_platform3">报</string>
+    <string name="lauch_platform4">业</string>
+    <string name="lauch_platform5">传</string>
+    <string name="lauch_platform6">媒</string>
+    <string name="lauch_platform7">出</string>
+    <string name="lauch_platform8">品</string>
      
      <string name="label1">字体大小</string> 
      <string name="label2">无图模式</string> 
@@ -39,7 +50,12 @@
      <string name="label7">免责声明</string> 
      <string name="label8">检查更新</string> 
      
-    <string name="setting_storage">已有348KB缓存文件</string> 
+          <string name="size1">小</string> 
+          <string name="size2">中</string> 
+          <string name="size3">大</string> 
+          
+     
+    <string name="setting_storage">已有0KB缓存文件</string> 
     <string name="share_code">扫描二维码下载手机客户端</string> 
     <string name="news_more">更多频道</string> 
    
@@ -50,4 +66,22 @@
     <string name="xlistview_footer_hint_normal">查看更多</string>
     <string name="xlistview_footer_hint_ready">松开载入更多</string>
     
+    
+    <string name="disclaimer_top">免责声明</string>
+    <string name="disclaimer1">&#160;&#160;&#160;&#160;请您仔细阅读以下条款，如果您对本声明的任何条款表示异议，可以选择不使用掌上东风。用户使用掌上东风的行为将被视为对本声明全部内容的认可。</string>
+    <string name="disclaimer2">&#160;&#160;&#160;&#160;1.掌上东风不对用户发表的内容或上传的文件进行验证，爱问不对内容的真实、完整、准确及合法性进行任何保证。</string>
+    <string name="disclaimer3">&#160;&#160;&#160;&#160;2.用户在掌上东风发布的内容或文件仅表明其个人的立场和观点，并不代表掌上东风的立场或观点。发表者需自行对所发表内容负责，因所发表内容引发的一切纠纷，由该内容的发表者承担全部法律责任。掌上东风不承担任何法律及连带责任。</string>
+    <string name="disclaimer4">&#160;&#160;&#160;&#160;3.对于使用掌上东风而引致的任何意外、疏忽、合约毁坏、诽谤、版权或知识产权侵犯及其所造成的损失（包括因下载而感染电脑病毒），掌上东风概不负责，亦不承担任何法律责任。</string>
+    <string name="disclaimer5">&#160;&#160;&#160;&#160;4.尊重并保护所有使用用户的个人隐私权，用户注册的用户名、电子邮件等个人资料，非经用户亲自许可或根据相关法律的强制性规定，掌上东风不会主动地泄露给第三方。</string>
+    
+   <string name="about_top">关于</string>
+   <string name="about_about">湖北东风报业传媒有限公司，是东风汽车公司全资子公司.</string>
+   <string name="abour_about2">旗下有:</string>
+   <string name="abour_about3">《东风汽车报》（CN42-063）、</string>
+   <string name="abour_about4">《汽车科技》（CN42-1323/U）、</string>
+   <string name="abour_about5">《装备维修技术》（CN42-1335/U）、</string>
+   <string name="abour_about6">《汽车之旅》（CN42-1323/U）、</string>
+   <string name="abour_about7">《东风传媒网》（www.dfcm.cc）、</string>
+   <string name="abour_about8">《百姓车行网》（www.china-4s.cn）</string>
+   <string name="abour_about9">是集报纸、杂志、网络（电子报刊）于一体较具规模和影响力的综合性文化传媒公司。</string>
 </resources>

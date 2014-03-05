@@ -7,15 +7,15 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="50dp"
 	    android:padding="15dp"
-	    android:background="#f2f1ef"	  
+	    android:background="#AA823C"	  
 	    android:orientation="vertical"
 	    >
     <TextView 
           android:layout_width="wrap_content"
           android:layout_height="wrap_content" 
           android:text="@string/share"
-          android:textSize="15sp"
-          android:textColor="#C50000"
+          android:textSize="16sp"
+          android:textColor="#FFFFFF"
         />
     </LinearLayout>
     
@@ -55,15 +55,88 @@
                       android:text= "@string/lauch_dongfeng"
                         />
                
-                   <TextView
-                      android:id="@+id/lauch_platform"
-                      android:layout_width= "fill_parent"
-                      android:layout_height= "wrap_content"
-                      android:textColor= "#8E8E8E"
-                      android:textSize ="9sp" 
-                      android:paddingTop="1dp"           
-                      android:text= "@string/lauch_platform"
-                        />
+                     <LinearLayout 
+						            android:layout_width="fill_parent"
+							        android:layout_height="wrap_content"
+							        android:orientation="horizontal"
+							        android:paddingTop="1dp"   						     							        
+							        android:weightSum="8"							     							      
+						            >
+						             <TextView
+				                      android:id="@+id/lauch_platform1"		    
+				                      android:layout_width= "wrap_content"
+				                      android:layout_height= "wrap_content"				                     
+				                      android:textColor= "#909090"                     
+				                      android:textSize ="9sp" 
+				                      android:gravity="center"  
+				                      android:layout_weight="1" 		                             
+				                      android:text= "@string/lauch_platform1"
+				                        />
+						             <TextView		    
+				                      android:layout_width= "wrap_content"
+				                      android:layout_height= "wrap_content"				                  
+				                      android:textColor= "#909090"                     
+				                      android:textSize ="9sp" 	
+				                      android:gravity="center"         
+				                      android:text= "@string/lauch_platform2"
+				                      android:layout_weight="1"
+				                        />
+						              <TextView		    
+				                      android:layout_width= "wrap_content"
+				                      android:layout_height= "wrap_content"				                  
+				                      android:textColor= "#909090"                     
+				                      android:textSize ="9sp" 
+				                      android:gravity="center"     		                             
+				                      android:text= "@string/lauch_platform3"
+				                      android:layout_weight="1"
+				                        />
+						               <TextView		    
+				                      android:layout_width= "wrap_content"
+				                      android:layout_height= "wrap_content"				                  
+				                      android:textColor= "#909090"                     
+				                      android:textSize ="9sp" 		
+				                      android:gravity="center"                                  
+				                      android:text= "@string/lauch_platform4"
+				                      android:layout_weight="1"
+				                        />
+						                <TextView		    
+				                      android:layout_width= "wrap_content"
+				                      android:layout_height= "wrap_content"				                  
+				                      android:textColor= "#909090"                     
+				                      android:textSize ="9sp" 	
+				                      android:gravity="center"     	                             
+				                      android:text= "@string/lauch_platform5"
+				                      android:layout_weight="1"
+				                        />
+						                 <TextView		    
+				                      android:layout_width= "wrap_content"
+				                      android:layout_height= "wrap_content"				                  
+				                      android:textColor= "#909090"                     
+				                      android:textSize ="9sp" 
+				                      android:gravity="center"     		                             
+				                      android:text= "@string/lauch_platform6"
+				                      android:layout_weight="1"
+				                        />
+						                  <TextView		    
+				                      android:layout_width= "wrap_content"
+				                      android:layout_height= "wrap_content"				                  
+				                      android:textColor= "#909090"                     
+				                      android:textSize ="9sp" 
+				                      android:gravity="center"     		                             
+				                      android:text= "@string/lauch_platform7"
+				                      android:layout_weight="1"
+				                        />
+						              <TextView
+				                      android:id="@+id/lauch_platform8"			    
+				                      android:layout_width= "wrap_content"
+				                      android:layout_height= "wrap_content"
+				                      android:gravity="center"   
+				                      android:textColor= "#909090"                     
+				                      android:textSize ="9sp" 	
+				                      android:layout_weight="1"	                             
+				                      android:text= "@string/lauch_platform8"
+				                        />
+		                       </LinearLayout>
             
                   </LinearLayout>
     
@@ -82,22 +155,25 @@
    
       <LinearLayout 
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingTop="50dp"
+        android:paddingTop="10dp"
         android:paddingBottom="30dp"
         >
-      <ImageView 
-          android:layout_width= "wrap_content"
-	      android:layout_height= "wrap_content"    
-         
-          />
-      
-      <TextView 
+
+       <ImageView
+           android:layout_width="160dp"
+           android:layout_height="160dp"
+           
+           android:src="@drawable/erwei"/>
+       
+       
+       <TextView 
           android:layout_width= "wrap_content"
 	      android:layout_height= "wrap_content"
           android:text="@string/share_code"
+          android:layout_marginTop="30dp"
           />
       </LinearLayout>
    
