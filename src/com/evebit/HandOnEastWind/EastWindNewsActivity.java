@@ -17,9 +17,11 @@ import com.evebit.DB.DBUser;
 import com.evebit.ListView.XListView;
 import com.evebit.ListView.XListView.IXListViewListener;
 import com.evebit.adapter.ListAdapter;
+import com.evebit.adapter.Normal;
 import com.evebit.json.DataManeger;
 import com.evebit.json.Test_Bean;
 import com.evebit.json.Test_Model;
+
 import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -109,7 +111,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	        private Button button12;
 	        private ArrayList <Button> buttons;
 
-		
+	        Normal normal;
 		private String test = "EastWindNews";
 		
 		private ArrayList<TextView> textViews;
@@ -339,7 +341,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      time = Time();
 	      db = FinalDb.create(this);//实例化数据对象
 	      
-	      
+	      normal = new Normal(this);
 	     
 	      
 	      pageId = Integer.valueOf(getShared());
@@ -363,15 +365,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		default:
 			break;
 		}
-	     
-//	      progressDialog.setOnDismissListener(new OnDismissListener() {
-//				
-//				@Override
-//				public void onDismiss(DialogInterface dialog) {
-//					// TODO Auto-generated method stub
-//					Log.v(test, test);
-//				}
-//			});
+
 	      
 	}
 	
@@ -749,21 +743,34 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					AddDateListView();
 				}
 				else {
-					
-					progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
-					progressDialog.setCancelable(true);
-					Dialog = false ; 
-					deleteTimeThread();
-			    	dataThread(1);
+					if (normal.note_Intent()) {
+						progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
+						progressDialog.setCancelable(true);
+						Dialog = false ; 
+						deleteTimeThread();
+				    	dataThread(1);
+					}
+					else {
+						Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+						mark[LookPage] = 1;
+						AddDateListView();
+					}
 				}	
 			}
 			else 
 			{
-				progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
-				progressDialog.setCancelable(true);
-				Dialog = false ; 
-				AddTimeThread();
-		    	dataThread(1);
+				if (normal.note_Intent()) {
+					progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
+					progressDialog.setCancelable(true);
+					Dialog = false ; 
+					AddTimeThread();
+			    	dataThread(1);
+				}
+				else {
+					Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+					mark[LookPage] = 1;
+					AddDateListView();
+				}
 			}
     	}
     }
@@ -1118,10 +1125,16 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
-		if (flag) {//执行下拉刷新
-			mark[LookPage] = 0 ;
-			flag = false;//刷新期间不允许viewpage滑动
-			dataThread(6);
+		if (normal.note_Intent()) {
+			if (flag) {//执行下拉刷新
+				mark[LookPage] = 0 ;
+				flag = false;//刷新期间不允许viewpage滑动
+				dataThread(6);
+			}
+		}
+		else {
+			onLoad();
+			Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
 		}
 		
 		//onLoad();
@@ -1133,9 +1146,12 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
+		if (normal.note_Intent())
+		{
 		if (arrayArray.get(LookPage).size()/(mark[LookPage]+1) == 15) {
 			if (flag) {//执行加载更多
 				mark[LookPage] = mark[LookPage] + 1;//记录下拉页数
+				setUrl(pageId + LookPage);
 				flag = false;//加载更多期间不允许vviewpage滑动
 				dataThread(8);
 			}
@@ -1143,7 +1159,11 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		else {
 			handler.sendEmptyMessage(7);	
 		}
-		
+	}
+	else {
+		onLoad();
+		Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+	}
 	//	selectorDate(pageId + LookPage);//判断数据地址
 		//onLoad();
 	}
