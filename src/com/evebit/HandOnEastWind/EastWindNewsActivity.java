@@ -24,6 +24,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -106,7 +108,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	        private ArrayList <Button> buttons;
 
 		
-		
+		private String test = "EastWindNews";
 		
 		private ArrayList<TextView> textViews;
 		private ViewPager viewPager;
@@ -324,6 +326,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      time = Time();
 	      db = FinalDb.create(this);//实例化数据对象
 	      
+	      
+	     
+	      
 	      pageId = Integer.valueOf(getShared());
 	      
 	      switch (pageId) {
@@ -346,6 +351,15 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			break;
 		}
 	     
+//	      progressDialog.setOnDismissListener(new OnDismissListener() {
+//				
+//				@Override
+//				public void onDismiss(DialogInterface dialog) {
+//					// TODO Auto-generated method stub
+//					Log.v(test, test);
+//				}
+//			});
+	      
 	}
 	
 	private String getShared()
@@ -1051,6 +1065,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 							InItView(6);
 						
 							break;
+						case 10:
+							unregisterReceiver(receiver);
+							break;
+						
 						default:
 							break;
 						}	
@@ -1454,6 +1472,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			
 		}.start();
 	}
+	
+	
+	
 	
 	/**
 	 * 通知刷新缓存

@@ -87,7 +87,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
 					Shared("15");
 					brodeNewsColumn(1);
-					brodeTabhost();		
+					brodeTabhost(1);		
 					brodeCache();
 				}
 			});
@@ -99,7 +99,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
 				Shared("24");
 					brodeNewsColumn(2); 
-					brodeTabhost();	
+					brodeTabhost(1);	
 					brodeCache();
 			}
 		});
@@ -112,7 +112,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
 				Shared("28");
 				brodeNewsColumn(3);
-				brodeTabhost();
+				brodeTabhost(1);
 				brodeCache();
 			}
 		});
@@ -124,7 +124,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				    //广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
 					Shared("35");
 					brodeNewsColumn(4);
-					brodeTabhost();
+					brodeTabhost(1);
 					brodeCache();
 				}
 			});
@@ -136,7 +136,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 					//广播新闻频道需要几个栏目，广播告知导航频道切换到新闻频道
 					Shared("47");
 					brodeNewsColumn(5);
-					brodeTabhost();
+					brodeTabhost(1);
 					brodeCache();
 				}
 			});
@@ -154,9 +154,10 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	/**
 	 * 广播告知导航频道切换到新闻频道
 	 */
-	public void brodeTabhost(){
+	public void brodeTabhost(int key){
 		Intent intent =  new Intent();
 		intent.setAction("tabHost");
+		intent.putExtra("key", key);
 		sendBroadcast(intent);
 	}
 	/**
@@ -197,6 +198,9 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
                    && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   
                // Fling right  
         	   onBackPressed();
+        	   brodeNewsColumn(10);
+        	   brodeTabhost(2);
+        	  // finish();
              //  Toast.makeText(this, "向右手势", Toast.LENGTH_SHORT).show();   
            }   
            return false;   

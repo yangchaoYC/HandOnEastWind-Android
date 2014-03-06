@@ -92,6 +92,8 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
        = Environment.getExternalStorageDirectory() + "/download_test/";//存储图片的路径
 	   public static final String LAUCH_mFileName = "test.jpg";//存储图片名字
 
+	   private String test = "LauchActivity";
+	   
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		 super.onCreate(savedInstanceState);
@@ -190,6 +192,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
          	   
          	  StorageThread();
             }else{  
+            	StorageThread();
             }  
             
         
@@ -206,6 +209,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 			handler.sendEmptyMessage(3);
 		}
 		else {
+		//	Log.v(test, "--211--");
 			File file = new File(ALBUM_PATH+LAUCH_mFileName);  
             if(file.exists())  
             {  
@@ -218,6 +222,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 
 	private void connectNetThread()
 	{
+		Log.v(test, "---224---"+image_Url);
 		new Thread()
 		{
 
@@ -228,6 +233,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 				byte[] data = getImage(image_Url);  
                 if(data!=null){  
                     mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap  
+                    Log.v(test, "---224---");
                 }else{  
                    // Toast.makeText(MainActivity.this, "Image error!", 1).show();  
                 } 
@@ -304,8 +310,10 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
      * @throws IOException 
      */  
     public void saveFile(Bitmap bm, String fileName) throws IOException {  
+    	Log.v(test,"---313");
         File dirFile = new File(ALBUM_PATH);  
         if(!dirFile.exists()){  //判断是否有这个文件夹，有的话就创建，没有将创建
+        	Log.v(test,"---316");
             dirFile.mkdir();  //创建一个新文件夹
         }  
         File myCaptureFile = new File(ALBUM_PATH + fileName);  
@@ -318,7 +326,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
     
 	private void UrlThread(final int what)
 	{
-		Log.v("lauch---119", imgUrl);
+		//Log.v("lauch---119", imgUrl);
 
 		new Thread()
 		{
@@ -331,12 +339,11 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 					data = DataManeger.getTestData(imgUrl);
 					ArrayList<Test_Model> datalist = data.getData();
 					for (Test_Model test_Model : datalist) {	
-						Log.v("lauch---119", imgUrl);
+					//	Log.v("lauch---119", imgUrl);
 					 image_Url = test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails();
 					 image_ID = test_Model.getNode_created()==null? "": test_Model.getNode_created();
 					}
-					handler.sendEmptyMessage(what);
-									
+					handler.sendEmptyMessage(what);			
 				} catch (Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
@@ -449,7 +456,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 				 if (e1.getX()-e2.getX() > FLING_MIN_DISTANCE   
 		                 && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   
 		             // Fling left   
-		            
+		            //onBackPressed();
 		             goTabMain();
 		         } else if (e2.getX()-e1.getX() > FLING_MIN_DISTANCE   
 		                 && Math.abs(velocityX) > FLING_MIN_VELOCITY) {   

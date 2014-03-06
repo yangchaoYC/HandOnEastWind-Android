@@ -94,7 +94,7 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 		    radioButton2 = (RadioButton)findViewById(R.id.radio_button2);
 		    radioButton3 = (RadioButton)findViewById(R.id.radio_button3);
 		    
-		   drawableTop0 = getResources().getDrawable(R.drawable.tab_navigation);
+		    drawableTop0 = getResources().getDrawable(R.drawable.tab_navigation);
 		    drawableTop1 = getResources().getDrawable(R.drawable.tab_news);
 		    drawableTop2 = getResources().getDrawable(R.drawable.tab_share);
 		    drawableTop3 = getResources().getDrawable(R.drawable.tab_setting);
@@ -191,21 +191,30 @@ public class TabMainActivity extends TabActivity implements OnCheckedChangeListe
 	 * 广播接收器
 	 * 接收到切换到新闻频道，选项卡切换到新闻
 	 */
-      private BroadcastReceiver receiver = new BroadcastReceiver() {
+    BroadcastReceiver receiver = new BroadcastReceiver() {
 		
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			// TODO Auto-generated method stub
 			String action = intent.getAction();  
 			if (action.equals("tabHost")) {	
-				//onCheckedChanged(mainTab,R.id.radio_button0);
-				tabhost.setCurrentTabByTag("news");
-				radioButton1.setChecked(true);
-				// ((RadioButton) mainTab.getChildAt(1)).toggle();
+				int key = intent.getIntExtra("key",0);
+				if (key == 1) {
+					tabhost.setCurrentTabByTag("news");
+					radioButton1.setChecked(true);
+				}
+				else {
+					unregisterReceiver(receiver);
+				}
+				
+			//int column = intent.getIntExtra("column",0);
+				
 			}
 			
 		}
 	};
+	
+	
 	
 	/**
 	 * 屏蔽返回按钮
