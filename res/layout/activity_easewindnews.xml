@@ -108,7 +108,7 @@
 	       android:layout_width="fill_parent"
 	     ></View>     
     
-         <LinearLayout 
+        <LinearLayout 
               android:layout_width="fill_parent"
 	          android:layout_height="wrap_content" 
 	          android:background="#AA823C"	
@@ -121,13 +121,13 @@
 	          android:layout_height="45dp" 
 	          android:background="#AA823C"	
 	          android:orientation="horizontal" 
-	          android:weightSum="4"
+	          android:weightSum="3"
                >
                 <Button 
                  android:id="@+id/news_button1" 
                  android:tag="0"  
-                 android:textSize="5pt"     
-                 android:layout_width="wrap_content"
+                 android:textSize="8pt"     
+                 android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:layout_weight="1"
@@ -135,8 +135,8 @@
               <Button 
                  android:id="@+id/news_button2"
                  android:tag="1" 
-                 android:textSize="5pt"     
-                 android:layout_width="wrap_content"
+                 android:textSize="8pt"     
+                 android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:layout_weight="1"
@@ -144,21 +144,13 @@
               <Button 
                  android:id="@+id/news_button3"  
                  android:tag="2" 
-                 android:textSize="5pt"     
-                 android:layout_width="wrap_content"
+                 android:textSize="8pt"     
+                 android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:layout_weight="1"
                   />
-              <Button 
-                 android:id="@+id/news_button4" 
-                 android:tag="3"
-                 android:textSize="5pt"     
-                 android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_margin="1dp"
-                 android:layout_weight="1"
-                  />
+            
              </LinearLayout>  
              
               <LinearLayout         
@@ -166,13 +158,22 @@
 	          android:layout_height="45dp" 
 	          android:background="#AA823C"	
 	          android:orientation="horizontal" 
-	          android:weightSum="4"
+	          android:weightSum="3"
 	          android:layout_marginTop="2dp"
              >
+                <Button 
+                 android:id="@+id/news_button4" 
+                 android:tag="3"
+                 android:textSize="8pt"     
+                 android:layout_width="1dp"
+	             android:layout_height="wrap_content"
+	             android:layout_margin="1dp"
+                 android:layout_weight="1"
+                  />
                  <Button 
                  android:id="@+id/news_button5" 
                  android:tag="4" 
-                 android:textSize="5pt"     
+                 android:textSize="8pt"     
                  android:layout_width="1dp"
                  android:text="要闻"
 	             android:layout_height="wrap_content"
@@ -182,17 +183,28 @@
               <Button
                  android:id="@+id/news_button6" 
                  android:tag="5" 
-                 android:textSize="5pt"     
+                 android:textSize="8pt"     
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:text="要闻"
                  android:layout_weight="1"
                   />
-              <Button
+           
+             </LinearLayout>  
+             
+             <LinearLayout 
+              android:layout_width="fill_parent"
+	          android:layout_height="45dp" 
+	          android:background="#AA823C"	
+	          android:orientation="horizontal" 
+	          android:weightSum="3"
+	          android:layout_marginTop="3dp"
+             >
+                 <Button
                  android:id="@+id/news_button7" 
                  android:tag="6" 
-                 android:textSize="5pt"     
+                 android:textSize="8pt"     
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
@@ -202,38 +214,39 @@
               <Button
                  android:id="@+id/news_button8"
                  android:tag="7"
-                 android:textSize="5pt"     
+                 android:textSize="8pt"     
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:text="要闻"
                  android:layout_weight="1"
                   />
-             </LinearLayout>  
-             
-             <LinearLayout 
-              android:layout_width="fill_parent"
-	          android:layout_height="45dp" 
-	          android:background="#AA823C"	
-	          android:orientation="horizontal" 
-	          android:weightSum="4"
-	          android:layout_marginTop="3dp"
-             >
                 <Button 
                  android:id="@+id/news_button9"  
                  android:tag="8"
-                 android:textSize="5pt"     
-                 android:layout_width="wrap_content"
+                 android:textSize="8pt"     
+                 android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:text="要闻"
                  android:layout_weight="1"
                   />
-              <Button
+          
+             </LinearLayout>
+             
+                <LinearLayout 
+              android:layout_width="fill_parent"
+	          android:layout_height="45dp" 
+	          android:background="#AA823C"	
+	          android:orientation="horizontal" 
+	          android:weightSum="3"
+	          android:layout_marginTop="3dp"
+             >
+                  <Button
                  android:id="@+id/news_button10" 
                  android:tag="9" 
-                 android:textSize="5pt"     
-                 android:layout_width="wrap_content"
+                 android:textSize="8pt"     
+                 android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:text="要闻"
@@ -242,8 +255,8 @@
               <Button 
                  android:id="@+id/news_button11" 
                  android:tag="10"
-                 android:textSize="5pt"     
-                 android:layout_width="wrap_content"
+                 android:textSize="8pt"     
+                 android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:text="要闻"
@@ -252,15 +265,15 @@
               <Button 
                  android:id="@+id/news_button12"  
                  android:tag="11"
-                 android:textSize="5pt"     
-                 android:layout_width="wrap_content"
+                 android:textSize="8pt"     
+                 android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="1dp"
                  android:text="要闻"
                  android:layout_weight="1"
                   />
-             </LinearLayout>  
-        </LinearLayout>  
+              </LinearLayout>
+        </LinearLayout>   
         <View 
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"          

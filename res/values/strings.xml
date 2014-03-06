@@ -7,6 +7,9 @@
     <string name="setting">设置</string>
     <string name="share">分享</string>
     
+    
+    <string name="cache_scucess">清除成功</string>
+    
 
     <string name="main_navigation">导航</string>
     <string name="main_news">新闻</string>

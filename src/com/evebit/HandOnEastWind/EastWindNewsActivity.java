@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.tsz.afinal.FinalDb;
 
@@ -82,10 +84,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         * 汽车科技(12个栏目)：播报、国际前研、新车测评、政能量、创新观察、人物专访、特别关注、特稿、设计•研究、试验•测试、工艺•材料、公告牌
         * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
         */
-		private String title1[] = {  " 头 条 ", " 要 闻 ", "生产经营", "东风党建", "和谐东风",  " 东风人 ", "东风文艺", "专题报道", "四城视点" };
+		private String title1[] = {  "头条", "要闻", "生产经营", "东风党建", "和谐东风",  "东风人", "东风文艺", "专题报道", "四城视点" };
 		private String title2[] = {  " 专 题 ", " 企 业 ", " 观 点 ", " 对 话 "};
 		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博·贴士邦"};
-		private String title4[] = {  " 播 报 ", "国际前研", "新车测评", " 政能量 ", "创新观察", "人物专访", "特别关注", " 特 稿 ", "设计•研究", "试验•测试" , "工艺•材料", " 公告牌 "};
+		private String title4[] = {  "播报", "国际前研", "新车测评", "政能量", "创新观察", "人物专访", "特别关注", "特稿", "设计•研究", "试验•测试" , "工艺•材料", " 公告牌 "};
 		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
 		private long firstime = 0;
 		  private ImageView news_choose_ImageView; //点击拉开更多频道
@@ -235,17 +237,28 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
  */
 	void InItTitle1(String title[]) {
 		textViews = new ArrayList<TextView>();
-		H_width = (getWindowManager().getDefaultDisplay().getWidth() / 5);
-		int height = 100;
-
+		//H_width = (getWindowManager().getDefaultDisplay().getWidth() / 5);
+		//int height = 100;
+         H_width = 55;
 		for (int i = 0; i < title.length; i++) {
 			TextView textView = new TextView(this);
+			
+			String regEx="”“•";  
+	         Pattern   p   =   Pattern.compile(regEx);     
+	         Matcher   m   =   p.matcher(title[i]);     	      					
+			
+	         if(m.replaceAll("").trim().length()==2){
+	        	 textView.setLayoutParams(new LayoutParams(125,LayoutParams.WRAP_CONTENT));
+	         }else{
+	        	 textView.setLayoutParams(new LayoutParams(H_width*m.replaceAll("").trim().length(),LayoutParams.WRAP_CONTENT));
+	         }
+			
 			textView.setText(title[i]);
-			textView.setTextSize(15);
+			textView.setTextSize(22);
 			textView.setTextColor(0x80FFFFFF);
-			textView.setWidth(H_width);
+			//textView.setWidth(H_width);
 			//Log.e("aa", "text_width=" + textView.getWidth());
-			textView.setHeight(height - 30);
+			//textView.setHeight(height - 30);
 			textView.setGravity(Gravity.CENTER);
 			textView.setId(i);
 			textView.setOnClickListener(this);
@@ -253,8 +266,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			buttons.get(i).setText(title[i]);	
 			View view = new View(this);
 			LinearLayout.LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			layoutParams.width = 1;
-			layoutParams.height = height - 40;
+			//layoutParams.width = 1;
+			//layoutParams.height = height - 40;
 			layoutParams.gravity = Gravity.CENTER;
 			view.setLayoutParams(layoutParams);
 			//view.setBackgroundColor(Color.GRAY);
