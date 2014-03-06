@@ -266,7 +266,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			if (list.size() == 0) {
 				DBSize("1");
 				size1Button.setTextColor(0xFFAA823C);
-				size = 15;
+				size = 12;
 			}
 			else {
 				Size = list.get(0).getSize();
@@ -274,19 +274,19 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 					size1Button.setTextColor(0xFFAA823C);
 					size2Button.setTextColor(0xFF000000);
 					size3Button.setTextColor(0xFF000000);
-					size = 15;
+					size = 12;
 				}
 				else if (Size.equals("2")) {
 					size1Button.setTextColor(0xFF000000);
 					size2Button.setTextColor(0xFFAA823C);
 					size3Button.setTextColor(0xFF000000);
-					size = 20;
+					size = 15;
 				}
 				else {
 					size1Button.setTextColor(0xFF000000);
 					size2Button.setTextColor(0xFF000000);
 					size3Button.setTextColor(0xFFAA823C);
-					size = 25;
+					size = 17;
 				}
 			}
 		}
@@ -404,7 +404,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFFAA823C);
 			size2Button.setTextColor(0xFF000000);
 			size3Button.setTextColor(0xFF000000);
-			size = 15;
+			size = 12;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
@@ -418,7 +418,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFF000000);
 			size2Button.setTextColor(0xFFAA823C);
 			size3Button.setTextColor(0xFF000000);
-			size = 20;
+			size = 15;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
@@ -432,7 +432,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFF000000);
 			size2Button.setTextColor(0xFF000000);
 			size3Button.setTextColor(0xFFAA823C);
-			size = 25;
+			size = 17;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
