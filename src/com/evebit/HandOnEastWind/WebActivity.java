@@ -4,6 +4,8 @@ package com.evebit.HandOnEastWind;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.tsz.afinal.FinalDb;
 
@@ -141,7 +143,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 		}
 		else {		
-			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
 		}
 		
 		
@@ -178,7 +180,30 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 	        
 	}
 	
-	
+	 /** 
+     *  
+     * 基本功能：过滤指定标签 
+     * <p> 
+     *  
+     * @param str 
+     * @param tag 
+     *            指定标签 
+     * @return String 
+     */  
+    public static String fiterHtmlTag(String str, String tag) {  
+        String regxp = "<\\s*" + tag + "\\s+([^>]*)\\s*>";  
+        Pattern pattern = Pattern.compile(regxp);  
+        Matcher matcher = pattern.matcher(str);  
+        StringBuffer sb = new StringBuffer();  
+        boolean result1 = matcher.find();  
+        while (result1) {  
+            matcher.appendReplacement(sb, "");  
+            result1 = matcher.find();  
+        }  
+        matcher.appendTail(sb);  
+        return sb.toString();  
+    }   
+	  
 	 private void image()
 		{
 			String condition ="nid='" + "image"+ "'";//搜索条件
@@ -384,7 +409,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
-				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
 			}
 			
 			initWeb(Body);			break;
@@ -398,7 +423,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
-				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
 			}
 			initWeb(Body);
 			break;
@@ -412,7 +437,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
-				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
 			}
 			
 			initWeb(Body);

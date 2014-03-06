@@ -646,8 +646,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				    
 					
 					newsUpLayout.setVisibility(View.GONE);
-					Log.v("----592-------", choose+"");
-					Log.v("----592-------", v.getTag().toString());
+				//	Log.v("----592-------", choose+"");
+				//	Log.v("----592-------", v.getTag().toString());
 					switch (choose) {
 					case 9:
 						setSelector(Integer.parseInt(v.getTag().toString()),title1);
@@ -1212,9 +1212,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 			itemMap.put(LauchActivity.LAUCH_DATE_nid,dateMap.get(i).get(LauchActivity.LAUCH_DATE_nid));
 			itemMap.put(LauchActivity.LAUCH_DATE_node_title,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_title)));
-			
-			itemMap.put(LauchActivity.LAUCH_DATE_node_created,sdf.format(new Date(Long.parseLong(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created)))));
-			
+			String time = dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created)+"000";
+			itemMap.put(LauchActivity.LAUCH_DATE_node_created,sdf.format(new Date(Long.parseLong(time))));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_channel,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_channel));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_newsfrom,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_newsfrom));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_thumbnails,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_thumbnails)));
