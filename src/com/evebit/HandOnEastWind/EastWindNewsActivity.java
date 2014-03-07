@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.tsz.afinal.FinalDb;
 
@@ -15,15 +17,19 @@ import com.evebit.DB.DBUser;
 import com.evebit.ListView.XListView;
 import com.evebit.ListView.XListView.IXListViewListener;
 import com.evebit.adapter.ListAdapter;
+import com.evebit.adapter.Normal;
 import com.evebit.json.DataManeger;
 import com.evebit.json.Test_Bean;
 import com.evebit.json.Test_Model;
+
 import android.R.integer;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -80,10 +86,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         * 汽车科技(12个栏目)：播报、国际前研、新车测评、政能量、创新观察、人物专访、特别关注、特稿、设计•研究、试验•测试、工艺•材料、公告牌
         * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
         */
-		private String title1[] = {  " 头 条 ", " 要 闻 ", "生产经营", "东风党建", "和谐东风",  " 东风人 ", "东风文艺", "专题报道", "四城视点" };
-		private String title2[] = {  " 专 题 ", " 企 业 ", " 观 点 ", " 对 话 "};
-		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博·贴士邦"};
-		private String title4[] = {  " 播 报 ", "国际前研", "新车测评", " 政能量 ", "创新观察", "人物专访", "特别关注", " 特 稿 ", "设计•研究", "试验•测试" , "工艺•材料", " 公告牌 "};
+		private String title1[] = {  "头条", "要闻", "生产经营", "东风党建", "和谐东风",  "东风人", "东风文艺", "专题报道", "四城视点" };
+		private String title2[] = {  "专 题", "企 业", "观 点", "对 话"};
+		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博•贴士邦"};
+		private String title4[] = {  "播报", "国际前研", "新车测评", "政能量", "创新观察", "人物专访", "特别关注", "特稿", "设计•研究", "试验•测试" , "工艺•材料", "公告牌"};
 		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
 		private long firstime = 0;
 		  private ImageView news_choose_ImageView; //点击拉开更多频道
@@ -105,8 +111,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	        private Button button12;
 	        private ArrayList <Button> buttons;
 
-		
-		
+	        Normal normal;
+		private String test = "EastWindNews";
 		
 		private ArrayList<TextView> textViews;
 		private ViewPager viewPager;
@@ -233,26 +239,47 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
  */
 	void InItTitle1(String title[]) {
 		textViews = new ArrayList<TextView>();
-		H_width = (getWindowManager().getDefaultDisplay().getWidth() / 5);
-		int height = 100;
-
+		H_width = (getWindowManager().getDefaultDisplay().getWidth() /18);
+		//int height = 100;
+        // H_width = 30;
+		Log.v("-----245---", getWindowManager().getDefaultDisplay().getWidth()+"");
+		Log.v("-----246---", H_width+"");
 		for (int i = 0; i < title.length; i++) {
 			TextView textView = new TextView(this);
+			
+			//String regEx="•";  
+	        // Pattern   p   =   Pattern.compile(regEx);     
+	       //  Matcher   m   =   p.matcher(title[i]);     	      					
+			
+	         if(title[i].length()==2){
+	        	 textView.setLayoutParams(new LayoutParams(H_width*3,LayoutParams.WRAP_CONTENT));
+	         }else if (title[i].length()==3) {
+	        	 textView.setLayoutParams(new LayoutParams(H_width*4,LayoutParams.WRAP_CONTENT));
+			}else if (title[i].length()==4){
+	        	 textView.setLayoutParams(new LayoutParams(H_width*5,LayoutParams.WRAP_CONTENT));
+	         }else if (title[i].length()==5){
+	        	 textView.setLayoutParams(new LayoutParams(11*H_width/2,LayoutParams.WRAP_CONTENT));
+			}else {
+				 textView.setLayoutParams(new LayoutParams(13*H_width/2,LayoutParams.WRAP_CONTENT));
+			}//H_width*m.replaceAll("").trim().length()
+			
 			textView.setText(title[i]);
-			textView.setTextSize(15);
+			textView.setTextSize(20);
 			textView.setTextColor(0x80FFFFFF);
-			textView.setWidth(H_width);
+			//textView.setWidth(H_width);
 			//Log.e("aa", "text_width=" + textView.getWidth());
-			textView.setHeight(height - 30);
+			//textView.setHeight(height - 30);
 			textView.setGravity(Gravity.CENTER);
 			textView.setId(i);
 			textView.setOnClickListener(this);
 			textViews.add(textView);
 			buttons.get(i).setText(title[i]);	
+			buttons.get(i).setTextSize(15);
+			
 			View view = new View(this);
 			LinearLayout.LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			layoutParams.width = 1;
-			layoutParams.height = height - 40;
+			//layoutParams.width = 1;
+			//layoutParams.height = height - 40;
 			layoutParams.gravity = Gravity.CENTER;
 			view.setLayoutParams(layoutParams);
 			//view.setBackgroundColor(Color.GRAY);
@@ -281,7 +308,13 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.grouplist_item_bg_normal);
 				//textViews.get(id).setBackgroundDrawable(new BitmapDrawable(bitmap));
 				textViews.get(id).setTextColor(Color.WHITE);
-				textViews.get(id).setBackgroundResource(R.drawable.textbg_true);
+				//textViews.get(id).setBackgroundResource(R.drawable.textbg_true);
+				if (title[i].length()>2) {
+					textViews.get(id).setBackgroundResource(R.drawable.scoll_ture4);
+				} else {
+					textViews.get(id).setBackgroundResource(R.drawable.scoll_ture2);
+				}
+				
 				if (i > 2) {
 					horizontalScrollView.smoothScrollTo((textViews.get(i).getWidth() * i - 180), 0);
 				} else {
@@ -324,6 +357,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	      time = Time();
 	      db = FinalDb.create(this);//实例化数据对象
 	      
+	      normal = new Normal(this);
+	     
+	      
 	      pageId = Integer.valueOf(getShared());
 	      
 	      switch (pageId) {
@@ -345,7 +381,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		default:
 			break;
 		}
-	     
+
+	      
 	}
 	
 	private String getShared()
@@ -632,8 +669,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				    
 					
 					newsUpLayout.setVisibility(View.GONE);
-					Log.v("----592-------", choose+"");
-					Log.v("----592-------", v.getTag().toString());
+				//	Log.v("----592-------", choose+"");
+				//	Log.v("----592-------", v.getTag().toString());
 					switch (choose) {
 					case 9:
 						setSelector(Integer.parseInt(v.getTag().toString()),title1);
@@ -722,21 +759,34 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 					AddDateListView();
 				}
 				else {
-					
-					progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
-					progressDialog.setCancelable(true);
-					Dialog = false ; 
-					deleteTimeThread();
-			    	dataThread(1);
+					if (normal.note_Intent()) {
+						progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
+						progressDialog.setCancelable(true);
+						Dialog = false ; 
+						deleteTimeThread();
+				    	dataThread(1);
+					}
+					else {
+						Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+						mark[LookPage] = 1;
+						AddDateListView();
+					}
 				}	
 			}
 			else 
 			{
-				progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
-				progressDialog.setCancelable(true);
-				Dialog = false ; 
-				AddTimeThread();
-		    	dataThread(1);
+				if (normal.note_Intent()) {
+					progressDialog = ProgressDialog.show(EastWindNewsActivity.this, "", "正在刷新...", true, false);
+					progressDialog.setCancelable(true);
+					Dialog = false ; 
+					AddTimeThread();
+			    	dataThread(1);
+				}
+				else {
+					Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+					mark[LookPage] = 1;
+					AddDateListView();
+				}
 			}
     	}
     }
@@ -1051,6 +1101,10 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 							InItView(6);
 						
 							break;
+						case 10:
+							unregisterReceiver(receiver);
+							break;
+						
 						default:
 							break;
 						}	
@@ -1087,10 +1141,16 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
-		if (flag) {//执行下拉刷新
-			mark[LookPage] = 0 ;
-			flag = false;//刷新期间不允许viewpage滑动
-			dataThread(6);
+		if (normal.note_Intent()) {
+			if (flag) {//执行下拉刷新
+				mark[LookPage] = 0 ;
+				flag = false;//刷新期间不允许viewpage滑动
+				dataThread(6);
+			}
+		}
+		else {
+			onLoad();
+			Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
 		}
 		
 		//onLoad();
@@ -1102,9 +1162,12 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	@Override
 	public void onLoadMore() {
 		// TODO Auto-generated method stub
+		if (normal.note_Intent())
+		{
 		if (arrayArray.get(LookPage).size()/(mark[LookPage]+1) == 15) {
 			if (flag) {//执行加载更多
 				mark[LookPage] = mark[LookPage] + 1;//记录下拉页数
+				setUrl(pageId + LookPage);
 				flag = false;//加载更多期间不允许vviewpage滑动
 				dataThread(8);
 			}
@@ -1112,7 +1175,11 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		else {
 			handler.sendEmptyMessage(7);	
 		}
-		
+	}
+	else {
+		onLoad();
+		Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+	}
 	//	selectorDate(pageId + LookPage);//判断数据地址
 		//onLoad();
 	}
@@ -1194,9 +1261,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
 			itemMap.put(LauchActivity.LAUCH_DATE_nid,dateMap.get(i).get(LauchActivity.LAUCH_DATE_nid));
 			itemMap.put(LauchActivity.LAUCH_DATE_node_title,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_title)));
-			
-			itemMap.put(LauchActivity.LAUCH_DATE_node_created,sdf.format(new Date(Long.parseLong(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created)))));
-			
+			String time = dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_created)+"000";
+			itemMap.put(LauchActivity.LAUCH_DATE_node_created,sdf.format(new Date(Long.parseLong(time))));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_channel,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_channel));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_newsfrom,dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_newsfrom));
 			itemMap.put(LauchActivity.LAUCH_DATE_field_thumbnails,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_thumbnails)));
@@ -1454,6 +1520,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			
 		}.start();
 	}
+	
+	
+	
 	
 	/**
 	 * 通知刷新缓存

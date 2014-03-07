@@ -4,6 +4,8 @@ package com.evebit.HandOnEastWind;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import net.tsz.afinal.FinalDb;
 
@@ -69,7 +71,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 	private String Body;
 	final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share",RequestType.SOCIAL);
 	
-	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
+	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled", "NewApi" })
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +143,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 		}
 		else {		
-			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
 		}
 		
 		
@@ -178,7 +180,30 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 	        
 	}
 	
-	
+	 /** 
+     *  
+     * 基本功能：过滤指定标签 
+     * <p> 
+     *  
+     * @param str 
+     * @param tag 
+     *            指定标签 
+     * @return String 
+     */  
+    public static String fiterHtmlTag(String str, String tag) {  
+        String regxp = "<\\s*" + tag + "\\s+([^>]*)\\s*>";  
+        Pattern pattern = Pattern.compile(regxp);  
+        Matcher matcher = pattern.matcher(str);  
+        StringBuffer sb = new StringBuffer();  
+        boolean result1 = matcher.find();  
+        while (result1) {  
+            matcher.appendReplacement(sb, "");  
+            result1 = matcher.find();  
+        }  
+        matcher.appendTail(sb);  
+        return sb.toString();  
+    }   
+	  
 	 private void image()
 		{
 			String condition ="nid='" + "image"+ "'";//搜索条件
@@ -241,7 +266,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			if (list.size() == 0) {
 				DBSize("1");
 				size1Button.setTextColor(0xFFAA823C);
-				size = 15;
+				size = 18;
 			}
 			else {
 				Size = list.get(0).getSize();
@@ -249,19 +274,19 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 					size1Button.setTextColor(0xFFAA823C);
 					size2Button.setTextColor(0xFF000000);
 					size3Button.setTextColor(0xFF000000);
-					size = 15;
+					size = 18;
 				}
 				else if (Size.equals("2")) {
 					size1Button.setTextColor(0xFF000000);
 					size2Button.setTextColor(0xFFAA823C);
 					size3Button.setTextColor(0xFF000000);
-					size = 20;
+					size = 21;
 				}
 				else {
 					size1Button.setTextColor(0xFF000000);
 					size2Button.setTextColor(0xFF000000);
 					size3Button.setTextColor(0xFFAA823C);
-					size = 25;
+					size = 28;
 				}
 			}
 		}
@@ -379,12 +404,12 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFFAA823C);
 			size2Button.setTextColor(0xFF000000);
 			size3Button.setTextColor(0xFF000000);
-			size = 15;
+			size = 18;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
-				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
 			}
 			
 			initWeb(Body);			break;
@@ -393,12 +418,12 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFF000000);
 			size2Button.setTextColor(0xFFAA823C);
 			size3Button.setTextColor(0xFF000000);
-			size = 20;
+			size = 21;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
-				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
 			}
 			initWeb(Body);
 			break;
@@ -407,12 +432,12 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFF000000);
 			size2Button.setTextColor(0xFF000000);
 			size3Button.setTextColor(0xFFAA823C);
-			size = 25;
+			size = 28;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
 			else {
-				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_2 + "</div>";
+				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
 			}
 			
 			initWeb(Body);

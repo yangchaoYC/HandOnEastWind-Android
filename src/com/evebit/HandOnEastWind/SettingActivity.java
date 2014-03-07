@@ -16,9 +16,11 @@ import cn.jpush.android.api.JPushInterface;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -217,6 +219,8 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
                // handler.sendEmptyMessage(1);
 		        cacheTextView.setText("    已有0KB缓存   ");
 
+		        openDialog(getString(R.string.cache_scucess), SettingActivity.this);
+		        
 			}
 		});
 		
@@ -372,6 +376,24 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	
 
 
+	    /**
+		  * 弹出对话框
+		  * @param alertStr 提示信息
+		  * @param context 当前上下文
+		  */
+		 protected void openDialog(String alertStr, Context mContext) {
+		  
+		  new AlertDialog.Builder(mContext)
+		  .setMessage(alertStr)	 
+		
+		  .setPositiveButton(android.R.string.ok,new DialogInterface.OnClickListener() {
+		   public void onClick(DialogInterface dialog, int which) {
+		    dialog.dismiss();
+		   }
+		  }).show();
+		  
+		 }
+	    
 
 	private void image()
 	{
