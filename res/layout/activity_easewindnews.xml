@@ -67,7 +67,6 @@
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
 		android:visibility="gone"
-
         >     
           <LinearLayout 
 		    android:layout_width="wrap_content"
@@ -113,7 +112,6 @@
 	          android:layout_height="wrap_content" 
 	          android:background="#AA823C"	
 	          android:orientation="vertical" 
-
              >
                 
               <LinearLayout 
@@ -125,8 +123,7 @@
                >
                 <Button 
                  android:id="@+id/news_button1" 
-                 android:tag="0"  
-                    
+                 android:tag="0"                    
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
@@ -135,8 +132,7 @@
                   />
               <Button 
                  android:id="@+id/news_button2"
-                 android:tag="1" 
-                 
+                 android:tag="1"                
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
@@ -145,8 +141,7 @@
                   />
               <Button 
                  android:id="@+id/news_button3"  
-                 android:tag="2" 
-                    
+                 android:tag="2"                     
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
@@ -166,8 +161,7 @@
              >
                 <Button 
                  android:id="@+id/news_button4" 
-                 android:tag="3"
-                   
+                 android:tag="3"                 
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
@@ -176,8 +170,7 @@
                   />
                  <Button 
                  android:id="@+id/news_button5" 
-                 android:tag="4" 
-                   
+                 android:tag="4"                   
                  android:layout_width="1dp"
                  android:text="要闻"
 	             android:layout_height="wrap_content"
@@ -187,14 +180,13 @@
                   />
               <Button
                  android:id="@+id/news_button6" 
-                 android:tag="5" 
-                   
-                 android:layout_width="3dp"
+                 android:tag="5"                  
+                 android:layout_width="1dp"
 	             android:layout_height="wrap_content"
-	             android:layout_margin="1dp"
+	             android:layout_margin="3dp"
                  android:text="要闻"
                  android:layout_weight="1"
-                   android:background="#ebc788"
+                 android:background="#ebc788"
                   />
            
              </LinearLayout>  
@@ -209,8 +201,7 @@
              >
                  <Button
                  android:id="@+id/news_button7" 
-                 android:tag="6" 
-                 
+                 android:tag="6"                  
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
@@ -220,8 +211,7 @@
                   />
               <Button
                  android:id="@+id/news_button8"
-                 android:tag="7"
-                
+                 android:tag="7"               
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
@@ -231,14 +221,13 @@
                   />
                 <Button 
                  android:id="@+id/news_button9"  
-                 android:tag="8"
-                   
+                 android:tag="8"                   
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
                  android:text="要闻"
                  android:layout_weight="1"
-                   android:background="#ebc788"
+                 android:background="#ebc788"
                   />
           
              </LinearLayout>
@@ -253,8 +242,7 @@
              >
                   <Button
                  android:id="@+id/news_button10" 
-                 android:tag="9" 
-                 
+                 android:tag="9"           
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
@@ -264,25 +252,23 @@
                   />
               <Button 
                  android:id="@+id/news_button11" 
-                 android:tag="10"
-                 
+                 android:tag="10"               
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
                  android:text="要闻"
                  android:layout_weight="1"
-                   android:background="#ebc788"
+                 android:background="#ebc788"
                   />
               <Button 
                  android:id="@+id/news_button12"  
-                 android:tag="11"
-                  
+                 android:tag="11"              
                  android:layout_width="1dp"
 	             android:layout_height="wrap_content"
 	             android:layout_margin="3dp"
                  android:text="要闻"
                  android:layout_weight="1"
-                   android:background="#ebc788"
+                 android:background="#ebc788"
                   />
               </LinearLayout>
         </LinearLayout>   
@@ -294,7 +280,36 @@
           
        </LinearLayout>
     
+     <LinearLayout
+           android:id="@+id/news_ad"
+           android:layout_width="fill_parent"
+	       android:layout_height="fill_parent"      
+           android:background="#b0000000"
+           android:visibility="gone"
+         >
+       <RelativeLayout
+	        android:layout_width="fill_parent"
+			android:layout_height="180dp"
+		    android:layout_gravity="center"	  
+		    android:layout_marginLeft="10dp"
+		    android:layout_marginRight="10dp"
+		    android:background="#aa823c"
+           >                    
+           <ImageView 
+                android:id="@+id/news_image_ad"
+                android:scaleType="fitXY"
+	            android:layout_width="fill_parent"
+			    android:layout_height="fill_parent"
+			    android:padding="3dp"		              
+               />
+           <ImageView 
+                android:id="@+id/news_image_ad_close"
+                android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentRight="true"
+			    android:src="@drawable/news_image_close"
+               />
+       </RelativeLayout>
     
-    
-    
+      </LinearLayout>
 </RelativeLayout>

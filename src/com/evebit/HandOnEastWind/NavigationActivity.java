@@ -113,10 +113,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	     fixLinearLayout = (LinearLayout)findViewById(R.id.navigation_fix);
 	     textView = (TextView)findViewById(R.id.navigation_company);
 	     
-	     downloadAdImage();
-	     
-	     
-	     Log.v("---116-", "beijing");
+	     downloadAdImage();	     	  
 	     
 	     travelLinearLayout.setOnTouchListener(this);  
 	     travelLinearLayout.setLongClickable(true);  
@@ -200,10 +197,8 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 		new Thread(){
 			public void run() {
 				Test_Bean data1,data2, data3,data4,data5;
-				try {
-					  Log.v("-----201-----","beijingll");
-					data1 = DataManeger.getTestData(ad1);
-					 Log.v("-----202-----","beijingmm");
+				try {					
+					data1 = DataManeger.getTestData(ad1);		
 					data2 = DataManeger.getTestData(ad2);
 					data3 = DataManeger.getTestData(ad3);
 					data4 = DataManeger.getTestData(ad4);
@@ -211,19 +206,17 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 					
 					
 					ArrayList<Test_Model> datalist1 = data1.getData();
-					ArrayList<Test_Model> datalist2 = data1.getData();
-					ArrayList<Test_Model> datalist3 = data1.getData();
-					ArrayList<Test_Model> datalist4 = data1.getData();
-					ArrayList<Test_Model> datalist5 = data1.getData();
+					ArrayList<Test_Model> datalist2 = data2.getData();
+					ArrayList<Test_Model> datalist3 = data3.getData();
+					ArrayList<Test_Model> datalist4 = data4.getData();
+					ArrayList<Test_Model> datalist5 = data5.getData();
 					
 					ad1_filePath = datalist1.get(0).getField_thumbnails();
-					ad2_filePath = datalist1.get(0).getField_thumbnails();
-					ad3_filePath = datalist1.get(0).getField_thumbnails();
-					ad4_filePath = datalist1.get(0).getField_thumbnails();
-					ad5_filePath = datalist1.get(0).getField_thumbnails();
-			
-			
-					Log.v("-----217-----","beijing"+ad5_filePath);
+					ad2_filePath = datalist2.get(0).getField_thumbnails();
+					ad3_filePath = datalist3.get(0).getField_thumbnails();
+					ad4_filePath = datalist4.get(0).getField_thumbnails();
+					ad5_filePath = datalist5.get(0).getField_thumbnails();
+			    
 				    handler.sendEmptyMessage(0);
 				} catch (Y_Exception e) {
 					// TODO: handle exception
@@ -309,8 +302,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
                 }else{  
                    // Toast.makeText(NavigationActivity.this, "Image error!", 1).show();  
                 }  
-            
-                Log.v("-----304-----","beijing"+data5.length);
+        
                 // 发送消息
                 connectHanlder.sendEmptyMessage(0);  
                 Log.d(TAG, "set image ...");  
@@ -372,11 +364,9 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
      */  
     public void saveFile(Bitmap bm, String fileName) throws IOException {  
         File dirFile = new File(ALBUM_PATH);  
-        Log.v("-----364-----","beijing"+ALBUM_PATH + fileName);
-     
+  
         if(!dirFile.exists()){  
             dirFile.mkdir();  
-            Log.v("-----368-----","beijing"+ALBUM_PATH + fileName);
         }  
         File myCaptureFile = new File(ALBUM_PATH + fileName);  
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));  
