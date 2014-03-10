@@ -82,7 +82,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	   GestureDetector mGestureDetector;  
 	   private static final int FLING_MIN_DISTANCE = 50;  
 	   private static final int FLING_MIN_VELOCITY = 0;  
-	   private String imgUrl = LAUCH_URL + "/mobile/adstart";//
+	   private String imgUrl = LAUCH_URL + "/mobile/adstart?nid=1136";//
 	   private String image_Url = null;
 	   private String image_ID = null;
 	   private String image_dateID = null;
@@ -222,7 +222,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 
 	private void connectNetThread()
 	{
-		Log.v(test, "---224---"+image_Url);
+		
 		new Thread()
 		{
 
@@ -233,7 +233,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 				byte[] data = getImage(image_Url);  
                 if(data!=null){  
                     mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap  
-                    Log.v(test, "---224---");
+            
                 }else{  
                    // Toast.makeText(MainActivity.this, "Image error!", 1).show();  
                 } 

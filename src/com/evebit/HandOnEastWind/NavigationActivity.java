@@ -9,15 +9,27 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import net.tsz.afinal.FinalDb;
+
+import com.evebit.DB.DBAd;
+import com.evebit.DB.DBSize;
+import com.evebit.DB.DBTime;
+import com.evebit.adapter.DialogAdAdapter;
+import com.evebit.adapter.Normal;
 import com.evebit.json.DataManeger;
 import com.evebit.json.Test_Bean;
 import com.evebit.json.Test_Bean_News;
 import com.evebit.json.Test_Model;
 import com.evebit.json.Test_Model_News;
 import com.evebit.json.Y_Exception;
+import com.evebit.ui.MyDialog;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -29,14 +41,19 @@ import android.os.Message;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +77,7 @@ import android.widget.Toast;
 public class NavigationActivity extends Activity  implements OnTouchListener,  OnGestureListener {
 
 	//滑动功能
-	private long firstime = 0;
+	 private long firstime = 0;
 	 GestureDetector mGestureDetector;  
 	 private static final int FLING_MIN_DISTANCE = 50;  
 	 private static final int FLING_MIN_VELOCITY = 0; 
@@ -68,6 +85,8 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 //导航页面 5个频道对应的LinearLayout区域：东风汽车报 东风 汽车之旅 汽车科技 维修装备技术
 	 private LinearLayout newsLinearLayout,dongfengLinearLayout,travelLinearLayout,techLinearLayout,fixLinearLayout;
 
+	 MyDialog dialog; // 战略合作伙伴
+	 
 	 
 	 private final static String TAG = "NavigationActivity";  
 	 private final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/download_ad/";  
@@ -86,12 +105,23 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 private String ad3 = "http://zhangshangdongfeng.demo.evebit.com/mobile/adstart?nid=1162";  
 	 private String ad4 = "http://zhangshangdongfeng.demo.evebit.com/mobile/adstart?nid=1163";  
 	 private String ad5 = "http://zhangshangdongfeng.demo.evebit.com/mobile/adstart?nid=1164";  
-	 
+	
 	 private String ad1_filePath = "";  
 	 private String ad2_filePath = "";  
 	 private String ad3_filePath = "";  
 	 private String ad4_filePath = "";  
 	 private String ad5_filePath = "";  
+	 
+	 //合作伙伴链接
+	 private String company_ad_urlString = "http://zhangshangdongfeng.demo.evebit.com/mobile/partners";
+	 private String imageString;
+	 
+	 Normal normal;
+	 private ProgressDialog progressDialog;
+	 private FinalDb db = null;//数据库对象
+	  
+	 private ArrayList<HashMap<String, String>> list  =  new ArrayList<HashMap<String, String>>();
+	 ArrayList<Test_Model> pataner_datalist;
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +143,10 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	     fixLinearLayout = (LinearLayout)findViewById(R.id.navigation_fix);
 	     textView = (TextView)findViewById(R.id.navigation_company);
 	     
-	     downloadAdImage();	     	  
+	     downloadAdImage();	  
+	     
+	     db = FinalDb.create(this);//实例化数据对象	      
+	     normal = new Normal(this);
 	     
 	     travelLinearLayout.setOnTouchListener(this);  
 	     travelLinearLayout.setLongClickable(true);  
@@ -122,8 +155,21 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Toast.makeText(getApplicationContext(), "正在开发中",Toast.LENGTH_SHORT).show();
+				
+				if (normal.note_Intent()) {
+					progressDialog = ProgressDialog.show(NavigationActivity.this, "", "正在刷新...", true, false);
+					checkCompanyAd();				 
+				}
+				else {
+					Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+				
+				}
+				
+				
+			
 			}
+
+		
 		});
 	     
 	     newsLinearLayout.setOnClickListener(new OnClickListener() {		
@@ -188,6 +234,148 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			});
 	}
 	
+	
+	
+	private void checkCompanyAd() {
+		// TODO Auto-generated method stub
+		//检查数据库数据，条数为0 从服务器拉取保存
+		//不为零 比较数据库数据条数与服务器条数是否相同 一样则不保存 从缓存显示  不一样清空数据库 重新保存
+				
+		new Thread(){
+			public void run() {
+				Test_Bean ad_data;
+				try {											
+				    ad_data = DataManeger.getTestData(company_ad_urlString);										
+					pataner_datalist = ad_data.getData();		
+					
+					for (Test_Model test_Model : pataner_datalist) {	
+						
+						  HashMap<String, String> map=new HashMap<String, String>();
+						  map.put(LauchActivity.LAUCH_DATE_node_title, (test_Model.getNode_title()==null? "": test_Model.getNode_title()));
+						  map.put(LauchActivity.LAUCH_DATE_field_thumbnails, (test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails()));
+						  map.put("mName","");
+						  list.add(map);					
+			
+				}
+					
+					
+				/*	List<DBAd> adlist = db.findAll(DBAd.class);//数据库数据
+					
+					if (adlist.size()!=0 && adlist.size()==pataner_datalist.size()) {
+						//已有缓存数据且服务器端无更新 从数据库中显示
+						for (int i = 0; i < adlist.size(); i++) {
+							 HashMap<String, String> map=new HashMap<String, String>();
+							 map.put(LauchActivity.LAUCH_DATE_node_title, adlist.get(i).getTitle());
+						     map.put("mName",  adlist.get(i).getNid()+".jpg");
+						     map.put(LauchActivity.LAUCH_DATE_field_thumbnails,"");
+							 list.add(map);	
+						}											
+					}else{
+						
+						if (adlist.size()!=0&&adlist.size()!=pataner_datalist.size()) {
+						 //有缓存 但是服务器有了新的广告 清除这个数据库数据
+							//adlist.clear();
+					
+							db.deleteByWhere(DBAd.class, "");
+						} 												
+						
+						  DBAd ad = new DBAd();
+						for (Test_Model test_Model : pataner_datalist) {	
+	
+								  HashMap<String, String> map=new HashMap<String, String>();
+								  map.put(LauchActivity.LAUCH_DATE_node_title, (test_Model.getNode_title()==null? "": test_Model.getNode_title()));
+								  map.put(LauchActivity.LAUCH_DATE_field_thumbnails, (test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails()));
+								  map.put("mName","");
+								  list.add(map);	
+								  
+								  ad.setNid(test_Model.getId());
+								  ad.setTitle(test_Model.getNode_title());
+								  db.save(ad);
+					
+						}
+																		
+					}
+					
+				    savePatanerThread();*/				
+				handler.sendEmptyMessage(1);
+				} catch (Y_Exception e) {
+					// TODO: handle exception
+					e.printStackTrace();
+				}
+			}
+
+			
+		
+		}.start();				
+	
+	}
+	
+	/**
+	 * 在另一个线程保存图片
+	 */
+	private void savePatanerThread() {
+		// TODO Auto-generated method stub
+		new Thread()
+		{
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				 try {  
+					 
+						for (Test_Model test_Model : pataner_datalist) {	
+								byte[] data = getImage(test_Model.getField_thumbnails());
+							    Bitmap mBitmap = null;
+									  if(data!=null){  
+										  mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap  
+						                }else{  
+						                   // Toast.makeText(NavigationActivity.this, "Image error!", 1).show();  
+						                }  
+								  saveFile(mBitmap, test_Model.getId()+".jpg");  							  
+								
+								
+						}
+			  } catch (Exception e) {  
+	                e.printStackTrace();  
+	            } 
+			}
+			
+		}.start();
+	}
+	
+	private void dialog() {
+		// TODO Auto-generated method stub
+	   dialog = new MyDialog(NavigationActivity.this);
+	   
+	   Window dialogWindow = dialog.getWindow();
+       WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+       dialogWindow.setGravity(Gravity.CENTER);
+   
+       lp.height = 1000; // 高度
+       lp.alpha = 1f; // 透明度
+       dialogWindow.setAttributes(lp);
+	   
+	   ImageView close_ImageView = (ImageView)dialog.getClose_ImageView();	   
+	   ListView ad_ListView = (ListView)dialog.getAd_ListView();
+	   	
+	   imageString = list.get(1).size()+"";
+		
+	   DialogAdAdapter adAdapter = new DialogAdAdapter(this, list,imageString);
+	   ad_ListView.setAdapter(adAdapter);
+	   
+	   close_ImageView.setOnClickListener(new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			// TODO Auto-generated method stub
+			dialog.dismiss();
+			list.clear();
+		
+		}
+	});
+	    dialog.setCanceledOnTouchOutside(false);//设置区域外点击消失
+		dialog.show();
+	}
+	
 	/**
 	 * 下载5个广告图片到本地
 	 */
@@ -239,7 +427,11 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			switch (msg.what) {
 			case 0:		
 				new Thread(connectNet).start();  
-				break;		
+				break;	
+			case 1:
+				progressDialog.dismiss();
+				dialog();
+				break;
 			default:
 				break;
 			}
@@ -328,7 +520,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
         @Override  
         public void run() {  
             try {  
-            	  Log.v("-----330-----","beijingggg");
+            	
                 saveFile(mBitmap1, ad1_FileName);  
                 saveFile(mBitmap2, ad2_FileName);  
                 saveFile(mBitmap3, ad3_FileName);  

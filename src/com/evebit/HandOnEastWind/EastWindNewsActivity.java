@@ -734,8 +734,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				    
 					
 					newsUpLayout.setVisibility(View.GONE);
-				//	Log.v("----592-------", choose+"");
-				//	Log.v("----592-------", v.getTag().toString());
+			
 					switch (choose) {
 					case 9:
 						setSelector(Integer.parseInt(v.getTag().toString()),title1);

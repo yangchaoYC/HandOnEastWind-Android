@@ -37,7 +37,7 @@
 		    android:layout_height="wrap_content"
 			android:textColor="#FFFFFF"		
 			android:background="@drawable/navigation_company"
-			android:textSize="12sp"
+			android:textSize="13sp"
 			android:gravity="center"
 			android:layout_marginRight="2dp"
 			android:layout_alignParentRight="true"
@@ -343,5 +343,6 @@
           
 	  </LinearLayout>
       </LinearLayout>
- </LinearLayout>    
+ </LinearLayout> 
+ 
 </LinearLayout>
