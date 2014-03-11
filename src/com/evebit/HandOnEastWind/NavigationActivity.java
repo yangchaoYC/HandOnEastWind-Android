@@ -76,7 +76,7 @@ import android.widget.Toast;
 
 public class NavigationActivity extends Activity  implements OnTouchListener,  OnGestureListener {
 
-	//滑动功能
+	 //滑动功能
 	 private long firstime = 0;
 	 GestureDetector mGestureDetector;  
 	 private static final int FLING_MIN_DISTANCE = 50;  
@@ -85,7 +85,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 //导航页面 5个频道对应的LinearLayout区域：东风汽车报 东风 汽车之旅 汽车科技 维修装备技术
 	 private LinearLayout newsLinearLayout,dongfengLinearLayout,travelLinearLayout,techLinearLayout,fixLinearLayout;
 
-	 MyDialog dialog; // 战略合作伙伴
+	 MyDialog dialog; // 战略合作伙伴对话框
 	 
 	 
 	 private final static String TAG = "NavigationActivity";  
@@ -116,12 +116,13 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 private String company_ad_urlString = "http://zhangshangdongfeng.demo.evebit.com/mobile/partners";
 	 private String imageString;
 	 
-	 Normal normal;
-	 private ProgressDialog progressDialog;
+	 Normal normal; //连网的判断
+	 private ProgressDialog progressDialog; //刷新数据时的框
 	 private FinalDb db = null;//数据库对象
-	  
+	 
+	 //list用来存放合作伙伴列表信息
 	 private ArrayList<HashMap<String, String>> list  =  new ArrayList<HashMap<String, String>>();
-	 ArrayList<Test_Model> pataner_datalist;
+	 ArrayList<Test_Model> pataner_datalist; //从服务器拉取的列表数据
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -235,7 +236,9 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	}
 	
 	
-	
+	/**
+	 * 从服务器端拉取数据 并且保存在列表中
+	 */
 	private void checkCompanyAd() {
 		// TODO Auto-generated method stub
 		//检查数据库数据，条数为0 从服务器拉取保存
@@ -334,7 +337,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 								
 								
 						}
-			  } catch (Exception e) {  
+			  } catch (Exception e) {   
 	                e.printStackTrace();  
 	            } 
 			}
@@ -350,7 +353,9 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
        dialogWindow.setGravity(Gravity.CENTER);
    
-       lp.height = 1000; // 高度
+       lp.height = getWindowManager().getDefaultDisplay().getHeight() - 270;
+       
+      // lp.height = 1000; // 高度
        lp.alpha = 1f; // 透明度
        dialogWindow.setAttributes(lp);
 	   
@@ -418,6 +423,11 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 		  
 	}
 
+	/**
+	 * 通知
+	 * 为0的时候开始下载
+	 * 为1的时候显示战略合作伙伴的对话框
+	 */
 	private Handler handler = new Handler()
 	{
 
@@ -441,7 +451,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 		
 	};
 	
-	
+   
 	  /* 
      * 连接网络 
      * 由于在4.0中不允许在主线程中访问网络，所以需要在子线程中访问 
@@ -458,7 +468,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
             	ad5_FileName = "ad5.jpg"; 
             	
                 //以下是取得图片的两种方法  
-                //////////////// 方法1：取得的是byte数组, 从byte数组生成bitmap  
+                //方法1：取得的是byte数组, 从byte数组生成bitmap  
                 byte[] data1 = getImage(ad1_filePath); 
                 byte[] data2 = getImage(ad2_filePath); 
                 byte[] data3 = getImage(ad3_filePath); 
@@ -497,7 +507,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
         
                 // 发送消息
                 connectHanlder.sendEmptyMessage(0);  
-                Log.d(TAG, "set image ...");  
+                //Log.d(TAG, "set image ...");  
             } catch (Exception e) {  
                 Toast.makeText(NavigationActivity.this,"无法链接网络！", 1).show();  
                 e.printStackTrace();  
@@ -542,6 +552,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
             File file = new File(ALBUM_PATH+mFileName);  
             if(file.exists())  
             {  
+                
             	Bitmap bm = BitmapFactory.decodeFile(ALBUM_PATH+mFileName);  
             	mImageView.setImageBitmap(bm);            	
             }                       

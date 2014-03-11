@@ -94,7 +94,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		private String title4[] = {  "播报", "国际前研", "新车测评", "政能量", "创新观察", "人物专访", "特别关注", "特稿", "设计•研究", "试验•测试" , "工艺•材料", "公告牌"};
 		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
 		private long firstime = 0;
-		  private ImageView news_choose_ImageView; //点击拉开更多频道
+		private ImageView news_choose_ImageView; //点击拉开更多频道
 	        private LinearLayout newsDownLayout;//底部显示新闻的layout
 	        private LinearLayout newsUpLayout;//上层选择频道的layout
 	        private ImageView news_choose_ok; //点击确定选择频道
@@ -434,7 +434,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	       ad_image_close = (ImageView)news_ad_Layout.findViewById(R.id.news_image_ad_close);
 	       ad_image = (ImageView)news_ad_Layout.findViewById(R.id.news_image_ad);
 	       
-	       
+	     
 	       
 	       newsUpLayout = (LinearLayout)findViewById(R.id.news_up);
 	       newsDownLayout = (LinearLayout)findViewById(R.id.news_down);
