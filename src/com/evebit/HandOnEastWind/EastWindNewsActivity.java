@@ -95,30 +95,30 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
 		private long firstime = 0;
 		private ImageView news_choose_ImageView; //点击拉开更多频道
-	        private LinearLayout newsDownLayout;//底部显示新闻的layout
-	        private LinearLayout newsUpLayout;//上层选择频道的layout
-	        private ImageView news_choose_ok; //点击确定选择频道
+	    private LinearLayout newsDownLayout;//底部显示新闻的layout
+	    private LinearLayout newsUpLayout;//上层选择频道的layout
+	    private ImageView news_choose_ok; //点击确定选择频道
 	        
-	        private LinearLayout news_ad_Layout;//上层广告的layout
-	        private ImageView ad_image_close,  ad_image;
-	   	    private final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/download_ad/";  
-	   	    private final int SPLASH_DISPLAY_LENGHT = 3000; 
+	    private LinearLayout news_ad_Layout;//上层广告的layout
+	    private ImageView ad_image_close,  ad_image;
+	   	private final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/download_ad/";  
+	   	private final int SPLASH_DISPLAY_LENGHT = 3000; 
 	   	    
-	        private Button button1;
-	        private Button button2;
-	        private Button button3;
-	        private Button button4;
-	        private Button button5;
-	        private Button button6;
-	        private Button button7;
-	        private Button button8;
-	        private Button button9;
-	        private Button button10;
-	        private Button button11;
-	        private Button button12;
-	        private ArrayList <Button> buttons;
+	    private Button button1;
+	    private Button button2;
+	    private Button button3;
+	    private Button button4;
+	    private Button button5;
+	    private Button button6;
+	    private Button button7;
+	    private Button button8;
+	    private Button button9;
+	    private Button button10;
+	    private Button button11;
+	    private Button button12;
+	    private ArrayList <Button> buttons;
 
-	        Normal normal;
+	    Normal normal;
 		private String test = "EastWindNews";
 		
 		private ArrayList<TextView> textViews;

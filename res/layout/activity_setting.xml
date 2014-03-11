@@ -225,9 +225,8 @@
 		            android:layout_width="1dp"
 		            android:layout_height="wrap_content"
 		            android:gravity="right"       
-		             android:layout_weight="1" 
-		            android:textColor="#B0B0B0"
-		            android:paddingRight="10dp"  
+		            android:layout_weight="1" 
+		            android:textColor="#B0B0B0"		          
 		            android:textSize="10sp"
 		            android:text="@string/setting_storage"
 		            />	 
@@ -271,17 +270,30 @@
 		         android:layout_marginLeft="0.5dip"
 		         android:layout_marginRight="0.5dip"
 		         android:layout_marginBottom="0.5dip"
-		         android:layout_weight="1"     >  
-		        <TextView   
-		             android:layout_width="fill_parent"
-		            android:layout_height="fill_parent"
-		            android:gravity="center_vertical"
-		            android:textColor="#565656"
-		            android:text="@string/label8"  
-		            android:paddingLeft="10dp"  
-		            android:textSize="15sp"  
-		     
-		          />  		 
+		         android:gravity="center_vertical"
+		         android:layout_weight="1"     
+		         android:weightSum="2">
+
+		         <TextView
+		             android:layout_width="1dp"
+		             android:layout_height="wrap_content"
+		             android:layout_weight="1"
+		             android:paddingLeft="10dp"
+		             android:text="@string/label8"
+		             android:textColor="#565656"
+		             android:textSize="15sp" />
+  	
+		           <TextView 
+		            android:id="@+id/setting_version"
+		            android:layout_width="1dp"
+		            android:layout_height="wrap_content"
+		            android:gravity="right"       
+		            android:layout_weight="1" 
+		            android:textColor="#B0B0B0"
+		            android:paddingRight="10dp"
+		            android:textSize="10sp"
+	
+		            />	 	 
 		    </TableRow> 
 		    
 		</TableLayout>  
