@@ -14,6 +14,9 @@ import java.util.List;
 
 import net.tsz.afinal.FinalDb;
 
+import cn.jpush.android.api.BasicPushNotificationBuilder;
+import cn.jpush.android.api.JPushInterface;
+
 import com.evebit.DB.DBSize;
 import com.evebit.json.DataManeger;
 import com.evebit.json.Test_Bean;
@@ -24,6 +27,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
+import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -82,7 +86,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	   GestureDetector mGestureDetector;  
 	   private static final int FLING_MIN_DISTANCE = 50;  
 	   private static final int FLING_MIN_VELOCITY = 0;  
-	   private String imgUrl = LAUCH_URL + "/mobile/adstart";//
+	   private String imgUrl = LAUCH_URL + "/mobile/adstart?nid=1136";//
 	   private String image_Url = null;
 	   private String image_ID = null;
 	   private String image_dateID = null;
@@ -115,9 +119,59 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 		 
 		 censor();
 		 
+		 checkPushOpen();
+		 checkPushSound();
 	}
 	
-	 /**
+	
+
+
+
+	private void checkPushOpen() {
+		// TODO Auto-generated method stub
+		 String condition ="nid='" + "push"+ "'";//搜索条件
+		
+			List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+			if (list.size() == 0) {
+				JPushInterface.resumePush(getApplicationContext());
+			}
+			else {
+				
+				if (list.get(0).getSize().toString().equals("flase")) {
+					JPushInterface.stopPush(getApplicationContext());
+				}
+				else {
+					JPushInterface.resumePush(getApplicationContext());
+				}
+			}
+	}
+	
+	
+	 private void checkPushSound() {
+		// TODO Auto-generated method stub
+		 String condition ="nid='" + "sound"+ "'";//搜索条件
+			List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+			if (list.size() == 0) {
+	
+			}
+			else {
+				if (list.get(0).getSize().toString().equals("flase")) {
+					BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(LauchActivity.this);
+					builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  
+					builder.notificationDefaults = Notification.DEFAULT_LIGHTS ;  
+					JPushInterface.setDefaultPushNotificationBuilder(builder);
+				}
+				else {
+					BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(LauchActivity.this);
+					builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  					
+					builder.notificationDefaults = Notification.DEFAULT_SOUND ;  
+					JPushInterface.setDefaultPushNotificationBuilder(builder);
+				}
+			}
+	}
+
+
+	/**
      * handler用来处理加载广告和计时跳转的顺序
      * 1：加载缓存图片后延迟2面进行页面push
      * 2：获取图片
@@ -222,7 +276,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 
 	private void connectNetThread()
 	{
-		Log.v(test, "---224---"+image_Url);
+		
 		new Thread()
 		{
 
@@ -233,7 +287,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 				byte[] data = getImage(image_Url);  
                 if(data!=null){  
                     mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap  
-                    Log.v(test, "---224---");
+            
                 }else{  
                    // Toast.makeText(MainActivity.this, "Image error!", 1).show();  
                 } 

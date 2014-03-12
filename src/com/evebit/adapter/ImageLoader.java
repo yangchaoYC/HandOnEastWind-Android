@@ -74,15 +74,10 @@ public class ImageLoader {
 	    	Log.v("image----76---", url+"");
 	        File f=fileCache.getFile(url);   
 	    
-	        //浠巗d鍗� 
 	        Bitmap b = decodeFile(f);   
 	        if(b!=null)   
 	            return b;   
-	    
-	        
-	        //浠庣綉缁� 
-	        
-	        
+	  
 	        
 			try {
 				if (imageString.equals("true")) {

@@ -59,6 +59,8 @@
           
      
     <string name="setting_storage">已有0KB缓存文件</string> 
+    <string name="setting_version">当前版本  </string> 
+    <string name="setting_version_noNew">版本已是最新</string> 
     <string name="share_code">扫描二维码下载手机客户端</string> 
     <string name="news_more">更多频道</string> 
    

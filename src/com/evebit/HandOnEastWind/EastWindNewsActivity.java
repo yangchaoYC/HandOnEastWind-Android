@@ -1,5 +1,6 @@
 package com.evebit.HandOnEastWind;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,6 +39,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -87,31 +89,36 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         * 维修装备技术(6个栏目)：行业资讯、工作研究、故障维修、技术改造、节能技术、汽车研究
         */
 		private String title1[] = {  "头条", "要闻", "生产经营", "东风党建", "和谐东风",  "东风人", "东风文艺", "专题报道", "四城视点" };
-		private String title2[] = {  " 专 题 ", " 企 业 ", " 观 点 ", " 对 话 "};
-		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博·贴士邦"};
-		private String title4[] = {  "播报", "国际前研", "新车测评", "政能量", "创新观察", "人物专访", "特别关注", "特稿", "设计•研究", "试验•测试" , "工艺•材料", " 公告牌 "};
+		private String title2[] = {  "专 题", "企 业", "观 点", "对 话"};
+		private String title3[] = {  "旅游资讯", "“驾”临天下", "名车靓影", "城市约会", "乐途影像", "名家专栏", "微博•贴士邦"};
+		private String title4[] = {  "播报", "国际前研", "新车测评", "政能量", "创新观察", "人物专访", "特别关注", "特稿", "设计•研究", "试验•测试" , "工艺•材料", "公告牌"};
 		private String title5[] = {  "行业资讯", "工作研究", "故障维修", "技术改造", "节能技术", "汽车研究"};
 		private long firstime = 0;
-		  private ImageView news_choose_ImageView; //点击拉开更多频道
-	        private LinearLayout newsDownLayout;//底部显示新闻的layout
-	        private LinearLayout newsUpLayout;//上层选择频道的layout
-	        private ImageView news_choose_ok; //点击确定选择频道
+		private ImageView news_choose_ImageView; //点击拉开更多频道
+	    private LinearLayout newsDownLayout;//底部显示新闻的layout
+	    private LinearLayout newsUpLayout;//上层选择频道的layout
+	    private ImageView news_choose_ok; //点击确定选择频道
 	        
-	        private Button button1;
-	        private Button button2;
-	        private Button button3;
-	        private Button button4;
-	        private Button button5;
-	        private Button button6;
-	        private Button button7;
-	        private Button button8;
-	        private Button button9;
-	        private Button button10;
-	        private Button button11;
-	        private Button button12;
-	        private ArrayList <Button> buttons;
+	    private LinearLayout news_ad_Layout;//上层广告的layout
+	    private ImageView ad_image_close,  ad_image;
+	   	private final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/download_ad/";  
+	   	private final int SPLASH_DISPLAY_LENGHT = 5000; 
+	   	    
+	    private Button button1;
+	    private Button button2;
+	    private Button button3;
+	    private Button button4;
+	    private Button button5;
+	    private Button button6;
+	    private Button button7;
+	    private Button button8;
+	    private Button button9;
+	    private Button button10;
+	    private Button button11;
+	    private Button button12;
+	    private ArrayList <Button> buttons;
 
-	        Normal normal;
+	    Normal normal;
 		private String test = "EastWindNews";
 		
 		private ArrayList<TextView> textViews;
@@ -239,33 +246,38 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
  */
 	void InItTitle1(String title[]) {
 		textViews = new ArrayList<TextView>();
-		//H_width = (getWindowManager().getDefaultDisplay().getWidth() / 5);
-		//int height = 100;
-         H_width = 55;
+		H_width = (getWindowManager().getDefaultDisplay().getWidth() /18);
+
 		for (int i = 0; i < title.length; i++) {
 			TextView textView = new TextView(this);
 			
-			String regEx="”“•";  
-	         Pattern   p   =   Pattern.compile(regEx);     
-	         Matcher   m   =   p.matcher(title[i]);     	      					
+			//String regEx="•";  
+	        // Pattern   p   =   Pattern.compile(regEx);     
+	       //  Matcher   m   =   p.matcher(title[i]);     	      					
 			
-	         if(m.replaceAll("").trim().length()==2){
-	        	 textView.setLayoutParams(new LayoutParams(125,LayoutParams.WRAP_CONTENT));
-	         }else{
-	        	 textView.setLayoutParams(new LayoutParams(H_width*m.replaceAll("").trim().length(),LayoutParams.WRAP_CONTENT));
-	         }
+	         if(title[i].length()==2){
+	        	 textView.setLayoutParams(new LayoutParams(H_width*3,LayoutParams.WRAP_CONTENT));
+	         }else if (title[i].length()==3) {
+	        	 textView.setLayoutParams(new LayoutParams(H_width*4,LayoutParams.WRAP_CONTENT));
+			}else if (title[i].length()==4){
+	        	 textView.setLayoutParams(new LayoutParams(H_width*5,LayoutParams.WRAP_CONTENT));
+	         }else if (title[i].length()==5){
+	        	 textView.setLayoutParams(new LayoutParams(11*H_width/2,LayoutParams.WRAP_CONTENT));
+			}else {
+				 textView.setLayoutParams(new LayoutParams(13*H_width/2,LayoutParams.WRAP_CONTENT));
+			}//H_width*m.replaceAll("").trim().length()
 			
 			textView.setText(title[i]);
-			textView.setTextSize(22);
+			textView.setTextSize(20);
 			textView.setTextColor(0x80FFFFFF);
-			//textView.setWidth(H_width);
-			//Log.e("aa", "text_width=" + textView.getWidth());
-			//textView.setHeight(height - 30);
+		
 			textView.setGravity(Gravity.CENTER);
 			textView.setId(i);
 			textView.setOnClickListener(this);
 			textViews.add(textView);
 			buttons.get(i).setText(title[i]);	
+			buttons.get(i).setTextSize(15);
+			
 			View view = new View(this);
 			LinearLayout.LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			//layoutParams.width = 1;
@@ -298,7 +310,13 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.grouplist_item_bg_normal);
 				//textViews.get(id).setBackgroundDrawable(new BitmapDrawable(bitmap));
 				textViews.get(id).setTextColor(Color.WHITE);
-				textViews.get(id).setBackgroundResource(R.drawable.textbg_true);
+				//textViews.get(id).setBackgroundResource(R.drawable.textbg_true);
+				if (title[i].length()>2) {
+					textViews.get(id).setBackgroundResource(R.drawable.scoll_ture4);
+				} else {
+					textViews.get(id).setBackgroundResource(R.drawable.scoll_ture2);
+				}
+				
 				if (i > 2) {
 					horizontalScrollView.smoothScrollTo((textViews.get(i).getWidth() * i - 180), 0);
 				} else {
@@ -393,6 +411,9 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	 * 
 	 */
     public void setView(final int i){
+    	
+    	   
+    	
     	   LayoutInflater inflater = getLayoutInflater(); 
 		   eastWindNewsGroup = (ViewGroup)inflater.inflate(R.layout.activity_easewindnews, null); 
 		   viewPager = (ViewPager)eastWindNewsGroup.findViewById(R.id.tabView1_container);	  
@@ -403,6 +424,12 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 
 	       news_choose_ImageView = (ImageView)findViewById(R.id.news_choose);
 	       news_choose_ok = (ImageView)findViewById(R.id.news_choose_ok);
+	   
+	       news_ad_Layout = (LinearLayout)findViewById(R.id.news_ad);
+	       ad_image_close = (ImageView)news_ad_Layout.findViewById(R.id.news_image_ad_close);
+	       ad_image = (ImageView)news_ad_Layout.findViewById(R.id.news_image_ad);
+	       
+	     
 	       
 	       newsUpLayout = (LinearLayout)findViewById(R.id.news_up);
 	       newsDownLayout = (LinearLayout)findViewById(R.id.news_down);
@@ -437,7 +464,8 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	       
 	       
 	       switch (i) {
-		case 9:		
+		case 9:	
+			 showAd("ad1.jpg");
 			 InItTitle1(title1);
 			 setSelector(0,title1);	
 			 list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
@@ -463,6 +491,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			 setListView();
 			break;
         case 4:
+        	 showAd("ad2.jpg");
             InItTitle1(title2);
         	setSelector(0,title2);
         	list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
@@ -478,6 +507,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         	setListView();
 			break;
         case 8:
+        	 showAd("ad3.jpg");
         	InItTitle1(title3);
         	setSelector(0,title3);
         	list_page_view1 = (XListView)page_view_1.findViewById(R.id.page_view_1);
@@ -501,7 +531,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         	setListView();
 			break;
         case 12:
-        	
+        	 showAd("ad4.jpg");
         
         	 InItTitle1(title4);
         	 setSelector(0,title4);
@@ -534,7 +564,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
         	 setListView();
 			break;
         case 6:
-        	
+        	 showAd("ad5.jpg");
 
         	InItTitle1(title5);
         	setSelector(0,title5);
@@ -559,6 +589,15 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 		}
 		
 	       buttonClick(i);
+	       
+	       ad_image_close.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				news_ad_Layout.setVisibility(View.GONE);
+			}
+		});
 
 	       news_choose_ImageView.setOnClickListener(new OnClickListener() {
 			
@@ -640,8 +679,45 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			});
 		}
 
+
+	/**
+     *显示广告
+     */
+    private void showAd(String mFileName) {
+		// TODO Auto-generated method stub
+    	   File file = new File(ALBUM_PATH+mFileName);  
+           if(file.exists())  
+           {  
+        	news_ad_Layout.setVisibility(View.VISIBLE);
+           	Bitmap bm = BitmapFactory.decodeFile(ALBUM_PATH+mFileName);  
+           	ad_image.setImageBitmap(bm);   
+           	startCountTime();
+           }else {
+        	news_ad_Layout.setVisibility(View.GONE);
+		}          
+	}
+
+    /**
+     * 计时两秒，结束后结束广告
+     */
+    private void startCountTime() {
+         // TODO Auto-generated method stub
+           new Handler().postDelayed(new Runnable() {
+             @Override
+             public void run() {
+               closeAdImage();
+             }			
+
+     }, SPLASH_DISPLAY_LENGHT);
+    }
     
-    private void buttonClick(final int choose) {
+    
+    private void closeAdImage() {
+		// TODO Auto-generated method stub
+    	news_ad_Layout.setVisibility(View.GONE);
+	}
+    
+	private void buttonClick(final int choose) {
 		// TODO Auto-generated method stub
 		
 		for (int i = 0; i < buttons.size(); i++) {
@@ -653,8 +729,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 				    
 					
 					newsUpLayout.setVisibility(View.GONE);
-				//	Log.v("----592-------", choose+"");
-				//	Log.v("----592-------", v.getTag().toString());
+			
 					switch (choose) {
 					case 9:
 						setSelector(Integer.parseInt(v.getTag().toString()),title1);
