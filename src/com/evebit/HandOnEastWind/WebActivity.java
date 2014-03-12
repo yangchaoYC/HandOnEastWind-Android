@@ -106,21 +106,21 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		
 		 mController.setShareContent(LauchActivity.LAUCH_URL + "news/"+nid+".html");
 				
-			mController.setShareMedia(new UMImage(WebActivity.this,R.drawable.ic_launcher));
+		 mController.setShareMedia(new UMImage(WebActivity.this,R.drawable.ic_launcher));
 					
-					mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.baidu.com/");   
+		 mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.baidu.com/");   
 					
-			        mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.umeng.com/social");  		
-					String appID = "wx967daebe835fbeac";
+		 mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.umeng.com/social");  		
+		 String appID = "wx3fd2ba543fd26795";
 					//分享内容跳转的URL
-					String contentUrl = LauchActivity.LAUCH_URL + "news/"+nid+".html";
-					UMWXHandler wxHandler = mController.getConfig().supportWXPlatform(WebActivity.this,appID, contentUrl);
-					wxHandler.setWXTitle(node_title);
-					UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(WebActivity.this,appID, contentUrl) ;
-					circleHandler.setCircleTitle(node_title);
+		 String contentUrl = LauchActivity.LAUCH_URL + "news/"+nid+".html";
+		 UMWXHandler wxHandler = mController.getConfig().supportWXPlatform(WebActivity.this,appID, contentUrl);
+		 wxHandler.setWXTitle(node_title);
+		 UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(WebActivity.this,appID, contentUrl) ;
+		 circleHandler.setCircleTitle(node_title);
 
-					mController.getConfig().setSsoHandler(new SinaSsoHandler());
-					mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
+		 mController.getConfig().setSsoHandler(new SinaSsoHandler());
+		 mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
 		 
 		 
 		 

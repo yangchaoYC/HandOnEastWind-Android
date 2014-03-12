@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +19,8 @@ import net.tsz.afinal.FinalDb;
 import com.evebit.DB.DBAd;
 import com.evebit.DB.DBSize;
 import com.evebit.DB.DBTime;
+import com.evebit.ListView.XListView;
+import com.evebit.ListView.XListView.IXListViewListener;
 import com.evebit.adapter.DialogAdAdapter;
 import com.evebit.adapter.Normal;
 import com.evebit.json.DataManeger;
@@ -27,6 +31,7 @@ import com.evebit.json.Test_Model_News;
 import com.evebit.json.Y_Exception;
 import com.evebit.ui.MyDialog;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -74,7 +79,7 @@ import android.widget.Toast;
  *
  */
 
-public class NavigationActivity extends Activity  implements OnTouchListener,  OnGestureListener {
+public class NavigationActivity extends Activity  implements OnTouchListener,  OnGestureListener,IXListViewListener {
 
 	 //滑动功能
 	 private long firstime = 0;
@@ -113,16 +118,20 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 private String ad5_filePath = "";  
 	 
 	 //合作伙伴链接
-	 private String company_ad_urlString = "http://zhangshangdongfeng.demo.evebit.com/mobile/partners";
+	 private String company_ad_urlString = "http://zhangshangdongfeng.demo.evebit.com/mobile/partners?page=";
+	 private int ad_mark = 0;
 	 private String imageString;
 	 
 	 Normal normal; //连网的判断
 	 private ProgressDialog progressDialog; //刷新数据时的框
-	 private FinalDb db = null;//数据库对象
-	 
-	 //list用来存放合作伙伴列表信息
+
+	 //list用来存放合作伙伴列表信息,dateMap为零时存放
+	 private ArrayList<HashMap<String, String>> dateMap =  new ArrayList<HashMap<String, String>>();	 
 	 private ArrayList<HashMap<String, String>> list  =  new ArrayList<HashMap<String, String>>();
-	 ArrayList<Test_Model> pataner_datalist; //从服务器拉取的列表数据
+	 private ArrayList<Test_Model> pataner_datalist; //从服务器拉取的列表数据
+	 private XListView ad_ListView;
+	 private DialogAdAdapter adAdapter;
+	 private boolean flag = true; //默认可以滑动
 	 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,9 +153,8 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	     fixLinearLayout = (LinearLayout)findViewById(R.id.navigation_fix);
 	     textView = (TextView)findViewById(R.id.navigation_company);
 	     
-	     downloadAdImage();	  
-	     
-	     db = FinalDb.create(this);//实例化数据对象	      
+	     downloadAdImage();	  	     
+	 
 	     normal = new Normal(this);
 	     
 	     travelLinearLayout.setOnTouchListener(this);  
@@ -159,15 +167,13 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				
 				if (normal.note_Intent()) {
 					progressDialog = ProgressDialog.show(NavigationActivity.this, "", "正在刷新...", true, false);
-					checkCompanyAd();				 
+					ad_mark = 0;
+					setUrl(ad_mark);
+						 
 				}
 				else {
-					Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
-				
-				}
-				
-				
-			
+					Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();				
+				}		
 			}
 
 		
@@ -238,111 +244,52 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	
 	/**
 	 * 从服务器端拉取数据 并且保存在列表中
+	 * 第一次拉取，ad_mark = 0，  消除刷新框，显示这个dialog
+	 * 下拉刷新， 手动设置 ad_mark = 0，拉取数据，显示前清除list.clear()
+	 * 加载更多 ad_mark+1 加载此列表的下面，如果没有更多（listsize=0），显示无更多
 	 */
-	private void checkCompanyAd() {
+	private void checkCompanyAd(final String ad_urlString) {
 		// TODO Auto-generated method stub
-		//检查数据库数据，条数为0 从服务器拉取保存
-		//不为零 比较数据库数据条数与服务器条数是否相同 一样则不保存 从缓存显示  不一样清空数据库 重新保存
-				
+		
 		new Thread(){
 			public void run() {
 				Test_Bean ad_data;
 				try {											
-				    ad_data = DataManeger.getTestData(company_ad_urlString);										
+				    ad_data = DataManeger.getTestData(ad_urlString);										
 					pataner_datalist = ad_data.getData();		
 					
 					for (Test_Model test_Model : pataner_datalist) {	
 						
 						  HashMap<String, String> map=new HashMap<String, String>();
+						  map.put(LauchActivity.LAUCH_DATE_nid, (test_Model.getId()==null? "": test_Model.getId()));
 						  map.put(LauchActivity.LAUCH_DATE_node_title, (test_Model.getNode_title()==null? "": test_Model.getNode_title()));
 						  map.put(LauchActivity.LAUCH_DATE_field_thumbnails, (test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails()));
-						  map.put("mName","");
-						  list.add(map);					
-			
+						  dateMap.add(map);							
+			    	}	
+	
+				if (dateMap.size()==0) {
+					handler.sendEmptyMessage(2);
+				}else {
+				 	if (ad_mark == 0 && flag) {			   					   		
+				   		handler.sendEmptyMessage(1);
+					} else if(ad_mark == 0 && !flag){
+						handler.sendEmptyMessage(4);
+					}else if (ad_mark != 0 && dateMap.size()!=0) {
+						handler.sendEmptyMessage(3);
+					}
 				}
 					
 					
-				/*	List<DBAd> adlist = db.findAll(DBAd.class);//数据库数据
+			  
 					
-					if (adlist.size()!=0 && adlist.size()==pataner_datalist.size()) {
-						//已有缓存数据且服务器端无更新 从数据库中显示
-						for (int i = 0; i < adlist.size(); i++) {
-							 HashMap<String, String> map=new HashMap<String, String>();
-							 map.put(LauchActivity.LAUCH_DATE_node_title, adlist.get(i).getTitle());
-						     map.put("mName",  adlist.get(i).getNid()+".jpg");
-						     map.put(LauchActivity.LAUCH_DATE_field_thumbnails,"");
-							 list.add(map);	
-						}											
-					}else{
-						
-						if (adlist.size()!=0&&adlist.size()!=pataner_datalist.size()) {
-						 //有缓存 但是服务器有了新的广告 清除这个数据库数据
-							//adlist.clear();
-					
-							db.deleteByWhere(DBAd.class, "");
-						} 												
-						
-						  DBAd ad = new DBAd();
-						for (Test_Model test_Model : pataner_datalist) {	
-	
-								  HashMap<String, String> map=new HashMap<String, String>();
-								  map.put(LauchActivity.LAUCH_DATE_node_title, (test_Model.getNode_title()==null? "": test_Model.getNode_title()));
-								  map.put(LauchActivity.LAUCH_DATE_field_thumbnails, (test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails()));
-								  map.put("mName","");
-								  list.add(map);	
-								  
-								  ad.setNid(test_Model.getId());
-								  ad.setTitle(test_Model.getNode_title());
-								  db.save(ad);
-					
-						}
-																		
-					}
-					
-				    savePatanerThread();*/				
-				handler.sendEmptyMessage(1);
 				} catch (Y_Exception e) {
 					// TODO: handle exception
 					e.printStackTrace();
 				}
-			}
-
-			
+			}			
 		
 		}.start();				
 	
-	}
-	
-	/**
-	 * 在另一个线程保存图片
-	 */
-	private void savePatanerThread() {
-		// TODO Auto-generated method stub
-		new Thread()
-		{
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				 try {  
-					 
-						for (Test_Model test_Model : pataner_datalist) {	
-								byte[] data = getImage(test_Model.getField_thumbnails());
-							    Bitmap mBitmap = null;
-									  if(data!=null){  
-										  mBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);// bitmap  
-						                }else{  
-						                   // Toast.makeText(NavigationActivity.this, "Image error!", 1).show();  
-						                }  
-								  saveFile(mBitmap, test_Model.getId()+".jpg");  							  
-								
-								
-						}
-			  } catch (Exception e) {   
-	                e.printStackTrace();  
-	            } 
-			}
-			
-		}.start();
 	}
 	
 	private void dialog() {
@@ -360,12 +307,13 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
        dialogWindow.setAttributes(lp);
 	   
 	   ImageView close_ImageView = (ImageView)dialog.getClose_ImageView();	   
-	   ListView ad_ListView = (ListView)dialog.getAd_ListView();
-	   	
+	   ad_ListView = (XListView)dialog.getAd_ListView();
+	   ad_ListView.setPullLoadEnable(true);
+	   ad_ListView.setXListViewListener(this);
 	   imageString = list.get(1).size()+"";
-		
-	   DialogAdAdapter adAdapter = new DialogAdAdapter(this, list,imageString);
-	   ad_ListView.setAdapter(adAdapter);
+	
+	   adAdapter = new DialogAdAdapter(this, list,imageString);
+	   ad_ListView.setAdapter(adAdapter);	  
 	   
 	   close_ImageView.setOnClickListener(new OnClickListener() {
 		
@@ -440,18 +388,57 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				break;	
 			case 1:
 				progressDialog.dismiss();
-				dialog();
+				setAdview(0);				
+				break;
+			case 2:
+				onLoad();
+				Toast.makeText(getApplicationContext(), "没有更多数据", Toast.LENGTH_SHORT).show();
+				break;
+			case 3:
+				onLoad();
+				setAdview(1);					
+				break;
+			case 4://检测属性数据是否有更新，如果有更新则重新刷新列表，如果没有则不做动作
+				if (dateMap.get(0).get(LauchActivity.LAUCH_DATE_nid).toString().equals(list.get(0).get(LauchActivity.LAUCH_DATE_nid).toString())) {					
+					dateMap.clear();
+					onLoad();
+				}else {
+					onLoad();
+					list.clear();
+					setAdview(3);
+				}
+				
 				break;
 			default:
 				break;
 			}
-		}
-
-		
-		
+		}		
 	};
 	
    
+	private void setAdview(int check) {
+		// TODO Auto-generated method stub
+		for (int i = 0; i < dateMap.size(); i++) {
+			HashMap<String, String> itemMap = new HashMap<String, String>();	
+			itemMap.put(LauchActivity.LAUCH_DATE_nid, (dateMap.get(i).get(LauchActivity.LAUCH_DATE_nid)));
+			itemMap.put(LauchActivity.LAUCH_DATE_node_title,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_node_title)));			
+			itemMap.put(LauchActivity.LAUCH_DATE_field_thumbnails,(dateMap.get(i).get(LauchActivity.LAUCH_DATE_field_thumbnails)));			
+			list.add(itemMap);
+		}			
+		dateMap.clear();
+		
+		if (check ==0) {
+			dialog();
+		}else if(check ==1){
+			adAdapter.notifyDataSetChanged();			
+		}else if (check==3) {
+		    adAdapter = new DialogAdAdapter(this, list,imageString);
+		    ad_ListView.setAdapter(adAdapter);	  
+			   
+		}
+	
+	}
+	
 	  /* 
      * 连接网络 
      * 由于在4.0中不允许在主线程中访问网络，所以需要在子线程中访问 
@@ -545,20 +532,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
         }  
   
     };  
-    
-  /*  private Handler messageHandler = new Handler() {  
-        @Override  
-        public void handleMessage(Message msg) {                 
-            File file = new File(ALBUM_PATH+mFileName);  
-            if(file.exists())  
-            {  
-                
-            	Bitmap bm = BitmapFactory.decodeFile(ALBUM_PATH+mFileName);  
-            	mImageView.setImageBitmap(bm);            	
-            }                       
-        }  
-    };  
-    */
+ 
     /** 
      * 保存文件 
      * @param bm 
@@ -751,6 +725,70 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	/**
+	 * 下拉刷新
+	 */
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		
+		if (normal.note_Intent()) {	
+			if (flag) {//执行下拉刷新
+			    ad_mark = 0 ;
+			    flag = false;//刷新期间不允许viewpage滑动		
+			    setUrl(ad_mark);
+			}
+		}
+		else {
+			onLoad();
+			Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	/**
+	 * 加载更多
+	 */
+	@Override
+	public void onLoadMore() {
+	
+		// TODO Auto-generated method stub
+		if (normal.note_Intent())
+		{
+			
+		   if (list.size()/(ad_mark+1) == 5) {	
+			   if (flag) {//执行加载更多
+						ad_mark = ad_mark + 1;//记录下拉页数
+						flag = false;//加载更多期间不允许vviewpage滑动
+						setUrl(ad_mark);
+				}
+			}else {
+			    handler.sendEmptyMessage(2);	
+		}
+	}
+	else {
+		onLoad();
+		Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+	}
+	}
+	
+	
+	private void setUrl(int mark) {
+		// TODO Auto-generated method stub
+		String ad_urlString = company_ad_urlString+mark;		
+		checkCompanyAd(ad_urlString);		
+	}
+
+
+	/**
+	 * 下拉或加载更多关闭
+	 */
+	private void onLoad() {	
+		flag =true;
+		ad_ListView.stopLoadMore();
+		ad_ListView.stopRefresh();		
 	}
 	
 }

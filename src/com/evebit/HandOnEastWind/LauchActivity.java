@@ -14,6 +14,9 @@ import java.util.List;
 
 import net.tsz.afinal.FinalDb;
 
+import cn.jpush.android.api.BasicPushNotificationBuilder;
+import cn.jpush.android.api.JPushInterface;
+
 import com.evebit.DB.DBSize;
 import com.evebit.json.DataManeger;
 import com.evebit.json.Test_Bean;
@@ -24,6 +27,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.app.Activity;
+import android.app.Notification;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -115,9 +119,59 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 		 
 		 censor();
 		 
+		 checkPushOpen();
+		 checkPushSound();
 	}
 	
-	 /**
+	
+
+
+
+	private void checkPushOpen() {
+		// TODO Auto-generated method stub
+		 String condition ="nid='" + "push"+ "'";//搜索条件
+		
+			List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+			if (list.size() == 0) {
+				JPushInterface.resumePush(getApplicationContext());
+			}
+			else {
+				
+				if (list.get(0).getSize().toString().equals("flase")) {
+					JPushInterface.stopPush(getApplicationContext());
+				}
+				else {
+					JPushInterface.resumePush(getApplicationContext());
+				}
+			}
+	}
+	
+	
+	 private void checkPushSound() {
+		// TODO Auto-generated method stub
+		 String condition ="nid='" + "sound"+ "'";//搜索条件
+			List<DBSize> list = db.findAllByWhere(DBSize.class, condition);
+			if (list.size() == 0) {
+	
+			}
+			else {
+				if (list.get(0).getSize().toString().equals("flase")) {
+					BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(LauchActivity.this);
+					builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  
+					builder.notificationDefaults = Notification.DEFAULT_LIGHTS ;  
+					JPushInterface.setDefaultPushNotificationBuilder(builder);
+				}
+				else {
+					BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(LauchActivity.this);
+					builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  					
+					builder.notificationDefaults = Notification.DEFAULT_SOUND ;  
+					JPushInterface.setDefaultPushNotificationBuilder(builder);
+				}
+			}
+	}
+
+
+	/**
      * handler用来处理加载广告和计时跳转的顺序
      * 1：加载缓存图片后延迟2面进行页面push
      * 2：获取图片

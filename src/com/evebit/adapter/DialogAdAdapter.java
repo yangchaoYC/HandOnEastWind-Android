@@ -80,16 +80,9 @@ public class DialogAdAdapter extends BaseAdapter {
 	         
 	        
 	      
-		    listItemView.ad_name.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_node_title)); 
-		    
-		    if (!list.get(position).get("mName").equals("")) {
-		    	  
-				Bitmap bm = BitmapFactory.decodeFile(ALBUM_PATH+list.get(position).get("mName"));  
-			    listItemView.ad_imageView.setImageBitmap(bm);  
-			}else {
-				imageLoader.DisplayImage((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_thumbnails), listItemView.ad_imageView);	
-			}
-		    
+		    listItemView.ad_name.setText((String) list.get(position).get(LauchActivity.LAUCH_DATE_node_title)); 		    
+		    imageLoader.DisplayImage((String) list.get(position).get(LauchActivity.LAUCH_DATE_field_thumbnails), listItemView.ad_imageView);	
+			
 		
 		return convertView;   
 		  

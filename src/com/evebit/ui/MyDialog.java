@@ -2,6 +2,7 @@ package com.evebit.ui;
 
 
 import com.evebit.HandOnEastWind.R;
+import com.evebit.ListView.XListView;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -15,7 +16,7 @@ public class MyDialog extends Dialog {
 
 	private Context context;
 	private ImageView close_ImageView;
-	private ListView ad_ListView;	
+	private XListView ad_ListView;	
 	
 	public MyDialog(Context context) {
 		// TODO Auto-generated constructor stub
@@ -28,7 +29,7 @@ public class MyDialog extends Dialog {
 		// TODO Auto-generated method stub
 		View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_ad, null);
 		close_ImageView = (ImageView)view.findViewById(R.id.dialog_ad_close);
-		ad_ListView = (ListView)view.findViewById(R.id.dialog_ad_list);
+		ad_ListView = (XListView)view.findViewById(R.id.dialog_ad_list);
 		super.setContentView(view);
 		
 	}
@@ -45,7 +46,7 @@ public class MyDialog extends Dialog {
 		return ad_ListView;
 	}
 
-	public void setAd_ListView(ListView ad_ListView) {
+	public void setAd_ListView(XListView ad_ListView) {
 		this.ad_ListView = ad_ListView;
 	}
 

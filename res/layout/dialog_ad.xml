@@ -10,17 +10,15 @@
     android:layout_height="wrap_content"
     android:background="#AA823C" 
     android:padding="3dp">
-     >
-      <ListView
-          android:id="@+id/dialog_ad_list"
-          android:layout_width="fill_parent"
-          android:layout_height="fill_parent"  
-          android:scrollbars="none"
-          android:background="@android:color/white"     
-          android:cacheColorHint="#00000000"
-          android:listSelector="@android:color/transparent"    
-        >
-      </ListView>
+     <com.evebit.ListView.XListView
+            android:id="@+id/dialog_ad_list"  
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"    
+            android:background="@android:color/white"   
+            android:cacheColorHint="#00000000"        
+            >
+        
+        </com.evebit.ListView.XListView>
       
          <ImageView 
            android:id="@+id/dialog_ad_close"

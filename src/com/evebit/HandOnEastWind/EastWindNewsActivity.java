@@ -102,7 +102,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	    private LinearLayout news_ad_Layout;//上层广告的layout
 	    private ImageView ad_image_close,  ad_image;
 	   	private final static String ALBUM_PATH = Environment.getExternalStorageDirectory() + "/download_ad/";  
-	   	private final int SPLASH_DISPLAY_LENGHT = 3000; 
+	   	private final int SPLASH_DISPLAY_LENGHT = 5000; 
 	   	    
 	    private Button button1;
 	    private Button button2;
@@ -247,10 +247,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 	void InItTitle1(String title[]) {
 		textViews = new ArrayList<TextView>();
 		H_width = (getWindowManager().getDefaultDisplay().getWidth() /18);
-		//int height = 100;
-        // H_width = 30;
-		Log.v("-----245---", getWindowManager().getDefaultDisplay().getWidth()+"");
-		Log.v("-----246---", H_width+"");
+
 		for (int i = 0; i < title.length; i++) {
 			TextView textView = new TextView(this);
 			
@@ -273,9 +270,7 @@ public class EastWindNewsActivity extends Activity  implements OnClickListener,I
 			textView.setText(title[i]);
 			textView.setTextSize(20);
 			textView.setTextColor(0x80FFFFFF);
-			//textView.setWidth(H_width);
-			//Log.e("aa", "text_width=" + textView.getWidth());
-			//textView.setHeight(height - 30);
+		
 			textView.setGravity(Gravity.CENTER);
 			textView.setId(i);
 			textView.setOnClickListener(this);

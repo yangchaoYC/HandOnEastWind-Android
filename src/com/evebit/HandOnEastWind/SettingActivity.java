@@ -136,10 +136,9 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				soundCloseImage.setVisibility(View.VISIBLE);
 				
 				BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(SettingActivity.this);
-				//builder.statusBarDrawable = R.drawable.jpush_notification_icon;
 				builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  	
-				builder.notificationDefaults = Notification.DEFAULT_LIGHTS ;  
-				
+			
+				builder.notificationDefaults = Notification.DEFAULT_SOUND ;  
 				JPushInterface.setDefaultPushNotificationBuilder(builder);
 				
 				CheckSound("true");
@@ -156,12 +155,8 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				soundCloseImage.setVisibility(View.GONE);
 				
 				BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(SettingActivity.this);
-				//builder.statusBarDrawable = R.drawable.jpush_notification_icon;
-				
 				builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  
-				builder.notificationDefaults = Notification.DEFAULT_SOUND ;  
-				//&& Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND
-				//JPushInterface.setPushNotificationBuilder(1, builder);
+				builder.notificationDefaults = Notification.DEFAULT_LIGHTS ;  
 				JPushInterface.setDefaultPushNotificationBuilder(builder);
 				
 				
