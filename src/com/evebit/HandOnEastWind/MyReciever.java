@@ -28,7 +28,7 @@ public class MyReciever extends BroadcastReceiver {
 	        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 	            System.out.println("�û��������֪ͨ");
 	          
-	            Intent i = new Intent(context, SettingActivity.class);  
+	            Intent i = new Intent(context,TabMainActivity.class);  
 	            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	            context.startActivity(i);
 	   
