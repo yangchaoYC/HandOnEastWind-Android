@@ -137,8 +137,8 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		image();
 
 		
-		Log.v("-web  136---", body_1);
-		Log.v("-web  136---", body_2);
+		//Log.v("-web  136---", body_1);
+		//Log.v("-web  136---", body_2);
 		if (imageString.equals("flase")) {
 			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 		}
