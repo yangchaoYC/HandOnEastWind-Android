@@ -14,7 +14,7 @@ public class DataManeger {
 		
 	}
 	
-	public static Test_Bean_News getTestData_TianQi(String urlString) throws Y_Exception {
+	public static Test_Bean_News getTestData_News(String urlString) throws Y_Exception {
 		String url = urlString;
 		
 		return Test_Bean_News.dataParser(HttpUtil.httpGet(null, url));

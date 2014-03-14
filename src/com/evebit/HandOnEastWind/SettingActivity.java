@@ -9,6 +9,9 @@ import com.evebit.DB.DBSize;
 import com.evebit.DB.DBTime;
 import com.evebit.DB.DBUser;
 import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
+import com.umeng.update.UpdateStatus;
 
 import net.tsz.afinal.FinalDb;
 import cn.jpush.android.api.BasicPushNotificationBuilder;
@@ -23,6 +26,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,7 +41,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class SettingActivity extends Activity implements android.view.View.OnClickListener{
+public class SettingActivity extends Activity implements android.view.View.OnClickListener {
 
 	  ImageView soundOpenImage ;
 	  ImageView soundCloseImage ;
@@ -46,6 +51,8 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	  
 	  ImageView imageOpen ; //默认显示图片开启，点击后无图模式
 	  ImageView imageClose ;
+	  private TextView versionTextView;//当前版本
+	  private String version="";
 	  long fileSize = 0;  
       String cacheSize = "0KB";
       
@@ -79,6 +86,16 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		cacheTextView = (TextView)findViewById(R.id.setting_storage);
 		cacheTableRow = (TableRow)findViewById(R.id.Setting_Cache);
 		
+		versionTextView = (TextView)findViewById(R.id.setting_version);
+	
+		try {
+			version = getVersionName();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		versionTextView.setText(getString(R.string.setting_version)+version);
 		
 		updateTableRow = (TableRow)findViewById(R.id.Setting_Update);
 		disclaimerRow = (TableRow)findViewById(R.id.Setting_Disclaimer);
@@ -119,10 +136,9 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				soundCloseImage.setVisibility(View.VISIBLE);
 				
 				BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(SettingActivity.this);
-				builder.statusBarDrawable = R.drawable.jpush_notification_icon;
-				builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //����Ϊ�Զ���ʧ	
-				builder.notificationDefaults = Notification.DEFAULT_LIGHTS ;  // ����Ϊ�������𶯶�Ҫ
-				
+				builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  	
+			
+				builder.notificationDefaults = Notification.DEFAULT_SOUND ;  
 				JPushInterface.setDefaultPushNotificationBuilder(builder);
 				
 				CheckSound("true");
@@ -139,11 +155,8 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 				soundCloseImage.setVisibility(View.GONE);
 				
 				BasicPushNotificationBuilder builder = new BasicPushNotificationBuilder(SettingActivity.this);
-				builder.statusBarDrawable = R.drawable.jpush_notification_icon;
-				builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  //����Ϊ�Զ���ʧ	
-				builder.notificationDefaults = Notification.DEFAULT_SOUND ;  // ����Ϊ�������𶯶�Ҫ
-				//&& Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND
-				//JPushInterface.setPushNotificationBuilder(1, builder);
+				builder.notificationFlags = Notification.FLAG_AUTO_CANCEL;  
+				builder.notificationDefaults = Notification.DEFAULT_LIGHTS ;  
 				JPushInterface.setDefaultPushNotificationBuilder(builder);
 				
 				
@@ -198,8 +211,28 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Log.v("jiancha ", "update");
 				UmengUpdateAgent.forceUpdate(SettingActivity.this);
+				
+				UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+
+					@Override
+					public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
+						// TODO Auto-generated method stub
+						 switch (updateStatus) {
+					        case UpdateStatus.Yes: // has update
+					            UmengUpdateAgent.showUpdateDialog(SettingActivity.this, updateInfo);
+					            break;
+					        case UpdateStatus.No: // has no update
+					            Toast.makeText(SettingActivity.this, "没有更新", Toast.LENGTH_SHORT).show();
+					            break;					     
+					        case UpdateStatus.Timeout: // time out
+					            Toast.makeText(SettingActivity.this, "超时", Toast.LENGTH_SHORT).show();
+					            break;
+					        }
+						
+					}													
+				});		
+				
 			}
 		});
 		
@@ -247,6 +280,15 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 		
 	}
 
+	private String getVersionName() throws Exception
+	   {
+	           // 获取packagemanager的实例
+	           PackageManager packageManager = getPackageManager();
+	           // getPackageName()是你当前类的包名，0代表是获取版本信息
+	           PackageInfo packInfo = packageManager.getPackageInfo(getPackageName(),0);
+	           String version = packInfo.versionName;
+	           return version;
+	   }
 	
 	private Handler handler = new Handler()
 	{
@@ -702,5 +744,6 @@ public class SettingActivity extends Activity implements android.view.View.OnCli
 	
 	return super.onKeyDown(keyCode, event);		
 	}
+
 	
 }

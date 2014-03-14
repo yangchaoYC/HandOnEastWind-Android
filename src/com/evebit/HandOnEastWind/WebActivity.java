@@ -71,7 +71,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 	private String Body;
 	final UMSocialService mController = UMServiceFactory.getUMSocialService("com.umeng.share",RequestType.SOCIAL);
 	
-	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
+	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled", "NewApi" })
 	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,21 +106,21 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		
 		 mController.setShareContent(LauchActivity.LAUCH_URL + "news/"+nid+".html");
 				
-			mController.setShareMedia(new UMImage(WebActivity.this,R.drawable.ic_launcher));
+		 mController.setShareMedia(new UMImage(WebActivity.this,R.drawable.ic_launcher));
 					
-					mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.baidu.com/");   
+		 mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.baidu.com/");   
 					
-			        mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.umeng.com/social");  		
-					String appID = "wx967daebe835fbeac";
+		 mController.getConfig().supportQQPlatform(WebActivity.this, "http://www.umeng.com/social");  		
+		 String appID = "wx3fd2ba543fd26795";
 					//分享内容跳转的URL
-					String contentUrl = LauchActivity.LAUCH_URL + "news/"+nid+".html";
-					UMWXHandler wxHandler = mController.getConfig().supportWXPlatform(WebActivity.this,appID, contentUrl);
-					wxHandler.setWXTitle(node_title);
-					UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(WebActivity.this,appID, contentUrl) ;
-					circleHandler.setCircleTitle(node_title);
+		 String contentUrl = LauchActivity.LAUCH_URL + "news/"+nid+".html";
+		 UMWXHandler wxHandler = mController.getConfig().supportWXPlatform(WebActivity.this,appID, contentUrl);
+		 wxHandler.setWXTitle(node_title);
+		 UMWXHandler circleHandler = mController.getConfig().supportWXCirclePlatform(WebActivity.this,appID, contentUrl) ;
+		 circleHandler.setCircleTitle(node_title);
 
-					mController.getConfig().setSsoHandler(new SinaSsoHandler());
-					mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
+		 mController.getConfig().setSsoHandler(new SinaSsoHandler());
+		 mController.getConfig().setSsoHandler(new TencentWBSsoHandler());
 		 
 		 
 		 
@@ -137,8 +137,8 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		image();
 
 		
-		Log.v("-web  136---", body_1);
-		Log.v("-web  136---", body_2);
+		//Log.v("-web  136---", body_1);
+		//Log.v("-web  136---", body_2);
 		if (imageString.equals("flase")) {
 			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 		}
@@ -266,7 +266,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			if (list.size() == 0) {
 				DBSize("1");
 				size1Button.setTextColor(0xFFAA823C);
-				size = 12;
+				size = 18;
 			}
 			else {
 				Size = list.get(0).getSize();
@@ -274,19 +274,19 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 					size1Button.setTextColor(0xFFAA823C);
 					size2Button.setTextColor(0xFF000000);
 					size3Button.setTextColor(0xFF000000);
-					size = 12;
+					size = 18;
 				}
 				else if (Size.equals("2")) {
 					size1Button.setTextColor(0xFF000000);
 					size2Button.setTextColor(0xFFAA823C);
 					size3Button.setTextColor(0xFF000000);
-					size = 15;
+					size = 21;
 				}
 				else {
 					size1Button.setTextColor(0xFF000000);
 					size2Button.setTextColor(0xFF000000);
 					size3Button.setTextColor(0xFFAA823C);
-					size = 17;
+					size = 28;
 				}
 			}
 		}
@@ -404,7 +404,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFFAA823C);
 			size2Button.setTextColor(0xFF000000);
 			size3Button.setTextColor(0xFF000000);
-			size = 12;
+			size = 18;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
@@ -418,7 +418,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFF000000);
 			size2Button.setTextColor(0xFFAA823C);
 			size3Button.setTextColor(0xFF000000);
-			size = 15;
+			size = 21;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}
@@ -432,7 +432,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 			size1Button.setTextColor(0xFF000000);
 			size2Button.setTextColor(0xFF000000);
 			size3Button.setTextColor(0xFFAA823C);
-			size = 17;
+			size = 28;
 			if (imageString.equals("flase")) {
 				Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
 			}

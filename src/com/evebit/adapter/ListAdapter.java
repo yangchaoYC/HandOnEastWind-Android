@@ -25,6 +25,7 @@ public class ListAdapter extends BaseAdapter {
     private LayoutInflater listContainer;  
     public ImageLoader imageLoader; 
     private String imageString;
+    
     public final class ListItemView{  
     
     	public TextView title;
@@ -44,6 +45,7 @@ public class ListAdapter extends BaseAdapter {
 	    this.imageString = imageString;
 	    listContainer = LayoutInflater.from(context);  
 	    imageLoader = new ImageLoader(context,imageString);
+	  
   }
 
     
