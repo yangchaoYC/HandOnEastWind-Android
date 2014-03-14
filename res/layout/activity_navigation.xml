@@ -77,7 +77,11 @@
               android:gravity="center"
               android:orientation="vertical" >
 
+<<<<<<< HEAD
             
+=======
+             
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
               <ImageView
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
@@ -129,6 +133,7 @@
     android:layout_weight="1"
     android:weightSum="2"
     >
+<<<<<<< HEAD
          <LinearLayout
               android:layout_width="0dp"
               android:layout_height="fill_parent"
@@ -143,6 +148,21 @@
                   android:src="@drawable/navigation_news2" />
               
           </LinearLayout>
+=======
+        <LinearLayout 
+         android:layout_width="0dp"
+         android:layout_height="fill_parent"
+         android:layout_weight="1"
+         android:orientation="vertical"
+         android:gravity="center"
+        >
+	    <ImageView 
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:src="@drawable/navigation_news1"
+	        />  
+     </LinearLayout> 
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
      
       <LinearLayout 
          android:layout_width="0dp"
@@ -197,9 +217,15 @@
          android:gravity="center"
         >
 	    <ImageView 
+<<<<<<< HEAD
 	        android:layout_width="match_parent"
             android:layout_height="match_parent"
 	        android:src="@drawable/navigation_news3"
+=======
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:src="@drawable/navigation_news1"
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 	        />  
      </LinearLayout> 
      
@@ -255,9 +281,15 @@
          android:gravity="center"
         >
 	    <ImageView 
+<<<<<<< HEAD
 	      android:layout_width="match_parent"
             android:layout_height="match_parent"
 	        android:src="@drawable/navigation_news4"
+=======
+	       android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:src="@drawable/navigation_news1"
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 	        />  
      </LinearLayout> 
      
@@ -312,9 +344,15 @@
 	         android:gravity="center"
 	        >
 	    <ImageView 
+<<<<<<< HEAD
 	        android:layout_width="match_parent"
             android:layout_height="match_parent"
 	        android:src="@drawable/navigation_news5"
+=======
+	        android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+	        android:src="@drawable/navigation_news1"
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 	        />  
      </LinearLayout> 
      

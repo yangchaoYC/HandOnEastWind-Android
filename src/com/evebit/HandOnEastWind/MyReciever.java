@@ -13,7 +13,13 @@ public class MyReciever extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
+<<<<<<< HEAD
 		    Bundle bundle = intent.getExtras();	 
+=======
+		 Bundle bundle = intent.getExtras();
+		   
+	        Log.v(TAG, "beijingonReceive - " + intent.getAction());
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 	         
 	        if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
 	             
@@ -26,7 +32,11 @@ public class MyReciever extends BroadcastReceiver {
 	        } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 	            System.out.println("�û��������֪ͨ");
 	          
+<<<<<<< HEAD
 	            Intent i = new Intent(context, TabMainActivity.class);  
+=======
+	            Intent i = new Intent(context,TabMainActivity.class);  
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 	            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 	            context.startActivity(i);
 	   

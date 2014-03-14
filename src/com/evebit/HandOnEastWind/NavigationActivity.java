@@ -395,18 +395,31 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 				Toast.makeText(getApplicationContext(), "没有更多数据", Toast.LENGTH_SHORT).show();
 				break;
 			case 3:
+<<<<<<< HEAD
 				
 				setAdview(1);					
 				break;
 			case 4://检测属性数据是否有更新，如果有更新则重新刷新列表，如果没有则不做动作
 				if ((dateMap.get(0).get(LauchActivity.LAUCH_DATE_nid).toString().equals(list.get(0).get(LauchActivity.LAUCH_DATE_nid).toString()))&&dateMap.size()!=0&&list.size()!=0) {					
+=======
+				onLoad();
+				setAdview(1);					
+				break;
+			case 4://检测属性数据是否有更新，如果有更新则重新刷新列表，如果没有则不做动作
+				if (dateMap.get(0).get(LauchActivity.LAUCH_DATE_nid).toString().equals(list.get(0).get(LauchActivity.LAUCH_DATE_nid).toString())) {					
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 					dateMap.clear();
 					onLoad();
 				}else {
 					onLoad();
 					list.clear();
 					setAdview(3);
+<<<<<<< HEAD
 				}				
+=======
+				}
+				
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 				break;
 			default:
 				break;
@@ -429,12 +442,20 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 		if (check ==0) {
 			dialog();
 		}else if(check ==1){
+<<<<<<< HEAD
 			adAdapter.notifyDataSetChanged();
 			onLoad();
 		}else if (check==3) {
 		    adAdapter = new DialogAdAdapter(this, list,imageString);
 		    ad_ListView.setAdapter(adAdapter);	  
 		    onLoad();   
+=======
+			adAdapter.notifyDataSetChanged();			
+		}else if (check==3) {
+		    adAdapter = new DialogAdAdapter(this, list,imageString);
+		    ad_ListView.setAdapter(adAdapter);	  
+			   
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 		}
 	
 	}
@@ -756,6 +777,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	
 		// TODO Auto-generated method stub
 		if (normal.note_Intent())
+<<<<<<< HEAD
 		{	 
 	      if (flag) {
 				  if (list.size()/(ad_mark+1) == 5) {	
@@ -773,6 +795,25 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 			Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
 		}
 	}
+=======
+		{
+			
+		   if (list.size()/(ad_mark+1) == 5) {	
+			   if (flag) {//执行加载更多
+						ad_mark = ad_mark + 1;//记录下拉页数
+						flag = false;//加载更多期间不允许vviewpage滑动
+						setUrl(ad_mark);
+				}
+			}else {
+			    handler.sendEmptyMessage(2);	
+		}
+	}
+	else {
+		onLoad();
+		Toast.makeText(getApplicationContext(), "请链接网络", Toast.LENGTH_SHORT).show();
+	}
+	}
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 	
 	
 	private void setUrl(int mark) {
@@ -786,10 +827,16 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 * 下拉或加载更多关闭
 	 */
 	private void onLoad() {	
+<<<<<<< HEAD
 		
 		ad_ListView.stopLoadMore();
 		ad_ListView.stopRefresh();
 		flag =true;
+=======
+		flag =true;
+		ad_ListView.stopLoadMore();
+		ad_ListView.stopRefresh();		
+>>>>>>> 20781f3df4da1260d5513b2d46265d7d7310d44a
 	}
 	
 }
