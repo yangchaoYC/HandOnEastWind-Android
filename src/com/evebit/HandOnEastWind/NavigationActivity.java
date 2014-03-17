@@ -702,19 +702,20 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		long secondtime = System.currentTimeMillis();
-		if (secondtime - firstime > 2000) {
-			Toast.makeText(NavigationActivity.this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
-			firstime = System.currentTimeMillis();
-			return true;
-		} else {
-			 finish();
-			 Intent startMain = new Intent(Intent.ACTION_MAIN);   
-             startMain.addCategory(Intent.CATEGORY_HOME);   
-             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);   
-             startActivity(startMain);   
-             System.exit(0); 
+		if (keyCode == KeyEvent.KEYCODE_BACK) { 
+			if (secondtime - firstime > 2000) {
+				Toast.makeText(NavigationActivity.this, "再按一次返回键退出", Toast.LENGTH_SHORT).show();
+				firstime = System.currentTimeMillis();
+				return true;
+			} else {
+				 finish();
+				 Intent startMain = new Intent(Intent.ACTION_MAIN);   
+	             startMain.addCategory(Intent.CATEGORY_HOME);   
+	             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);   
+	             startActivity(startMain);   
+	             System.exit(0); 
+			}
 		}
-	
 	return super.onKeyDown(keyCode, event);	
 	}
 

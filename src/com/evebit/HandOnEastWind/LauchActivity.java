@@ -69,7 +69,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 	   private final int SPLASH_DISPLAY_LENGHT = 2000; //2秒后跳转主页面
 	   private Boolean flag= false; //标记是否第一次登陆
 	   private FinalDb db = null;
-	   public static final String LAUCH_URL = "http://zhangshangdongfeng.demo.evebit.com/"; 
+	   public static final String LAUCH_URL = "http://115.29.16.55/"; 
 	   
 	   public static final String LAUCH_DATE_node_title = "node_title"; 
 	   public static final String LAUCH_DATE_node_created = "node_created"; 
