@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.evebit.HandOnEastWind"
-    android:versionCode="18"
-    android:versionName="1.6" >
+    android:versionCode="1"
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -175,7 +175,7 @@
          <!-- ###################添加UmengAppkey###################### -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="530042dc56240b04391d7c8d" >
+            android:value="533a61bc56240b29f500f37e" >
         </meta-data>
        
 		<meta-data android:value="掌上东风" android:name="UMENG_CHANNEL"/>
