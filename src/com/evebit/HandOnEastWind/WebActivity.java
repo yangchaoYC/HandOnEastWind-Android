@@ -104,7 +104,7 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		 //share
 		 mController.getConfig().removePlatform(SHARE_MEDIA.DOUBAN,SHARE_MEDIA.RENREN,SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE);
 		
-		 mController.setShareContent(LauchActivity.LAUCH_URL + "news/"+nid+".html");
+		 mController.setShareContent("我在掌上东风应用中看到一条信息,你也来看看把!---"+LauchActivity.LAUCH_URL + "news/"+nid+".html");
 				
 		 mController.setShareMedia(new UMImage(WebActivity.this,R.drawable.ic_launcher));
 					
