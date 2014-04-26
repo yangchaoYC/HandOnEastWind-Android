@@ -140,10 +140,10 @@ public class WebActivity extends Activity implements android.view.View.OnClickLi
 		//Log.v("-web  136---", body_1);
 		//Log.v("-web  136---", body_2);
 		if (imageString.equals("flase")) {
-			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +body_1 + "</div>";
+			Body =" <div class=\"title\" style=\"font-size:"+size+"px !important\">" +body_1 + "</div>";
 		}
 		else {		
-			Body =" <div class=\"title\" style=\"font-size:"+size+"px\">" +fiterHtmlTag(body_1, "img") + "</div>";
+			Body =" <div class=\"title\" style=\"font-size:"+size+"px !important\">" +fiterHtmlTag(body_1, "img") + "</div>";
 		}
 		
 		

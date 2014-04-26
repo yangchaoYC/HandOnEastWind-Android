@@ -393,7 +393,7 @@ public class LauchActivity extends Activity implements OnTouchListener, OnGestur
 					data = DataManeger.getTestData(imgUrl);
 					ArrayList<Test_Model> datalist = data.getData();
 					for (Test_Model test_Model : datalist) {	
-					//	Log.v("lauch---119", imgUrl);
+					 //	Log.v("lauch---119", imgUrl);
 					 image_Url = test_Model.getField_thumbnails()==null? "": test_Model.getField_thumbnails();
 					 image_ID = test_Model.getNode_created()==null? "": test_Model.getNode_created();
 					}
