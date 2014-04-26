@@ -105,11 +105,11 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 private String ad3_FileName;  
 	 private String ad4_FileName;  
 	 private String ad5_FileName;  
-	 private String ad1 = "http://zhangshangdongfeng.demo.evebit.com/mobile/adstart?nid=1160";  
-	 private String ad2 = "http://zhangshangdongfeng.demo.evebit.com/mobile/adstart?nid=1161";  
-	 private String ad3 = "http://zhangshangdongfeng.demo.evebit.com/mobile/adstart?nid=1162";  
-	 private String ad4 = "http://zhangshangdongfeng.demo.evebit.com/mobile/adstart?nid=1163";  
-	 private String ad5 = "http://zhangshangdongfeng.demo.evebit.com/mobile/adstart?nid=1164";  
+	 private String ad1 = LauchActivity.LAUCH_URL+"mobile/adstart?nid=1160";  
+	 private String ad2 = LauchActivity.LAUCH_URL+"mobile/adstart?nid=1161";  
+	 private String ad3 = LauchActivity.LAUCH_URL+"mobile/adstart?nid=1162";  
+	 private String ad4 = LauchActivity.LAUCH_URL+"mobile/adstart?nid=1163";  
+	 private String ad5 = LauchActivity.LAUCH_URL+"mobile/adstart?nid=1164";  
 	
 	 private String ad1_filePath = "";  
 	 private String ad2_filePath = "";  
@@ -118,7 +118,7 @@ public class NavigationActivity extends Activity  implements OnTouchListener,  O
 	 private String ad5_filePath = "";  
 	 
 	 //合作伙伴链接
-	 private String company_ad_urlString = "http://zhangshangdongfeng.demo.evebit.com/mobile/partners?page=";
+	 private String company_ad_urlString = LauchActivity.LAUCH_URL+"mobile/partners?page=";
 	 private int ad_mark = 0;
 	 private String imageString;
 	 
